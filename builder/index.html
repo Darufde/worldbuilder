@@ -282,6 +282,153 @@ span.wikilink.missing { cursor: default; }
 }
 #toast.show { opacity: 1; }
 
+#toast.show { pointer-events: auto; }
+#toast button { margin-left: 12px; padding: 2px 10px; font-size: 15px; }
+.menu-pop a { display: block; padding: 6px 12px; border-radius: 4px; color: var(--ink); font-size: 16px; }
+.menu-pop a:hover { background: var(--parch-2); text-decoration: none; }
+details.menu .menu-pop a { font-family: var(--body); font-size: 16px; border: none; }
+details.menu .menu-pop a:hover { background: var(--parch-2); }
+.btn-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
+.small { font-size: 15px; }
+.muted { color: var(--ink-soft); }
+
+/* Hover preview */
+.preview {
+  position: absolute; z-index: 90; width: 300px; background: var(--card); border: 1px solid var(--line);
+  border-top: 4px solid var(--c, var(--gold)); border-radius: 4px; box-shadow: var(--shadow); overflow: hidden; pointer-events: none;
+}
+.preview img { width: 100%; max-height: 150px; object-fit: cover; display: block; border-bottom: 1px solid var(--line); }
+.preview .pv-body { padding: 8px 12px 10px; font-size: 16px; }
+.preview strong { display: block; font-family: var(--head); font-size: 17px; margin-top: 4px; }
+.preview p { margin: 4px 0 0; color: var(--ink-soft); line-height: 1.35; }
+
+/* On this day */
+.otd { border: 1px solid var(--line); border-left: 4px solid var(--gold); background: var(--parch); border-radius: 3px; padding: 12px 16px; margin: 18px 0; }
+.otd h3 { margin: 0 0 6px; font-size: 18px; }
+.otd ul { margin: 6px 0 0; padding-left: 20px; }
+
+/* Entry extras */
+.pin-btn { font-size: 18px; padding: 4px 10px; }
+.pin-btn.on { color: var(--gold); }
+.tools { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+
+/* Stubs, history, trash, library */
+.stub-sec { margin: 18px 0; }
+.stub-sec h3 { margin-bottom: 6px; }
+.stub-list { list-style: none; padding: 0; margin: 0; }
+.stub-list li { padding: 6px 0; border-bottom: 1px dotted var(--line); display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.stub-list li .grow { flex: 1; min-width: 180px; }
+.version { border: 1px solid var(--line); border-radius: 4px; background: var(--parch); padding: 10px 14px; margin: 10px 0; }
+.version summary { cursor: pointer; display: flex; gap: 10px; flex-wrap: wrap; align-items: baseline; }
+.version .when { font-family: var(--head); font-size: 15px; }
+.version .what { color: var(--ink-soft); font-style: italic; font-size: 15px; flex: 1; }
+.lib-card { border: 1px solid var(--line); border-top: 4px solid var(--gold); border-radius: 4px; background: var(--parch); padding: 14px; }
+.lib-card.current { border-top-color: var(--primary); box-shadow: var(--shadow); }
+.lib-card h3 { margin: 0 0 2px; }
+.lib-card .btn-row { margin: 10px 0 0; }
+
+/* Settings blocks */
+.ctype { border: 1px dashed var(--line); border-radius: 4px; padding: 4px 12px 10px; margin: 10px 0; }
+.ctype-grid { display: grid; grid-template-columns: 80px 1fr 1fr 70px; gap: 0 12px; }
+.ctype-grid input[type=color] { padding: 2px; height: 38px; }
+.date-in { display: grid; grid-template-columns: 1fr 1.3fr .8fr; gap: 6px; margin-top: 4px; font-weight: 400; }
+details.extra summary { cursor: pointer; font-family: var(--head); color: var(--ink-soft); margin: 8px 0; }
+code { background: var(--parch-2); padding: 0 4px; border-radius: 3px; font-size: .9em; }
+
+/* Calendar */
+.cal-bar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+.cal-bar input { width: 120px; }
+.cal-months { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; }
+.cal-month { border: 1px solid var(--line); background: var(--parch); border-radius: 4px; padding: 10px; }
+.cal-month h3 { margin: 0 0 8px; font-size: 17px; text-align: center; }
+.cal-grid { display: grid; gap: 3px; }
+.cal-wd { font-size: 11px; text-align: center; color: var(--ink-soft); font-family: var(--head); overflow: hidden; white-space: nowrap; }
+.cal-day { min-height: 38px; border: 1px solid var(--line); border-radius: 3px; padding: 1px 3px; font-size: 12px; background: var(--card); position: relative; }
+.cal-day .n { color: var(--ink-soft); }
+.cal-day.hol { background: color-mix(in srgb, var(--gold) 28%, var(--card)); border-color: var(--gold); }
+.cal-day.today { outline: 2px solid var(--primary); }
+.cal-day.blank { border: none; background: transparent; }
+.cal-ev { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--c); margin: 1px; vertical-align: middle; }
+.cal-list li { margin: 3px 0; }
+
+/* Family tree */
+.tree-wrap { border: 1px solid var(--line); border-radius: 4px; background: var(--graph-bg); overflow: hidden; }
+svg#tree { width: 100%; height: 640px; display: block; cursor: grab; touch-action: none; }
+svg#tree .fnode rect { fill: var(--parch); stroke: var(--c); stroke-width: 2; }
+svg#tree .fnode.root rect { stroke-width: 4; fill: var(--parch-2); }
+svg#tree .fnode { cursor: pointer; }
+svg#tree .fnode:hover rect { fill: var(--parch-3); }
+svg#tree .fnode .nm { font-family: var(--head); font-size: 13px; fill: var(--ink); }
+svg#tree .fnode .yrs { font-size: 12px; fill: var(--ink-soft); font-style: italic; }
+svg#tree .f-line { stroke: var(--edge); stroke-width: 1.8; fill: none; }
+svg#tree .f-spouse { stroke: var(--gold); stroke-width: 2; }
+svg#tree .f-sib { stroke: var(--edge); stroke-dasharray: 4 4; fill: none; }
+
+/* Maps */
+.map-view { position: relative; height: 70vh; min-height: 380px; overflow: hidden; border: 1px solid var(--line); border-radius: 4px; background: var(--graph-bg); cursor: grab; touch-action: none; user-select: none; }
+.map-view.adding { cursor: crosshair; }
+.map-inner { position: absolute; left: 0; top: 0; transform-origin: 0 0; --z: 1; }
+.map-inner img { display: block; max-width: none; pointer-events: none; }
+.pin {
+  position: absolute; transform: translate(-50%, -100%) scale(calc(1 / var(--z))); transform-origin: 50% 100%;
+  display: flex; flex-direction: column; align-items: center; background: none; border: none; padding: 0; cursor: pointer; z-index: 2;
+}
+.pin:hover { background: none; }
+.pin .pin-head {
+  width: 30px; height: 30px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: var(--c); border: 2px solid #fbefd9;
+  display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,.4); order: 2;
+}
+.pin .pin-head span { transform: rotate(45deg); font-size: 14px; }
+.pin .pin-label {
+  order: 1; font-family: var(--head); font-size: 12px; color: #2b1d0e; background: rgba(251,239,217,.92); border: 1px solid #c9b184;
+  padding: 0 6px; border-radius: 3px; margin-bottom: 3px; white-space: nowrap;
+}
+.pin-pop {
+  position: absolute; z-index: 5; width: 270px; background: var(--card); border: 1px solid var(--line); border-radius: 4px;
+  box-shadow: var(--shadow); padding: 10px 12px; cursor: default; font-size: 16px;
+}
+.pin-pop label { display: block; margin: 6px 0; font-size: 15px; }
+.pin-pop .btn-row { margin: 8px 0 0; }
+
+/* Politics */
+.pol-wrap { overflow-x: auto; }
+table.pol { border-collapse: collapse; margin: 6px 0 14px; }
+table.pol th, table.pol td { border: 1px solid var(--line); }
+table.pol th.vert { vertical-align: bottom; padding: 6px 2px; height: 150px; }
+table.pol th.vert a { writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; max-height: 145px; overflow: hidden; text-overflow: ellipsis; display: inline-block; font-size: 15px; }
+table.pol th.rowh { text-align: right; padding: 4px 10px; white-space: nowrap; font-weight: 600; font-size: 15px; }
+table.pol td { width: 42px; height: 38px; text-align: center; font-size: 18px; background: color-mix(in srgb, var(--c, transparent) 30%, var(--card)); }
+table.pol td.cell { cursor: pointer; }
+body.readonly table.pol td.cell { cursor: default; }
+table.pol td.cell:hover { outline: 2px solid var(--gold); }
+table.pol td.self { background: repeating-linear-gradient(45deg, var(--parch-2), var(--parch-2) 4px, var(--card) 4px, var(--card) 8px); }
+.pol-menu { position: absolute; z-index: 80; background: var(--card); border: 1px solid var(--line); border-radius: 4px; box-shadow: var(--shadow); padding: 4px; min-width: 200px; }
+.pol-menu .hd { font-size: 14px; color: var(--ink-soft); padding: 4px 8px; font-style: italic; }
+.pol-menu button { display: block; width: 100%; text-align: left; border: none; background: transparent; }
+.pol-menu button:hover { background: var(--parch-2); }
+
+/* Book */
+#app.book-mode { grid-template-columns: 1fr; }
+#app.book-mode aside.side { display: none; }
+.book-bar { max-width: 900px; margin: 0 auto 14px; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.book-bar label { display: inline-flex; gap: 6px; align-items: center; }
+.book-bar input { width: auto; }
+.book { max-width: 900px; margin: 0 auto; background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); padding: 40px 56px; }
+.book-cover { text-align: center; padding: 120px 0 140px; border-bottom: 1px solid var(--line); }
+.book-cover h1 { font-size: 54px; margin: 10px 0; }
+.book-cover .orn { color: var(--gold); font-size: 40px; letter-spacing: .4em; }
+.book-sec { padding: 30px 0; border-bottom: 1px solid var(--line); }
+.book-toc ol { columns: 2; column-gap: 40px; margin: 4px 0 14px; }
+.book-toc h3 { margin: 14px 0 4px; font-size: 17px; }
+.vol-title { text-align: center; font-size: 34px; margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 3px double var(--gold); }
+.book-entry { padding: 18px 0; border-bottom: 1px dotted var(--line); overflow: hidden; }
+.book-entry h3 { font-size: 24px; margin: 0 0 4px; break-after: avoid; }
+.book-entry .infobox { float: right; width: 250px; margin: 0 0 12px 20px; break-inside: avoid; }
+.book-entry .conn { font-size: 15px; color: var(--ink-soft); margin-top: 8px; clear: both; }
+table.chron { width: 100%; border-collapse: collapse; font-size: 16px; }
+table.chron td { padding: 4px 8px; border-bottom: 1px dotted var(--line); vertical-align: top; }
+table.chron td:first-child { white-space: nowrap; font-family: var(--head); font-size: 14px; color: var(--ink-soft); width: 1%; }
+
 body.readonly [data-edit] { display: none !important; }
 
 @media (max-width: 860px) {
@@ -297,13 +444,34 @@ body.readonly [data-edit] { display: none !important; }
   .timeline::before { left: 60px; }
   .tl-era { margin-left: -76px; }
   .tl-ev .yr { left: -78px; width: 52px; font-size: 12px; }
-  .row, .era-row { grid-template-columns: 1fr; }
+  .row, .era-row, .ctype-grid { grid-template-columns: 1fr; }
+  .book { padding: 20px 18px; }
+  .book-entry .infobox { float: none; width: auto; margin: 0 0 12px; }
+  .book-toc ol { columns: 1; }
+  .map-view { height: 80vw; min-height: 280px; }
+  svg#tree, svg#graph { height: 480px; }
 }
 @media print {
-  header.top, aside.side, .entry-actions { display: none !important; }
+  :root, :root[data-theme="dark"] {
+    --parch: #f6efde; --parch-2: #eee3c8; --parch-3: #e2d2ac; --ink: #222; --ink-soft: #555; --blood: #7a1f1f;
+    --gold: #a67c2e; --line: #c9b184; --card: #fff; --on-color: #fff; color-scheme: light;
+  }
+  body { background: #fff !important; font-size: 12pt; }
+  header.top, aside.side, .entry-actions, .no-print, #toast, .preview { display: none !important; }
   #app { display: block; }
-  .page { box-shadow: none; border: none; }
+  main#main { padding: 0; }
+  .page, .book { box-shadow: none; border: none; padding: 0; max-width: none; }
+  .page::before { display: none; }
+  .book-cover { height: 90vh; display: flex; flex-direction: column; justify-content: center; border: none; break-after: page; }
+  .book-sec { break-after: page; border: none; }
+  .book-vol { break-before: page; }
+  .book-entry { break-inside: auto; }
+  a { color: inherit; }
+  a.wikilink { border: none; }
+  .book-entry .infobox { float: right; width: 36%; margin: 0 0 10px 18px; }
+  .book-toc ol { columns: 2; }
 }
+@page { margin: 16mm 18mm; }
 </style>
 </head>
 <body>
@@ -314,10 +482,24 @@ body.readonly [data-edit] { display: none !important; }
     <nav>
       <a href="#/home" data-nav="home">Codex</a>
       <a href="#/timeline" data-nav="timeline">Timeline</a>
+      <a href="#/calendar" data-nav="calendar">Calendar</a>
       <a href="#/graph" data-nav="graph">Web</a>
+      <a href="#/maps" data-nav="maps">Maps</a>
+      <a href="#/tree" data-nav="tree">Family</a>
+      <a href="#/politics" data-nav="politics">Politics</a>
       <details class="menu" data-edit>
         <summary>+ New</summary>
         <div class="menu-pop" id="new-menu"></div>
+      </details>
+      <details class="menu">
+        <summary>More ▾</summary>
+        <div class="menu-pop">
+          <button type="button" data-act="random">🎲 Random entry</button>
+          <a href="#/book">📖 Read as a book / print</a>
+          <a href="#/stubs" data-edit>📝 Still to write</a>
+          <a href="#/trash" data-edit>🗑 Recently deleted</a>
+          <a href="#/library" data-edit>📚 Worlds library</a>
+        </div>
       </details>
       <details class="menu" data-edit>
         <summary>Export ▾</summary>
@@ -348,29 +530,30 @@ body.readonly [data-edit] { display: none !important; }
 const SHELL = document.getElementById('app').outerHTML;
 const READONLY = !!window.__WORLD__;
 
-const TYPES = {
+// Field kinds: text, select (o = options), number, year (a date shown on the Timeline as `tl`).
+const BASE_TYPES = {
   history: { label: 'History', singular: 'Event', icon: '⚔', color: '#8b2e2e', fields: [
-    { k: 'start', l: 'Year', t: 'number', tl: 'Began' },
-    { k: 'end', l: 'End year', t: 'number', tl: 'Ended' },
+    { k: 'start', l: 'Began', t: 'year', tl: 'Began' },
+    { k: 'end', l: 'Ended', t: 'year', tl: 'Ended' },
     { k: 'location', l: 'Location', t: 'text' },
     { k: 'outcome', l: 'Outcome', t: 'text' }] },
   lore: { label: 'Lore', singular: 'Lore', icon: '📜', color: '#6b4c9a', fields: [
-    { k: 'category', l: 'Category', t: 'select', o: ['Myth', 'Legend', 'Prophecy', 'Folklore', 'Saying', 'Song', 'Secret'] },
+    { k: 'category', l: 'Form', t: 'select', o: ['Myth', 'Legend', 'Prophecy', 'Folklore', 'Saying', 'Song', 'Secret'] },
     { k: 'origin', l: 'Origin', t: 'text' },
     { k: 'toldBy', l: 'Told by', t: 'text' }] },
   person: { label: 'People', singular: 'Person', icon: '👤', color: '#2e5e8b', fields: [
     { k: 'title', l: 'Title / Role', t: 'text' },
     { k: 'species', l: 'Species', t: 'text' },
-    { k: 'born', l: 'Born (year)', t: 'number', tl: 'Born' },
-    { k: 'died', l: 'Died (year)', t: 'number', tl: 'Died' },
+    { k: 'born', l: 'Born', t: 'year', tl: 'Born' },
+    { k: 'died', l: 'Died', t: 'year', tl: 'Died' },
     { k: 'status', l: 'Status', t: 'select', o: ['Alive', 'Dead', 'Unknown', 'Missing', 'Undead', 'Ascended'] },
     { k: 'home', l: 'Homeland', t: 'text' }] },
   organization: { label: 'Organizations', singular: 'Organization', icon: '🛡', color: '#9a6b1f', fields: [
-    { k: 'kind', l: 'Type', t: 'select', o: ['Kingdom', 'Empire', 'Republic', 'Guild', 'Order', 'Cult', 'Company', 'Council', 'Tribe', 'Army', 'Gang', 'Other'] },
+    { k: 'kind', l: 'Type', t: 'select', o: ['Kingdom', 'Empire', 'Republic', 'Noble house', 'Guild', 'Order', 'Cult', 'Company', 'Council', 'Tribe', 'Army', 'Gang', 'Other'] },
     { k: 'leader', l: 'Leader', t: 'text' },
     { k: 'hq', l: 'Headquarters', t: 'text' },
-    { k: 'founded', l: 'Founded (year)', t: 'number', tl: 'Founded' },
-    { k: 'dissolved', l: 'Dissolved (year)', t: 'number', tl: 'Dissolved' },
+    { k: 'founded', l: 'Founded', t: 'year', tl: 'Founded' },
+    { k: 'dissolved', l: 'Dissolved', t: 'year', tl: 'Dissolved' },
     { k: 'motto', l: 'Motto', t: 'text' }] },
   place: { label: 'Places', singular: 'Place', icon: '🏰', color: '#3f7a3a', fields: [
     { k: 'kind', l: 'Type', t: 'select', o: ['World', 'Continent', 'Region', 'Nation', 'City', 'Town', 'Village', 'Fortress', 'Landmark', 'Ruin', 'Dungeon', 'Plane', 'Other'] },
@@ -378,7 +561,7 @@ const TYPES = {
     { k: 'population', l: 'Population', t: 'text' },
     { k: 'climate', l: 'Climate', t: 'text' },
     { k: 'ruler', l: 'Ruled by', t: 'text' },
-    { k: 'founded', l: 'Founded (year)', t: 'number', tl: 'Founded' }] },
+    { k: 'founded', l: 'Founded', t: 'year', tl: 'Founded' }] },
   species: { label: 'Species & Creatures', singular: 'Species', icon: '🐉', color: '#2f7a72', fields: [
     { k: 'classification', l: 'Classification', t: 'select', o: ['Sapient', 'Beast', 'Monster', 'Spirit', 'Undead', 'Construct', 'Plant', 'Divine', 'Other'] },
     { k: 'habitat', l: 'Habitat', t: 'text' },
@@ -391,21 +574,21 @@ const TYPES = {
     { k: 'source', l: 'Source / Power', t: 'text' },
     { k: 'cost', l: 'Cost / Limits', t: 'text' },
     { k: 'users', l: 'Practitioners', t: 'text' },
-    { k: 'discovered', l: 'Discovered (year)', t: 'number', tl: 'Discovered' }] },
+    { k: 'discovered', l: 'Discovered', t: 'year', tl: 'Discovered' }] },
   item: { label: 'Items & Artifacts', singular: 'Item', icon: '🗡', color: '#8a5a2b', fields: [
     { k: 'kind', l: 'Type', t: 'select', o: ['Weapon', 'Armor', 'Relic', 'Jewelry', 'Tool', 'Book', 'Treasure', 'Vehicle', 'Device', 'Other'] },
     { k: 'owner', l: 'Current owner', t: 'text' },
     { k: 'location', l: 'Location', t: 'text' },
     { k: 'powers', l: 'Powers', t: 'text' },
     { k: 'rarity', l: 'Rarity', t: 'select', o: ['Common', 'Uncommon', 'Rare', 'Legendary', 'Unique'] },
-    { k: 'created', l: 'Created (year)', t: 'number', tl: 'Forged / made' }] },
+    { k: 'created', l: 'Created', t: 'year', tl: 'Forged / made' }] },
   religion: { label: 'Religions & Gods', singular: 'Religion / Deity', icon: '☀', color: '#b08a1a', fields: [
     { k: 'kind', l: 'Type', t: 'select', o: ['Deity', 'Pantheon', 'Monotheistic faith', 'Polytheistic faith', 'Philosophy', 'Cult', 'Animism', 'Other'] },
     { k: 'domain', l: 'Domains', t: 'text' },
     { k: 'symbol', l: 'Holy symbol', t: 'text' },
     { k: 'holySite', l: 'Holy site', t: 'text' },
     { k: 'followers', l: 'Followers', t: 'text' },
-    { k: 'founded', l: 'Founded (year)', t: 'number', tl: 'Founded' }] },
+    { k: 'founded', l: 'Founded', t: 'year', tl: 'Founded' }] },
   culture: { label: 'Cultures', singular: 'Culture', icon: '🎭', color: '#a0446e', fields: [
     { k: 'language', l: 'Language', t: 'text' },
     { k: 'region', l: 'Region', t: 'text' },
@@ -413,10 +596,30 @@ const TYPES = {
     { k: 'customs', l: 'Customs', t: 'text' },
     { k: 'government', l: 'Government', t: 'text' }] },
 };
-const REL_LABELS = ['Member of', 'Leader of', 'Founder of', 'Ally of', 'Enemy of', 'Rival of', 'Parent of', 'Child of', 'Sibling of', 'Spouse of', 'Mentor of', 'Serves', 'Worships', 'Rules', 'Lives in', 'Located in', 'Born in', 'Owns', 'Created', 'Took part in', 'Caused', 'Practices', 'Native to', 'Part of'];
+let TYPES = BASE_TYPES;
+const REL_LABELS = ['Member of', 'Leader of', 'Founder of', 'Ally of', 'Enemy of', 'Rival of', 'At war with', 'Trades with', 'Vassal of',
+  'Parent of', 'Child of', 'Sibling of', 'Spouse of', 'Mentor of', 'Serves', 'Worships', 'Rules', 'Lives in', 'Located in', 'Born in',
+  'Owns', 'Created', 'Took part in', 'Caused', 'Practices', 'Native to', 'Part of', 'Descendant of'];
+const FAMILY = {
+  parent: ['parent of', 'father of', 'mother of'],
+  child: ['child of', 'son of', 'daughter of'],
+  spouse: ['spouse of', 'husband of', 'wife of', 'married to', 'consort of'],
+  sibling: ['sibling of', 'brother of', 'sister of', 'twin of'],
+};
+// Diplomatic states, highest priority first. `rel` is the relationship label written when chosen on the board.
+const POLITICS = [
+  { k: 'war', label: 'At war', icon: '⚔', color: '#8b2e2e', rel: 'At war with', match: ['at war with', 'enemy of', 'war with'] },
+  { k: 'rival', label: 'Rivals', icon: '⚡', color: '#b0701a', rel: 'Rival of', match: ['rival of'] },
+  { k: 'vassal', label: 'Vassal of', icon: '⬆', color: '#6b4c9a', rel: 'Vassal of', match: ['vassal of', 'subject of', 'tributary of'], dir: true },
+  { k: 'overlord', label: 'Overlord of', icon: '⬇', color: '#4a5fb0', rel: 'Vassal of', match: [], dir: true },
+  { k: 'ally', label: 'Allied', icon: '🤝', color: '#3f7a3a', rel: 'Ally of', match: ['ally of', 'allied with'] },
+  { k: 'trade', label: 'Trading partners', icon: '⚖', color: '#2f7a72', rel: 'Trades with', match: ['trades with', 'trade partner of'] },
+];
+const POL_LABELS = POLITICS.flatMap(s => s.match);
 
 let world = null;
-let ui = { view: 'home', arg: '', search: '', tlHidden: new Set(), graphAll: false, graphMentions: true };
+let lib = [];
+let ui = { view: 'home', arg: '', search: '', tlHidden: new Set(), graphAll: false, graphMentions: true, polTypes: new Set(['organization']), mapAdd: false, bookSecrets: false };
 let draft = null;
 let graphRAF = 0;
 const $ = (s, r = document) => r.querySelector(s);
@@ -429,6 +632,10 @@ const uid = () => 'e' + Date.now().toString(36) + Math.random().toString(36).sli
 const isNum = v => v !== '' && v != null && !isNaN(Number(v));
 const byId = id => world.entries.find(e => e.id === id);
 const slug = s => (s || 'world').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'world';
+const arr = v => Array.isArray(v) ? v : [];
+const mod = (a, n) => ((a % n) + n) % n;
+const byTitle = (a, b) => a.title.localeCompare(b.title);
+const ordinal = n => { const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); };
 
 function fmtYear(y) {
   if (!isNum(y)) return '';
@@ -437,8 +644,37 @@ function fmtYear(y) {
   if (y < 0) return `${Math.abs(y)} ${c.before || 'BE'}`.trim();
   return `${y} ${c.suffix || ''}`.trim();
 }
+const months = () => world.calendar.months || [];
+const yearDays = () => months().reduce((a, m) => a + (Number(m.days) || 0), 0);
+function fmtDate(y, m, d) {
+  if (!isNum(y)) return '';
+  const mo = isNum(m) && months()[m - 1];
+  if (!mo) return fmtYear(y);
+  return `${isNum(d) ? ordinal(Number(d)) + ' of ' : ''}${mo.name}, ${fmtYear(y)}`;
+}
+function dayOfYear(m, d) {
+  const ms = months();
+  if (!isNum(m) || !ms[m - 1]) return 0;
+  let n = 0;
+  for (let i = 0; i < m - 1; i++) n += Number(ms[i].days) || 0;
+  return n + (isNum(d) ? Number(d) : 0);
+}
+const dateKey = (y, m, d) => Number(y) * 100000 + dayOfYear(m, d);
 function eraFor(y) {
   return (world.eras || []).find(er => isNum(er.start) && y >= Number(er.start) && (!isNum(er.end) || y <= Number(er.end)));
+}
+function fieldValue(e, f) {
+  const v = e.fields[f.k];
+  if (v === '' || v == null) return '';
+  if (f.t === 'year') return fmtDate(v, e.fields[f.k + 'M'], e.fields[f.k + 'D']);
+  return String(v);
+}
+function toast(msg, action) {
+  const t = $('#toast');
+  t.innerHTML = esc(msg) + (action ? ` <button type="button" id="toast-act">${esc(action.label)}</button>` : '');
+  if (action) $('#toast-act').onclick = () => { t.classList.remove('show'); action.fn(); };
+  t.classList.add('show');
+  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show'), action ? 7000 : 2400);
 }
 function applyTheme(t) {
   document.documentElement.dataset.theme = t;
@@ -446,15 +682,13 @@ function applyTheme(t) {
   b.textContent = t === 'dark' ? '☀' : '☾';
   b.title = t === 'dark' ? 'Switch to light parchment' : 'Switch to dark tome';
 }
-function toast(msg) {
-  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
-  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show'), 2400);
-}
+const plain = s => (s || '').replace(/\[\[([^\[\]|\n]+?)(?:\|([^\[\]\n]+?))?\]\]/g, (m, t, x) => x || t).replace(/[#*>_]/g, '').replace(/\s+/g, ' ').trim();
 
+// ---------- links & markdown ----------
 // [[Title]] or [[Title|shown text]] links between entries.
 const LINK_RE = /\[\[([^\[\]|\n]+?)(?:\|([^\[\]\n]+?))?\]\]/g;
 const unesc = s => s.replace(/&(amp|lt|gt|quot|#39);/g, (m, c) => ({ amp: '&', lt: '<', gt: '>', quot: '"', '#39': "'" }[c]));
-const norm = s => s.trim().toLowerCase();
+const norm = s => String(s || '').trim().toLowerCase();
 function findByTitle(title) {
   const t = norm(title);
   return world.entries.find(e => norm(e.title) === t);
@@ -468,7 +702,7 @@ function renderLink(m, target, shown) {
   const title = unesc(target).trim();
   const x = findByTitle(title);
   const label = shown || target;
-  if (x) return `<a class="wikilink" href="#/entry/${x.id}" title="${esc(TYPES[x.type].singular)}: ${esc(x.title)}">${label}</a>`;
+  if (x) return `<a class="wikilink" href="#/entry/${x.id}">${label}</a>`;
   if (READONLY) return `<span class="wikilink missing" title="Not yet written">${label}</span>`;
   return `<a class="wikilink missing" href="#/new/lore/${encodeURIComponent(title)}" title="No entry yet. Click to create it">${label}</a>`;
 }
@@ -497,24 +731,62 @@ function md(src) {
   return out.join('');
 }
 
+// ---------- world model ----------
 function blankWorld() {
   return {
-    format: 'worldbuilder', version: 1, name: 'Untitled World', tagline: 'An encyclopedia yet unwritten',
-    overview: '', calendar: { suffix: 'AE', before: 'BE' }, eras: [], entries: [],
-    created: Date.now(), updated: Date.now(),
+    format: 'worldbuilder', version: 2, id: uid(), name: 'Untitled World', tagline: 'An encyclopedia yet unwritten',
+    overview: '', calendar: { suffix: 'AE', before: 'BE', months: [], weekdays: [], holidays: [] }, eras: [],
+    customTypes: [], extraFields: {}, entries: [], trash: [], created: Date.now(), updated: Date.now(),
+  };
+}
+function typesFor(w) {
+  const t = {};
+  for (const [k, b] of Object.entries(BASE_TYPES)) t[k] = { ...b, fields: [...b.fields, ...arr((w.extraFields || {})[k])] };
+  for (const c of arr(w.customTypes)) {
+    if (c.key && !t[c.key]) t[c.key] = { label: c.label || c.singular, singular: c.singular || 'Custom', icon: c.icon || '◆', color: c.color || '#6b5640', fields: arr(c.fields), custom: true };
+  }
+  return t;
+}
+function normEntry(e, types = TYPES) {
+  return {
+    title: 'Untitled', summary: '', body: '', image: '', secret: '', pinned: false, ...e,
+    type: types[e.type] ? e.type : 'lore', fields: e.fields || {},
+    tags: arr(e.tags), relations: arr(e.relations), pins: arr(e.pins), history: arr(e.history),
   };
 }
 function normalize(w) {
   if (!w || typeof w !== 'object' || !Array.isArray(w.entries)) return null;
   const base = blankWorld();
   w = { ...base, ...w, calendar: { ...base.calendar, ...(w.calendar || {}) } };
-  w.eras = Array.isArray(w.eras) ? w.eras : [];
-  w.entries = w.entries.filter(e => e && e.id).map(e => ({
-    type: TYPES[e.type] ? e.type : 'lore', title: 'Untitled', summary: '', body: '', image: '', secret: '',
-    ...e, fields: e.fields || {}, tags: Array.isArray(e.tags) ? e.tags : [], relations: Array.isArray(e.relations) ? e.relations : [],
-  }));
+  for (const k of ['eras', 'customTypes', 'trash']) w[k] = arr(w[k]);
+  for (const k of ['months', 'weekdays', 'holidays']) w.calendar[k] = arr(w.calendar[k]);
+  if (!w.extraFields || typeof w.extraFields !== 'object') w.extraFields = {};
+  // Version 1 stored dates in fields typed "number"; field keys are unchanged so no migration is needed.
+  const types = typesFor(w);
+  w.entries = w.entries.filter(e => e && e.id).map(e => normEntry(e, types));
   return w;
 }
+function setWorld(w) { world = w; TYPES = typesFor(w); }
+
+// Field definitions written one per line: "Name", "Name: number", "Name: year", "Name: a, b, c".
+function parseFields(text, prev = []) {
+  const used = new Set();
+  return text.split('\n').map(l => l.trim()).filter(Boolean).map(line => {
+    const i = line.indexOf(':');
+    const name = (i < 0 ? line : line.slice(0, i)).trim();
+    const spec = i < 0 ? '' : line.slice(i + 1).trim();
+    if (!name) return null;
+    let k = prev.find(f => norm(f.l) === norm(name))?.k || 'c_' + slug(name).replace(/-/g, '_');
+    while (used.has(k)) k += '_';
+    used.add(k);
+    if (/^(year|date)$/i.test(spec)) return { k, l: name, t: 'year', tl: name };
+    if (/^number$/i.test(spec)) return { k, l: name, t: 'number' };
+    const opts = spec.split(',').map(s => s.trim()).filter(Boolean);
+    if (opts.length > 1) return { k, l: name, t: 'select', o: opts };
+    return { k, l: name, t: 'text' };
+  }).filter(Boolean);
+}
+const fieldsText = fields => arr(fields).map(f => f.t === 'year' ? `${f.l}: year` : f.t === 'number' ? `${f.l}: number` : f.t === 'select' ? `${f.l}: ${f.o.join(', ')}` : f.l).join('\n');
 
 // ---------- storage (IndexedDB with localStorage fallback) ----------
 const store = {
@@ -529,41 +801,89 @@ const store = {
     });
     return this._db;
   },
+  async req(mode, fn) {
+    const db = await this.open();
+    return new Promise((res, rej) => {
+      const tx = db.transaction('kv', mode), r = fn(tx.objectStore('kv'));
+      tx.oncomplete = () => res(r.result); tx.onerror = () => rej(tx.error);
+    });
+  },
   async get(k) {
-    try {
-      const db = await this.open();
-      return await new Promise((res, rej) => { const r = db.transaction('kv').objectStore('kv').get(k); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
-    } catch { try { return JSON.parse(localStorage.getItem('wb:' + k)); } catch { return null; } }
+    try { return await this.req('readonly', s => s.get(k)); }
+    catch { try { return JSON.parse(localStorage.getItem('wb:' + k)); } catch { return null; } }
   },
   async set(k, v) {
-    try {
-      const db = await this.open();
-      await new Promise((res, rej) => { const tx = db.transaction('kv', 'readwrite'); tx.objectStore('kv').put(v, k); tx.oncomplete = res; tx.onerror = () => rej(tx.error); });
-    } catch { localStorage.setItem('wb:' + k, JSON.stringify(v)); }
+    try { await this.req('readwrite', s => s.put(v, k)); }
+    catch { localStorage.setItem('wb:' + k, JSON.stringify(v)); }
+  },
+  async del(k) {
+    try { await this.req('readwrite', s => s.delete(k)); } catch { try { localStorage.removeItem('wb:' + k); } catch { /* nothing stored */ } }
   },
 };
-let saveTimer;
+const meta = w => ({ id: w.id, name: w.name, tagline: w.tagline, updated: w.updated, count: w.entries.length });
+async function loadLibrary() {
+  lib = arr(await store.get('lib'));
+  if (!lib.length) {
+    // Migrate the single world saved by version 1.
+    const old = normalize(await store.get('world'));
+    if (old) { await store.set('world:' + old.id, old); lib = [meta(old)]; await store.set('lib', lib); await store.set('current', old.id); await store.del('world'); }
+  }
+}
+async function openWorld(id) {
+  const w = normalize(await store.get('world:' + id));
+  if (!w) return false;
+  setWorld(w);
+  await store.set('current', id);
+  return true;
+}
+async function addWorld(w, open = true) {
+  w.updated = Date.now();
+  await store.set('world:' + w.id, w);
+  lib = lib.filter(m => m.id !== w.id); lib.push(meta(w));
+  await store.set('lib', lib);
+  if (open) { setWorld(w); await store.set('current', w.id); }
+}
+async function removeWorld(id) {
+  await store.del('world:' + id);
+  lib = lib.filter(m => m.id !== id);
+  await store.set('lib', lib);
+}
+let saveTimer = null;
 function save() {
   if (READONLY) return;
   world.updated = Date.now();
   $('#save-state').textContent = 'saving…';
   clearTimeout(saveTimer);
-  saveTimer = setTimeout(async () => {
-    try { await store.set('world', world); $('#save-state').textContent = 'saved ✓'; }
-    catch (err) { $('#save-state').textContent = 'not saved!'; alert('Could not save to browser storage (' + err.message + '). Export your world to keep it safe.'); }
-  }, 300);
+  saveTimer = setTimeout(writeNow, 300);
 }
+async function writeNow() {
+  clearTimeout(saveTimer); saveTimer = null;
+  try {
+    await store.set('world:' + world.id, world);
+    const i = lib.findIndex(m => m.id === world.id);
+    if (i >= 0) lib[i] = meta(world); else lib.push(meta(world));
+    await store.set('lib', lib);
+    await store.set('current', world.id);
+    $('#save-state').textContent = 'saved ✓';
+  } catch (err) {
+    $('#save-state').textContent = 'not saved!';
+    alert('Could not save to browser storage (' + err.message + '). Export your world to keep it safe.');
+  }
+}
+async function flushSave() { if (saveTimer) await writeNow(); }
 
 // ---------- routing ----------
+const EDIT_ONLY = ['edit', 'new', 'settings', 'stubs', 'history', 'trash', 'library'];
 function go(hash) { if (location.hash === hash) route(); else location.hash = hash; }
 function route() {
   const [view, ...rest] = location.hash.replace(/^#\/?/, '').split('/');
   ui.view = view || 'home';
   ui.arg = decodeURIComponent(rest.join('/'));
-  if (READONLY && ['edit', 'new', 'settings'].includes(ui.view)) ui.view = 'home';
+  if (READONLY && EDIT_ONLY.includes(ui.view)) ui.view = 'home';
   cancelAnimationFrame(graphRAF);
-  closeLinkPop();
+  closeLinkPop(); hidePreview(); closePolMenu();
   $('#app').classList.remove('side-open');
+  $('#app').classList.toggle('book-mode', ui.view === 'book');
   $$('details.menu[open]').forEach(d => d.removeAttribute('open'));
   renderHeader(); renderSidebar(); renderMain();
   window.scrollTo(0, 0);
@@ -574,7 +894,9 @@ function renderHeader() {
   $('#brand-name').textContent = world.name || 'Untitled World';
   $('#brand-tag').textContent = world.tagline || 'An Encyclopedia of Worlds';
   document.title = `${world.name} — Encyclopedia`;
-  $$('[data-nav]').forEach(a => a.classList.toggle('active', a.dataset.nav === ui.view));
+  const navFor = { map: 'maps', entry: '', new: '', edit: '' };
+  const active = navFor[ui.view] ?? ui.view;
+  $$('[data-nav]').forEach(a => a.classList.toggle('active', a.dataset.nav === active));
   $('#new-menu').innerHTML = Object.entries(TYPES).map(([k, t]) =>
     `<button type="button" data-act="new" data-type="${k}"><span class="dot" style="background:${t.color}"></span>${t.icon} ${esc(t.singular)}</button>`).join('');
 }
@@ -591,18 +913,21 @@ function renderSidebar() {
   world.entries.forEach(e => counts[e.type] = (counts[e.type] || 0) + 1);
   const tags = {};
   world.entries.forEach(e => e.tags.forEach(t => tags[t] = (tags[t] || 0) + 1));
+  const link = e => `<a href="#/entry/${e.id}" class="${ui.view === 'entry' && ui.arg === e.id ? 'active' : ''}">${esc(e.title)}</a>`;
 
-  let html = `<h4>Volumes</h4><div class="type-list">` + Object.entries(TYPES).map(([k, t]) =>
+  let html = '';
+  const pinned = world.entries.filter(e => e.pinned).sort(byTitle);
+  if (pinned.length && !q) html += `<h4>★ Pinned</h4><div class="entry-list">${pinned.map(link).join('')}</div>`;
+  html += `<h4>Volumes</h4><div class="type-list">` + Object.entries(TYPES).map(([k, t]) =>
     `<a href="#/type/${k}" class="${ui.view === 'type' && ui.arg === k ? 'active' : ''}"><span><span class="dot" style="background:${t.color}"></span>${t.icon} ${esc(t.label)}</span><span class="count">${counts[k] || 0}</span></a>`).join('') + `</div>`;
 
-  const list = world.entries.filter(e => matches(e, q)).sort((a, b) => a.title.localeCompare(b.title));
+  const list = world.entries.filter(e => matches(e, q)).sort(byTitle);
   html += `<h4>${q ? `Results (${list.length})` : 'Index'}</h4><div class="entry-list">`;
   if (!list.length) html += `<div class="hint" style="padding:4px 8px">${q ? 'Nothing found.' : 'No entries yet.'}</div>`;
   for (const [k, t] of Object.entries(TYPES)) {
     const items = list.filter(e => e.type === k);
     if (!items.length || (!q && curType && curType !== k)) continue;
-    html += `<div class="group">${t.icon} ${esc(t.label)}</div>` + items.map(e =>
-      `<a href="#/entry/${e.id}" class="${ui.view === 'entry' && ui.arg === e.id ? 'active' : ''}">${esc(e.title)}</a>`).join('');
+    html += `<div class="group">${t.icon} ${esc(t.label)}</div>` + items.map(link).join('');
   }
   if (!q && curType && list.some(e => e.type !== curType)) html += `<div class="hint" style="padding:6px 8px">Showing ${esc(TYPES[curType].label)} · <a href="#/home" style="display:inline;padding:0;border:0">all</a></div>`;
   html += `</div>`;
@@ -616,8 +941,11 @@ function renderSidebar() {
 // ---------- main views ----------
 function renderMain() {
   const v = ui.view;
-  if (v === 'entry') { const e = byId(ui.arg); return e ? renderEntry(e) : renderMissing(); }
-  if (v === 'edit') { const e = byId(ui.arg); return e ? renderEdit(e, false) : renderMissing(); }
+  const need = fn => { const e = byId(ui.arg); return e ? fn(e) : renderMissing(); };
+  if (v === 'entry') return need(renderEntry);
+  if (v === 'edit') return need(e => renderEdit(e, false));
+  if (v === 'history') return need(renderHistory);
+  if (v === 'map') return need(renderMap);
   if (v === 'new') {
     const cut = ui.arg.indexOf('/');
     const type = cut < 0 ? ui.arg : ui.arg.slice(0, cut);
@@ -626,11 +954,9 @@ function renderMain() {
     return renderEdit(e, true);
   }
   if (v === 'type' && TYPES[ui.arg]) return renderType(ui.arg);
-  if (v === 'tag') return renderTag(ui.arg);
-  if (v === 'timeline') return renderTimeline();
-  if (v === 'graph') return renderGraph();
-  if (v === 'settings') return renderSettings();
-  renderHome();
+  const views = { tag: renderTag, timeline: renderTimeline, calendar: renderCalendar, graph: renderGraph, maps: renderMaps, tree: renderTree,
+    politics: renderPolitics, book: renderBook, stubs: renderStubs, trash: renderTrash, library: renderLibrary, settings: renderSettings };
+  (views[v] || renderHome)(ui.arg);
 }
 function renderMissing() { main.innerHTML = `<div class="page"><h2>Page not found</h2><p class="hint">This entry may have been deleted.</p><a href="#/home">Return to the codex</a></div>`; }
 
@@ -638,17 +964,51 @@ function card(e) {
   const t = TYPES[e.type];
   return `<a class="card" style="--c:${t.color}" href="#/entry/${e.id}">${e.image ? `<img src="${e.image}" alt="">` : ''}
     <div class="body"><span class="badge" style="--c:${t.color}">${t.icon} ${esc(t.singular)}</span>
-    <span class="t">${esc(e.title)}</span><span class="s">${esc(e.summary)}</span></div></a>`;
+    <span class="t">${e.pinned ? '★ ' : ''}${esc(e.title)}</span><span class="s">${esc(e.summary)}</span></div></a>`;
 }
 
+// "Today" in the world: today's real fraction of the year mapped onto the custom calendar.
+function todayInWorld() {
+  const ms = months(), total = yearDays();
+  if (!ms.length || !total) return null;
+  const now = new Date(), start = new Date(now.getFullYear(), 0, 1), next = new Date(now.getFullYear() + 1, 0, 1);
+  let doy = Math.floor((now - start) / (next - start) * total);
+  for (let i = 0; i < ms.length; i++) {
+    const n = Number(ms[i].days) || 0;
+    if (doy < n) return { m: i + 1, d: doy + 1 };
+    doy -= n;
+  }
+  return { m: ms.length, d: Number(ms[ms.length - 1].days) || 1 };
+}
+function onThisDayHTML() {
+  const ev = timelineEvents();
+  const t = todayInWorld();
+  const item = x => `<li><strong>${esc(fmtDate(x.year, x.m, x.d))}</strong> · ${TYPES[x.e.type].icon} <a href="#/entry/${x.e.id}">${esc(x.e.title)}</a> <span class="muted">${esc(x.what.toLowerCase())}</span></li>`;
+  let html = '';
+  if (t) {
+    const hits = ev.filter(x => x.m === t.m && x.d === t.d);
+    const hol = world.calendar.holidays.filter(h => h.month === t.m && h.day === t.d);
+    html += `<h3>☀ On this day</h3><p style="margin:0">In ${esc(world.name)} it is the <strong>${ordinal(t.d)} of ${esc(months()[t.m - 1].name)}</strong>.</p>`;
+    if (hol.length) html += `<p style="margin:6px 0 0">🎉 ${hol.map(h => `<strong>${esc(h.name)}</strong>${h.note ? ` — <em>${esc(h.note)}</em>` : ''}`).join(' · ')}</p>`;
+    if (hits.length) return `<div class="otd">${html}<ul>${hits.map(item).join('')}</ul></div>`;
+  }
+  if (!ev.length) return html ? `<div class="otd">${html}</div>` : '';
+  // No anniversary today: feature one dated event, chosen by today's date so it changes daily.
+  const d = new Date(), seed = d.getFullYear() * 372 + d.getMonth() * 31 + d.getDate();
+  const x = ev[seed % ev.length];
+  return `<div class="otd">${html}<h3 style="margin-top:${html ? '10px' : '0'}">📜 From the chronicles</h3><ul>${item(x)}</ul>${x.e.summary ? `<p class="hint" style="margin:4px 0 0">${esc(x.e.summary)}</p>` : ''}</div>`;
+}
 function renderHome() {
   const counts = {};
   world.entries.forEach(e => counts[e.type] = (counts[e.type] || 0) + 1);
   const recent = [...world.entries].sort((a, b) => (b.updated || 0) - (a.updated || 0)).slice(0, 8);
+  const todo = READONLY ? 0 : stubCount();
   main.innerHTML = `<div class="page">
     <h1>${esc(world.name)}</h1>
     <p class="lede">${esc(world.tagline)}</p>
     ${world.overview ? `<div class="article">${md(world.overview)}</div>` : `<p class="hint" data-edit>Describe your world on the <a href="#/settings">World settings</a> page.</p>`}
+    ${world.entries.length ? `<div class="btn-row"><button type="button" data-act="random">🎲 Random entry</button><a class="btn" href="#/book">📖 Read as a book</a>${todo ? `<a class="btn" href="#/stubs" data-edit>📝 ${todo} still to write</a>` : ''}</div>` : ''}
+    ${onThisDayHTML()}
     <div class="divider">✦ ✦ ✦</div>
     <h2>The Volumes</h2>
     <div class="stats">${Object.entries(TYPES).map(([k, t]) => `<a class="stat" style="--c:${t.color}" href="#/type/${k}"><span class="n">${counts[k] || 0}</span><span class="l">${t.icon} ${esc(t.label)}</span></a>`).join('')}</div>
@@ -659,7 +1019,7 @@ function renderHome() {
 
 function renderType(type) {
   const t = TYPES[type];
-  const list = world.entries.filter(e => e.type === type).sort((a, b) => a.title.localeCompare(b.title));
+  const list = world.entries.filter(e => e.type === type).sort(byTitle);
   main.innerHTML = `<div class="page">
     <div class="entry-head"><h1>${t.icon} ${esc(t.label)}</h1><button type="button" class="primary" data-edit data-act="new" data-type="${type}">+ New ${esc(t.singular)}</button></div>
     <p class="lede">${list.length} ${list.length === 1 ? 'entry' : 'entries'}</p>
@@ -667,65 +1027,93 @@ function renderType(type) {
   </div>`;
 }
 function renderTag(tag) {
-  const list = world.entries.filter(e => e.tags.includes(tag)).sort((a, b) => a.title.localeCompare(b.title));
+  const list = world.entries.filter(e => e.tags.includes(tag)).sort(byTitle);
   main.innerHTML = `<div class="page"><h1>#${esc(tag)}</h1><p class="lede">${list.length} tagged ${list.length === 1 ? 'entry' : 'entries'}</p>
     <div class="cards">${list.map(card).join('')}</div></div>`;
 }
 
-function renderEntry(e) {
+function infoRows(e) {
+  return TYPES[e.type].fields.map(f => [f, fieldValue(e, f)]).filter(([, v]) => v)
+    .map(([f, v]) => `<tr><th>${esc(f.l)}</th><td>${esc(v)}</td></tr>`).join('');
+}
+function infobox(e) {
   const t = TYPES[e.type];
-  const rows = t.fields.filter(f => e.fields[f.k] !== '' && e.fields[f.k] != null).map(f =>
-    `<tr><th>${esc(f.l.replace(/ \(year\)$/, ''))}</th><td>${f.t === 'number' ? esc(fmtYear(e.fields[f.k])) : esc(e.fields[f.k])}</td></tr>`).join('');
-  const out = e.relations.map(r => ({ r, x: byId(r.to) })).filter(o => o.x);
+  return `<aside class="infobox" style="--c:${t.color}">
+    <div class="ib-title">${esc(e.title)}</div>
+    ${e.image ? `<img src="${e.image}" alt="${esc(e.title)}" data-act="zoom">` : ''}
+    <table><tr><th>Category</th><td>${t.icon} ${esc(t.singular)}</td></tr>${infoRows(e)}</table>
+  </aside>`;
+}
+function incoming(e) {
   const inc = [];
   world.entries.forEach(o => o.relations.forEach(r => { if (r.to === e.id) inc.push({ r, x: o }); }));
+  return inc;
+}
+const isMap = e => !!e.image && (e.type === 'place' || e.pins.length > 0);
+function renderEntry(e) {
+  const t = TYPES[e.type];
+  const dot = x => `<span class="dot" style="background:${TYPES[x.type].color}"></span>`;
+  const out = e.relations.map(r => ({ r, x: byId(r.to) })).filter(o => o.x);
+  const inc = incoming(e);
   const relHTML = (out.length || inc.length) ? `<h3>Connections</h3><ul class="rels">
-      ${out.map(({ r, x }) => `<li><span class="rel-label">${esc(r.label || 'Related to')}</span> <span class="dot" style="background:${TYPES[x.type].color}"></span><a href="#/entry/${x.id}">${esc(x.title)}</a></li>`).join('')}
-      ${inc.map(({ r, x }) => `<li><span class="dot" style="background:${TYPES[x.type].color}"></span><a href="#/entry/${x.id}">${esc(x.title)}</a> <span class="rel-label">— ${esc((r.label || 'related to').toLowerCase())} ${esc(e.title)}</span></li>`).join('')}
+      ${out.map(({ r, x }) => `<li><span class="rel-label">${esc(r.label || 'Related to')}</span> ${dot(x)}<a href="#/entry/${x.id}">${esc(x.title)}</a></li>`).join('')}
+      ${inc.map(({ r, x }) => `<li>${dot(x)}<a href="#/entry/${x.id}">${esc(x.title)}</a> <span class="rel-label">— ${esc((r.label || 'related to').toLowerCase())} ${esc(e.title)}</span></li>`).join('')}
     </ul>` : '';
-  const mentions = world.entries.filter(o => o.id !== e.id && linkTargets(o.body + '\n' + (READONLY ? '' : o.secret)).has(e.id))
-    .sort((a, b) => a.title.localeCompare(b.title));
+  const mentions = world.entries.filter(o => o.id !== e.id && linkTargets(o.body + '\n' + (READONLY ? '' : o.secret)).has(e.id)).sort(byTitle);
   const mentionHTML = mentions.length ? `<h3>Mentioned in</h3><ul class="rels">${mentions.map(o =>
-    `<li><span class="dot" style="background:${TYPES[o.type].color}"></span><a href="#/entry/${o.id}">${esc(o.title)}</a> <span class="rel-label">${esc(o.summary)}</span></li>`).join('')}</ul>` : '';
+    `<li>${dot(o)}<a href="#/entry/${o.id}">${esc(o.title)}</a> <span class="rel-label">${esc(o.summary)}</span></li>`).join('')}</ul>` : '';
+  const onMaps = world.entries.filter(m => m.id !== e.id && m.pins.some(p => p.to === e.id));
+  const fg = familyGraph();
+  const tools = [
+    fg.has(e.id) ? `<a class="btn" href="#/tree/${e.id}">🌳 Family tree</a>` : '',
+    isMap(e) ? `<a class="btn" href="#/map/${e.id}">🗺 Interactive map${e.pins.length ? ` (${e.pins.length} pins)` : ''}</a>` : '',
+    ...onMaps.map(m => `<a class="btn" href="#/map/${m.id}">📍 On the map of ${esc(m.title)}</a>`),
+  ].filter(Boolean).join('');
   main.innerHTML = `<article class="page" style="--c:${t.color}">
     <div class="entry-head">
       <div><span class="badge">${t.icon} ${esc(t.singular)}</span><h1>${esc(e.title)}</h1>${e.summary ? `<p class="lede">${esc(e.summary)}</p>` : ''}</div>
-      <div class="entry-actions" data-edit><a class="btn" href="#/edit/${e.id}">✎ Edit</a><button type="button" class="danger" data-act="delete" data-id="${e.id}">Delete</button></div>
+      <div class="entry-actions" data-edit>
+        <button type="button" class="pin-btn ${e.pinned ? 'on' : ''}" data-act="pin" data-id="${e.id}" title="${e.pinned ? 'Unpin from sidebar' : 'Pin to sidebar'}">${e.pinned ? '★' : '☆'}</button>
+        <a class="btn" href="#/edit/${e.id}">✎ Edit</a>
+        ${e.history.length ? `<a class="btn" href="#/history/${e.id}" title="Earlier versions">🕓 ${e.history.length}</a>` : ''}
+        <button type="button" class="danger" data-act="delete" data-id="${e.id}">Delete</button>
+      </div>
     </div>
+    ${tools ? `<div class="tools">${tools}</div>` : ''}
     <div class="entry-grid">
       <div>
         <div class="article">${md(e.body) || '<p class="hint">No article written yet.</p>'}</div>
         ${relHTML}
         ${mentionHTML}
         ${e.tags.length ? `<h3>Tags</h3><div class="tag-cloud">${e.tags.map(tg => `<a class="tag" href="#/tag/${encodeURIComponent(tg)}">${esc(tg)}</a>`).join('')}</div>` : ''}
-        ${e.secret && !READONLY ? `<div class="secret"><h4>🔒 Secret notes (only you see these)</h4><div class="article">${md(e.secret)}</div></div>` : ''}
-        ${e.secret && READONLY ? `<div class="secret"><h4>🔒 Secrets</h4><div class="article">${md(e.secret)}</div></div>` : ''}
+        ${e.secret ? `<div class="secret"><h4>🔒 ${READONLY ? 'Secrets' : 'Secret notes (only you see these)'}</h4><div class="article">${md(e.secret)}</div></div>` : ''}
       </div>
-      <aside class="infobox">
-        <div class="ib-title">${esc(e.title)}</div>
-        ${e.image ? `<img src="${e.image}" alt="${esc(e.title)}" data-act="zoom">` : ''}
-        <table><tr><th>Category</th><td>${t.icon} ${esc(t.singular)}</td></tr>${rows}</table>
-      </aside>
+      ${infobox(e)}
     </div>
   </article>`;
 }
 
 // ---------- editing ----------
 function newEntry(type) {
-  return { id: uid(), type, title: '', summary: '', body: '', image: '', secret: '', fields: {}, tags: [], relations: [], created: Date.now(), updated: Date.now() };
+  return { id: uid(), type, title: '', summary: '', body: '', image: '', secret: '', pinned: false, fields: {}, tags: [], relations: [], pins: [], history: [], created: Date.now(), updated: Date.now() };
 }
 function fieldInputs(type, fields) {
+  const ms = months();
   return `<div class="field-grid">` + TYPES[type].fields.map(f => {
     const v = fields[f.k] ?? '';
     let input;
     if (f.t === 'select') input = `<select name="f_${f.k}"><option value=""></option>${f.o.map(o => `<option ${o === v ? 'selected' : ''}>${esc(o)}</option>`).join('')}${v && !f.o.includes(v) ? `<option selected>${esc(v)}</option>` : ''}</select>`;
-    else if (f.t === 'number') input = `<input name="f_${f.k}" type="number" step="1" value="${esc(v)}" placeholder="e.g. 412, or -50 for ${esc(world.calendar.before || 'BE')}">`;
+    else if (f.t === 'year' && ms.length) input = `<div class="date-in"><input name="f_${f.k}" type="number" step="1" value="${esc(v)}" placeholder="Year">
+      <select name="f_${f.k}M"><option value="">Month</option>${ms.map((m, i) => `<option value="${i + 1}" ${Number(fields[f.k + 'M']) === i + 1 ? 'selected' : ''}>${esc(m.name)}</option>`).join('')}</select>
+      <input name="f_${f.k}D" type="number" min="1" step="1" value="${esc(fields[f.k + 'D'] ?? '')}" placeholder="Day"></div>`;
+    else if (f.t === 'year') input = `<input name="f_${f.k}" type="number" step="1" value="${esc(v)}" placeholder="Year, e.g. 412 (or -50 for ${esc(world.calendar.before || 'BE')})">`;
+    else if (f.t === 'number') input = `<input name="f_${f.k}" type="number" value="${esc(v)}">`;
     else input = `<input name="f_${f.k}" value="${esc(v)}">`;
     return `<label>${esc(f.l)}${input}</label>`;
   }).join('') + `</div>`;
 }
 function relRow(r = {}) {
-  const opts = world.entries.filter(x => x.id !== draft.id).sort((a, b) => a.title.localeCompare(b.title))
+  const opts = world.entries.filter(x => x.id !== draft.id).sort(byTitle)
     .map(x => `<option value="${x.id}" ${x.id === r.to ? 'selected' : ''}>${TYPES[x.type].icon} ${esc(x.title)}</option>`).join('');
   return `<div class="row"><input name="rel-label" list="rel-labels" value="${esc(r.label || '')}" placeholder="Relationship, e.g. Member of">
     <select name="rel-to"><option value="">— choose entry —</option>${opts}</select>
@@ -746,18 +1134,18 @@ function renderEdit(e, isNew) {
       <label>Category<select name="type">${Object.entries(TYPES).map(([k, x]) => `<option value="${k}" ${k === draft.type ? 'selected' : ''}>${x.icon} ${esc(x.singular)}</option>`).join('')}</select></label>
     </div>
     <label>Summary<input name="summary" value="${esc(draft.summary)}" placeholder="One line shown on cards and under the title"></label>
-    <fieldset><legend>Image ${draft.type === 'place' ? '/ map' : ''}</legend>
+    <fieldset><legend>Image / map</legend>
       <div class="img-edit"><div id="img-preview" class="img-edit"></div><input type="file" id="img-input" accept="image/*" style="width:auto"></div>
-      <p class="hint">Images are resized and stored inside your world file.</p>
+      <p class="hint">Images are resized and stored inside your world file. A Place with an image becomes an interactive map you can pin.</p>
     </fieldset>
     <fieldset><legend>Details</legend><div id="type-fields">${fieldInputs(draft.type, draft.fields)}</div>
-      <p class="hint">Years appear on the Timeline. Use negative numbers for years before your calendar's start.</p></fieldset>
+      <p class="hint">Dates appear on the Timeline and Calendar. Use negative years for before your calendar's start.${months().length ? '' : ' Define months on the <a href="#/settings">World</a> page to add months and days.'}</p></fieldset>
     <label>Article<textarea name="body" rows="14" placeholder="Write the history, description, legends…&#10;&#10;# Heading   **bold**   *italic*   - list item   > quotation   [[Entry name]] link">${esc(draft.body)}</textarea></label>
     <p class="hint">Type <strong>[[</strong> to link another entry. Use <code>[[Name|other words]]</code> to show different text. Links to entries that don't exist yet appear in orange; click one to create it.</p>
     <fieldset><legend>Relationships</legend>
       <div id="rels">${draft.relations.map(relRow).join('')}</div>
       <button type="button" data-act="add-row">+ Add relationship</button>
-      <p class="hint">Connections appear on both entries and in the relationship Web.</p>
+      <p class="hint">Connections appear on both entries and in the Web. <em>Parent of / Child of / Spouse of / Sibling of</em> build Family trees; <em>At war with / Ally of / Rival of / Trades with / Vassal of</em> feed the Politics board.</p>
     </fieldset>
     <label>Tags<input name="tags" value="${esc(draft.tags.join(', '))}" placeholder="comma, separated, tags"></label>
     <label>🔒 Secret notes<textarea name="secret" rows="4" placeholder="Hidden truths, plot hooks, GM notes. You choose whether these are included when exporting.">${esc(draft.secret)}</textarea></label>
@@ -768,14 +1156,29 @@ function renderEdit(e, isNew) {
   $('#edit-form [name=title]').focus();
 }
 function readTypeFields(form) {
-  TYPES[draft.type].fields.forEach(f => { const el = form.elements['f_' + f.k]; if (el) draft.fields[f.k] = el.value; });
+  TYPES[draft.type].fields.forEach(f => {
+    for (const k of f.t === 'year' ? [f.k, f.k + 'M', f.k + 'D'] : [f.k]) { const el = form.elements['f_' + k]; if (el) draft.fields[k] = el.value; }
+  });
 }
+const SNAP_KEYS = ['type', 'title', 'summary', 'body', 'secret', 'fields', 'tags', 'relations'];
+function snapshot(e, nextImage) {
+  const s = { at: Date.now() };
+  SNAP_KEYS.forEach(k => s[k] = structuredClone(e[k]));
+  if (e.image !== nextImage) s.image = e.image;
+  return s;
+}
+const sameVersion = (a, b) => SNAP_KEYS.every(k => JSON.stringify(a[k]) === JSON.stringify(b[k])) && a.image === b.image;
 function submitEdit(form) {
   readTypeFields(form);
   const fields = {};
   TYPES[draft.type].fields.forEach(f => {
     const v = (draft.fields[f.k] ?? '').toString().trim();
-    if (v !== '') fields[f.k] = f.t === 'number' ? (isNum(v) ? Number(v) : '') : v;
+    if (v === '') return;
+    if (f.t === 'year' || f.t === 'number') {
+      if (!isNum(v)) return;
+      fields[f.k] = Number(v);
+      if (f.t === 'year') for (const s of ['M', 'D']) if (isNum(draft.fields[f.k + s])) fields[f.k + s] = Number(draft.fields[f.k + s]);
+    } else fields[f.k] = v;
   });
   const labels = $$('[name=rel-label]', form).map(i => i.value.trim());
   const relations = $$('[name=rel-to]', form).map((s, i) => ({ to: s.value, label: labels[i] })).filter(r => r.to);
@@ -789,9 +1192,10 @@ function submitEdit(form) {
     fields, relations, updated: Date.now(),
   };
   const i = world.entries.findIndex(x => x.id === entry.id);
-  const oldTitle = i >= 0 ? world.entries[i].title : '';
-  if (i >= 0) world.entries[i] = entry; else world.entries.push(entry);
-  if (oldTitle && norm(oldTitle) !== norm(entry.title)) renameLinks(oldTitle, entry.title);
+  const old = i >= 0 ? world.entries[i] : null;
+  if (old && !sameVersion(old, entry)) entry.history = [snapshot(old, entry.image), ...old.history].slice(0, 25);
+  if (old) world.entries[i] = entry; else world.entries.push(entry);
+  if (old && norm(old.title) !== norm(entry.title)) renameLinks(old.title, entry.title);
   save();
   toast('Entry saved');
   go('#/entry/' + entry.id);
@@ -803,7 +1207,7 @@ function renameLinks(from, to) {
   world.overview = fix(world.overview);
 }
 
-// Suggestion popup when typing [[ in any article textarea.
+// Suggestion popup when typing [[ in any textarea.
 const linkPop = { el: null, ta: null, items: [], idx: 0, start: 0 };
 function closeLinkPop() { linkPop.el?.remove(); linkPop.el = null; linkPop.ta = null; }
 function updateLinkPop(ta) {
@@ -812,8 +1216,9 @@ function updateLinkPop(ta) {
   if (!m) return closeLinkPop();
   const q = norm(m[1]);
   const self = draft && ta.form?.id === 'edit-form' ? draft.id : null;
+  const starts = e => norm(e.title).startsWith(q);
   linkPop.items = world.entries.filter(e => e.id !== self && norm(e.title).includes(q))
-    .sort((a, b) => norm(a.title).startsWith(q) === norm(b.title).startsWith(q) ? a.title.localeCompare(b.title) : norm(a.title).startsWith(q) ? -1 : 1)
+    .sort((a, b) => starts(a) === starts(b) ? byTitle(a, b) : starts(a) ? -1 : 1)
     .slice(0, 8).map(e => ({ title: e.title, html: `${TYPES[e.type].icon} ${esc(e.title)}` }));
   if (m[1].trim() && !findByTitle(m[1])) linkPop.items.push({ title: m[1].trim(), html: `<span class="new">+ link to new “${esc(m[1].trim())}”</span>` });
   if (!linkPop.items.length) return closeLinkPop();
@@ -831,7 +1236,7 @@ function caretOffset(ta) {
     m.style[k] = cs[k];
   Object.assign(m.style, { position: 'absolute', visibility: 'hidden', whiteSpace: 'pre-wrap', overflowWrap: 'break-word', width: ta.offsetWidth + 'px', top: '0', left: '-9999px' });
   m.textContent = ta.value.slice(0, ta.selectionStart);
-  const mark = document.createElement('span'); mark.textContent = '\u200b'; m.appendChild(mark);
+  const mark = document.createElement('span'); mark.textContent = '​'; m.appendChild(mark);
   document.body.appendChild(m);
   const pos = { left: mark.offsetLeft, top: mark.offsetTop + mark.offsetHeight - ta.scrollTop };
   m.remove();
@@ -847,21 +1252,6 @@ function pickLink(i) {
   ta.setSelectionRange(pos, pos); ta.focus();
   closeLinkPop();
 }
-document.addEventListener('input', ev => { if (ev.target.matches('textarea')) { linkPop.idx = 0; updateLinkPop(ev.target); } });
-document.addEventListener('keydown', ev => {
-  if (!linkPop.el || ev.target !== linkPop.ta) return;
-  if (ev.key === 'ArrowDown' || ev.key === 'ArrowUp') {
-    ev.preventDefault();
-    linkPop.idx = (linkPop.idx + (ev.key === 'ArrowDown' ? 1 : -1) + linkPop.items.length) % linkPop.items.length;
-    updateLinkPop(ev.target);
-  } else if (ev.key === 'Enter' || ev.key === 'Tab') { ev.preventDefault(); pickLink(linkPop.idx); }
-  else if (ev.key === 'Escape') closeLinkPop();
-});
-document.addEventListener('mousedown', ev => {
-  const item = ev.target.closest('.link-pop [data-i]');
-  if (item) { ev.preventDefault(); pickLink(Number(item.dataset.i)); }
-  else if (linkPop.el && !linkPop.el.contains(ev.target)) closeLinkPop();
-});
 
 function readImage(file, max) {
   return new Promise((res, rej) => {
@@ -883,17 +1273,39 @@ function readImage(file, max) {
   });
 }
 
+// ---------- hover previews ----------
+let pvTimer = 0, pvEl = null;
+function hidePreview() { clearTimeout(pvTimer); pvEl?.remove(); pvEl = null; }
+function showPreview(a, e) {
+  hidePreview();
+  if (!document.body.contains(a)) return;
+  const t = TYPES[e.type];
+  const text = e.summary || plain(e.body).slice(0, 180) + (plain(e.body).length > 180 ? '…' : '');
+  pvEl = document.createElement('div');
+  pvEl.className = 'preview';
+  pvEl.style.setProperty('--c', t.color);
+  pvEl.innerHTML = `${e.image ? `<img src="${e.image}" alt="">` : ''}<div class="pv-body"><span class="badge">${t.icon} ${esc(t.singular)}</span>
+    <strong>${esc(e.title)}</strong>${text ? `<p>${esc(text)}</p>` : ''}</div>`;
+  document.body.appendChild(pvEl);
+  const r = a.getBoundingClientRect(), h = pvEl.offsetHeight;
+  const left = Math.max(8, Math.min(r.left, innerWidth - 316));
+  const top = r.bottom + 6 + h > innerHeight && r.top > h + 6 ? r.top - h - 6 : r.bottom + 6;
+  pvEl.style.left = left + scrollX + 'px';
+  pvEl.style.top = top + scrollY + 'px';
+}
+
 // ---------- timeline ----------
 function timelineEvents() {
   const ev = [];
   for (const e of world.entries) {
     for (const f of TYPES[e.type].fields) {
-      if (!f.tl || !isNum(e.fields[f.k])) continue;
-      const isMain = e.type === 'history' && f.k === 'start';
-      ev.push({ year: Number(e.fields[f.k]), what: isMain ? TYPES.history.singular : f.tl, e });
+      if (f.t !== 'year' || !isNum(e.fields[f.k])) continue;
+      const y = Number(e.fields[f.k]), m = e.fields[f.k + 'M'], d = e.fields[f.k + 'D'];
+      ev.push({ year: y, m: isNum(m) ? Number(m) : null, d: isNum(d) ? Number(d) : null, key: dateKey(y, m, d),
+        what: e.type === 'history' && f.k === 'start' ? TYPES.history.singular : f.tl || f.l, e });
     }
   }
-  return ev.sort((a, b) => a.year - b.year || a.e.title.localeCompare(b.e.title));
+  return ev.sort((a, b) => a.key - b.key || byTitle(a.e, b.e));
 }
 function renderTimeline() {
   const all = timelineEvents();
@@ -908,14 +1320,62 @@ function renderTimeline() {
       lastEra = era;
     }
     const t = TYPES[x.e.type];
+    const exact = x.m ? `<span class="muted small"> · ${esc(fmtDate(x.year, x.m, x.d))}</span>` : '';
     html += `<div class="tl-ev" style="--c:${t.color}"><span class="yr">${esc(fmtYear(x.year))}</span>
-      <div class="box"><div class="what">${t.icon} ${esc(x.what)}</div><a href="#/entry/${x.e.id}"><strong>${esc(x.e.title)}</strong></a>${x.e.summary ? ` — <span>${esc(x.e.summary)}</span>` : ''}</div></div>`;
+      <div class="box"><div class="what">${t.icon} ${esc(x.what)}${exact}</div><a href="#/entry/${x.e.id}"><strong>${esc(x.e.title)}</strong></a>${x.e.summary ? ` — <span>${esc(x.e.summary)}</span>` : ''}</div></div>`;
   }
   const present = [...new Set(all.map(x => x.e.type))];
   main.innerHTML = `<div class="page"><h1>Timeline of ${esc(world.name)}</h1>
     <p class="lede">Every dated event, birth, founding and discovery, in order.</p>
     ${present.length ? `<div class="tl-filters">${present.map(k => `<label><input type="checkbox" data-tl="${k}" ${ui.tlHidden.has(k) ? '' : 'checked'}><span class="dot" style="background:${TYPES[k].color}"></span>${esc(TYPES[k].label)}</label>`).join('')}</div>` : ''}
-    ${ev.length ? `<div class="timeline">${html}</div>` : `<div class="empty">No dated entries yet. Add a year to an Event, Person, Organization or other entry and it will appear here.${READONLY ? '' : ' Name your eras on the <a href="#/settings">World</a> page.'}</div>`}
+    ${ev.length ? `<div class="timeline">${html}</div>` : `<div class="empty">No dated entries yet. Add a date to an Event, Person, Organization or other entry and it will appear here.${READONLY ? '' : ' Name your eras on the <a href="#/settings">World</a> page.'}</div>`}
+  </div>`;
+}
+
+// ---------- calendar ----------
+function renderCalendar(arg) {
+  const ms = months();
+  if (!ms.length) {
+    main.innerHTML = `<div class="page"><h1>Calendar</h1><div class="empty">${READONLY ? 'This world has no calendar yet.'
+      : 'This world has no calendar yet. Define its months, weekdays and holidays on the <a href="#/settings">⚙ World</a> page.'}</div></div>`;
+    return;
+  }
+  const ev = timelineEvents();
+  const years = [...new Set(ev.filter(x => x.m).map(x => x.year))].sort((a, b) => a - b);
+  const y = isNum(arg) ? Number(arg) : (years.at(-1) ?? 0);
+  const wd = world.calendar.weekdays, total = yearDays(), today = todayInWorld();
+  let dayCount = y * total;
+  const monthsHTML = ms.map((mo, i) => {
+    const n = Number(mo.days) || 0;
+    let cells = '';
+    if (wd.length) {
+      cells += wd.map(w => `<div class="cal-wd" title="${esc(w)}">${esc(w.slice(0, 3))}</div>`).join('');
+      cells += '<div class="cal-day blank"></div>'.repeat(mod(dayCount, wd.length));
+    }
+    for (let d = 1; d <= n; d++) {
+      const hol = world.calendar.holidays.filter(h => h.month === i + 1 && h.day === d);
+      const evs = ev.filter(x => x.year === y && x.m === i + 1 && x.d === d);
+      const tip = [...hol.map(h => '🎉 ' + h.name), ...evs.map(x => `${x.e.title} (${x.what.toLowerCase()})`)].join('\n');
+      cells += `<div class="cal-day ${hol.length ? 'hol' : ''} ${today && today.m === i + 1 && today.d === d ? 'today' : ''}" title="${esc(tip)}"><span class="n">${d}</span>
+        ${evs.map(x => `<a class="cal-ev" href="#/entry/${x.e.id}" style="--c:${TYPES[x.e.type].color}" aria-label="${esc(x.e.title)}"></a>`).join('')}</div>`;
+    }
+    dayCount += n;
+    const loose = ev.filter(x => x.year === y && x.m === i + 1);
+    return `<div class="cal-month"><h3>${esc(mo.name)}</h3><div class="cal-grid" style="grid-template-columns:repeat(${wd.length || 7},1fr)">${cells}</div>
+      ${loose.length ? `<ul class="cal-list small">${loose.map(x => `<li>${x.d ? ordinal(x.d) : '—'} · <a href="#/entry/${x.e.id}">${esc(x.e.title)}</a> <span class="muted">${esc(x.what.toLowerCase())}</span></li>`).join('')}</ul>` : ''}</div>`;
+  }).join('');
+  const hols = world.calendar.holidays;
+  main.innerHTML = `<div class="page"><h1>The Calendar of ${esc(world.name)}</h1>
+    <p class="lede">${ms.length} months · ${total} days a year${wd.length ? ` · ${wd.length}-day weeks` : ''}</p>
+    <div class="cal-bar">
+      <a class="btn" href="#/calendar/${y - 1}">‹</a>
+      <input type="number" id="cal-year" value="${y}" step="1" aria-label="Year">
+      <a class="btn" href="#/calendar/${y + 1}">›</a>
+      <strong>${esc(fmtYear(y))}</strong>${eraFor(y) ? `<span class="muted">· ${esc(eraFor(y).name)}</span>` : ''}
+    </div>
+    ${years.length ? `<p class="small muted">Years with dated events: ${years.map(v => `<a href="#/calendar/${v}">${esc(fmtYear(v))}</a>`).join(' · ')}</p>` : ''}
+    <div class="cal-months">${monthsHTML}</div>
+    ${hols.length ? `<h2 style="margin-top:24px">Holidays &amp; Festivals</h2><ul class="cal-list">${hols.map(h => `<li><strong>${esc(h.name)}</strong> — ${ordinal(h.day)} of ${esc(ms[h.month - 1]?.name || '?')}${h.note ? ` · <em>${esc(h.note)}</em>` : ''}</li>`).join('')}</ul>` : ''}
   </div>`;
 }
 
@@ -924,8 +1384,8 @@ function renderGraph() {
   main.innerHTML = `<div class="page"><h1>The Web of Relations</h1>
     <div class="toolbar"><label><input type="checkbox" id="g-all" ${ui.graphAll ? 'checked' : ''}> Show unconnected entries</label>
     <label><input type="checkbox" id="g-mentions" ${ui.graphMentions ? 'checked' : ''}> Include article links (dashed)</label>
-    <button type="button" data-act="g-reset">Re-arrange</button>
-    <span class="hint">Drag nodes · drag background to pan · scroll to zoom · click a node to open it</span></div>
+    <button type="button" data-act="g-reset">Re-arrange</button></div>
+    <p class="hint" style="margin-top:-6px">Drag nodes · drag background to pan · scroll to zoom · click a node to open it</p>
     <div class="graph-wrap"><svg id="graph"></svg></div>
     <div class="legend">${Object.values(TYPES).map(t => `<span><span class="dot" style="background:${t.color}"></span>${esc(t.label)}</span>`).join('')}</div>
   </div>`;
@@ -963,8 +1423,7 @@ function drawGraph() {
   edges.forEach(ed => { degree[ed.s] = (degree[ed.s] || 0) + 1; degree[ed.t] = (degree[ed.t] || 0) + 1; });
 
   svg.innerHTML = '';
-  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-  let vb = { x: 0, y: 0, w: W, h: H };
+  const view = panZoom(svg, W, H);
   const vp = document.createElementNS(NS, 'g'); svg.appendChild(vp);
   const gEdges = document.createElementNS(NS, 'g'); vp.appendChild(gEdges);
   const gNodes = document.createElementNS(NS, 'g'); vp.appendChild(gNodes);
@@ -983,7 +1442,8 @@ function drawGraph() {
   function tick() {
     for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
       const a = nodes[i], b = nodes[j];
-      let dx = b.x - a.x, dy = b.y - a.y, d2 = dx * dx + dy * dy || 1;
+      let dx = b.x - a.x, dy = b.y - a.y;
+      const d2 = dx * dx + dy * dy || 1;
       if (d2 > 250000) continue;
       const f = 5200 / d2 * alpha, d = Math.sqrt(d2);
       dx /= d; dy /= d;
@@ -1012,50 +1472,493 @@ function drawGraph() {
     }
     for (const n of nodes) n.g.setAttribute('transform', `translate(${n.x},${n.y})`);
   }
-  function reheat() { cancelAnimationFrame(graphRAF); alpha = Math.max(alpha, 0.4); graphRAF = requestAnimationFrame(tick); }
-  function toWorld(ev) {
-    const r = svg.getBoundingClientRect();
-    return { x: vb.x + (ev.clientX - r.left) / r.width * vb.w, y: vb.y + (ev.clientY - r.top) / r.height * vb.h };
-  }
-  function setVB() { svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h}`); }
-
+  view.onNode = {
+    start(id, p) { const n = N[id]; n.fixed = true; return { n, ox: n.x - p.x, oy: n.y - p.y }; },
+    move(s, p) { s.n.x = p.x + s.ox; s.n.y = p.y + s.oy; cancelAnimationFrame(graphRAF); alpha = Math.max(alpha, 0.4); graphRAF = requestAnimationFrame(tick); },
+    end(s, moved) { s.n.fixed = false; if (!moved) go('#/entry/' + s.n.id); },
+  };
+  tick();
+}
+// Pan (drag background), zoom (wheel) and optional node dragging for an SVG; nodes are `[data-id]` groups.
+function panZoom(svg, W, H) {
+  let vb = { x: 0, y: 0, w: W, h: H };
+  const api = { onNode: null, fit(b) { vb = b; set(); } };
+  const set = () => svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h}`);
+  const toWorld = ev => { const r = svg.getBoundingClientRect(); return { x: vb.x + (ev.clientX - r.left) / r.width * vb.w, y: vb.y + (ev.clientY - r.top) / r.height * vb.h }; };
+  set();
   let drag = null;
   svg.addEventListener('pointerdown', ev => {
-    const g = ev.target.closest('.node');
-    const p = toWorld(ev);
-    drag = g ? { node: N[g.dataset.id], moved: false, sx: ev.clientX, sy: ev.clientY } : { pan: true, sx: ev.clientX, sy: ev.clientY, vx: vb.x, vy: vb.y };
-    if (drag.node) { drag.node.fixed = true; drag.ox = drag.node.x - p.x; drag.oy = drag.node.y - p.y; }
+    const g = ev.target.closest('[data-id]');
+    drag = { sx: ev.clientX, sy: ev.clientY, moved: false };
+    if (g && api.onNode) drag.node = api.onNode.start(g.dataset.id, toWorld(ev));
+    else { drag.vx = vb.x; drag.vy = vb.y; drag.id = g?.dataset.id; }
     svg.setPointerCapture(ev.pointerId);
   });
   svg.addEventListener('pointermove', ev => {
     if (!drag) return;
     if (Math.abs(ev.clientX - drag.sx) + Math.abs(ev.clientY - drag.sy) > 4) drag.moved = true;
-    if (drag.node) {
-      const p = toWorld(ev);
-      drag.node.x = p.x + drag.ox; drag.node.y = p.y + drag.oy;
-      reheat();
-    } else {
+    if (drag.node) api.onNode.move(drag.node, toWorld(ev));
+    else if (drag.moved) {
       const r = svg.getBoundingClientRect();
       vb.x = drag.vx - (ev.clientX - drag.sx) / r.width * vb.w;
       vb.y = drag.vy - (ev.clientY - drag.sy) / r.height * vb.h;
-      setVB();
+      set();
     }
   });
   svg.addEventListener('pointerup', () => {
-    if (drag?.node) {
-      if (!drag.moved) go('#/entry/' + drag.node.id);
-      drag.node.fixed = false;
-    }
+    if (drag?.node) api.onNode.end(drag.node, drag.moved);
+    else if (drag && !drag.moved && drag.id && api.onClick) api.onClick(drag.id);
     drag = null;
   });
   svg.addEventListener('wheel', ev => {
     ev.preventDefault();
     const p = toWorld(ev), k = ev.deltaY > 0 ? 1.12 : 1 / 1.12;
-    const w = Math.min(W * 6, Math.max(W / 6, vb.w * k)), s = w / vb.w;
+    const w = Math.min(W * 8, Math.max(W / 8, vb.w * k)), s = w / vb.w;
     vb = { x: p.x - (p.x - vb.x) * s, y: p.y - (p.y - vb.y) * s, w, h: vb.h * s };
-    setVB();
+    set();
   }, { passive: false });
-  tick();
+  return api;
+}
+
+// ---------- family trees ----------
+function familyKind(label) {
+  const l = norm(label);
+  return Object.keys(FAMILY).find(k => FAMILY[k].includes(l)) || null;
+}
+function familyGraph() {
+  const P = new Map(), C = new Map(), S = new Map(), B = new Map(); // parents, children, spouses, siblings
+  const ids = new Set(world.entries.map(e => e.id));
+  const add = (m, a, b) => { if (!m.has(a)) m.set(a, new Set()); m.get(a).add(b); };
+  for (const e of world.entries) for (const r of e.relations) {
+    if (!ids.has(r.to) || r.to === e.id) continue;
+    const k = familyKind(r.label);
+    if (k === 'parent') { add(P, r.to, e.id); add(C, e.id, r.to); }
+    else if (k === 'child') { add(P, e.id, r.to); add(C, r.to, e.id); }
+    else if (k === 'spouse') { add(S, e.id, r.to); add(S, r.to, e.id); }
+    else if (k === 'sibling') { add(B, e.id, r.to); add(B, r.to, e.id); }
+  }
+  return { P, C, S, B, has: id => P.has(id) || C.has(id) || S.has(id) || B.has(id) };
+}
+function layoutTree(rootId, fg) {
+  // Breadth-first walk assigns generations: parents above, children below, spouses and siblings level.
+  const gen = new Map([[rootId, 0]]), order = [rootId], q = [rootId];
+  while (q.length && gen.size < 200) {
+    const id = q.shift(), g = gen.get(id);
+    const visit = (set, dg) => { for (const x of set || []) if (!gen.has(x)) { gen.set(x, g + dg); order.push(x); q.push(x); } };
+    visit(fg.S.get(id), 0); visit(fg.B.get(id), 0); visit(fg.P.get(id), -1); visit(fg.C.get(id), 1);
+  }
+  const gens = [...new Set(gen.values())].sort((a, b) => a - b);
+  let rows = gens.map(g => order.filter(id => gen.get(id) === g));
+  const STEP = 190, x = new Map();
+  const groupSpouses = row => {
+    const out = [], seen = new Set();
+    for (const id of row) {
+      if (seen.has(id)) continue;
+      out.push(id); seen.add(id);
+      for (const s of fg.S.get(id) || []) if (row.includes(s) && !seen.has(s)) { out.push(s); seen.add(s); }
+    }
+    return out;
+  };
+  const bary = (id, rel) => { const xs = [...(rel.get(id) || [])].filter(p => x.has(p)).map(p => x.get(p)); return xs.length ? xs.reduce((a, b) => a + b) / xs.length : null; };
+  const assign = (row, rel) => {
+    const want = new Map(row.map(id => [id, bary(id, rel) ?? x.get(id) ?? 0]));
+    const sorted = groupSpouses([...row].sort((a, b) => want.get(a) - want.get(b)));
+    // Spouse groups aim for the average of their members' targets.
+    let prev = -Infinity;
+    sorted.forEach(id => { const p = Math.max(want.get(id), prev + STEP); x.set(id, p); prev = p; });
+    return sorted;
+  };
+  rows = rows.map(groupSpouses);
+  rows.forEach(r => r.forEach((id, i) => x.set(id, i * STEP)));
+  for (let pass = 0; pass < 3; pass++) {
+    for (let i = 1; i < rows.length; i++) rows[i] = assign(rows[i], fg.P);
+    for (let i = rows.length - 2; i >= 0; i--) rows[i] = assign(rows[i], fg.C);
+  }
+  for (let i = 1; i < rows.length; i++) rows[i] = assign(rows[i], fg.P);
+  const minX = Math.min(...x.values());
+  for (const [id, v] of x) x.set(id, v - minX);
+  return { rows, x, gen };
+}
+function renderTree(arg) {
+  const fg = familyGraph();
+  const people = world.entries.filter(e => fg.has(e.id)).sort(byTitle);
+  const root = byId(arg) && fg.has(arg) ? byId(arg) : null;
+  const picker = `<select id="tree-pick"><option value="">— choose someone —</option>${people.map(p => `<option value="${p.id}" ${root && p.id === root.id ? 'selected' : ''}>${TYPES[p.type].icon} ${esc(p.title)}</option>`).join('')}</select>`;
+  if (!root) {
+    main.innerHTML = `<div class="page"><h1>🌳 Family Trees</h1>
+      ${people.length ? `<p>Choose a person to see their lineage:</p><div style="max-width:420px">${picker}</div>
+        <div class="cards" style="margin-top:18px">${people.filter(p => !fg.P.has(p.id)).map(card).join('')}</div>
+        <p class="hint">Shown above: the eldest known members of each family.</p>`
+      : `<div class="empty">No families yet. Give people relationships such as <strong>Parent of</strong>, <strong>Child of</strong>, <strong>Spouse of</strong> or <strong>Sibling of</strong> and their trees will grow here.</div>`}
+    </div>`;
+    return;
+  }
+  const { rows, x } = layoutTree(root.id, fg);
+  const BW = 170, BH = 56, VG = 100, PAD = 30;
+  const y = new Map();
+  rows.forEach((r, i) => r.forEach(id => y.set(id, PAD + i * (BH + VG))));
+  const inTree = id => x.has(id);
+  const cx = id => PAD + x.get(id) + BW / 2;
+  let lines = '';
+  const done = new Set();
+  // Spouse bars.
+  for (const id of x.keys()) for (const s of fg.S.get(id) || []) {
+    if (!inTree(s) || done.has(s + id) || y.get(s) !== y.get(id)) continue;
+    done.add(id + s);
+    const [a, b] = x.get(id) < x.get(s) ? [id, s] : [s, id], yy = y.get(a) + BH / 2;
+    lines += `<line class="f-spouse" x1="${cx(a) + BW / 2}" y1="${yy - 2}" x2="${cx(b) - BW / 2}" y2="${yy - 2}"/><line class="f-spouse" x1="${cx(a) + BW / 2}" y1="${yy + 2}" x2="${cx(b) - BW / 2}" y2="${yy + 2}"/>`;
+  }
+  // Parent → child elbows, drawn from the middle of a married couple when both are parents.
+  for (const id of x.keys()) {
+    const ps = [...(fg.P.get(id) || [])].filter(p => inTree(p) && y.get(p) < y.get(id));
+    if (!ps.length) continue;
+    const couple = ps.length === 2 && fg.S.get(ps[0])?.has(ps[1]) && y.get(ps[0]) === y.get(ps[1]);
+    const anchors = couple ? [{ ax: (cx(ps[0]) + cx(ps[1])) / 2, ay: y.get(ps[0]) + BH / 2 }] : ps.map(p => ({ ax: cx(p), ay: y.get(p) + BH }));
+    const top = y.get(id), mid = top - VG / 2;
+    for (const { ax, ay } of anchors) lines += `<path class="f-line" d="M${ax},${ay} V${mid} H${cx(id)} V${top}"/>`;
+  }
+  // Siblings with no parents on record get a dotted arc.
+  for (const id of x.keys()) for (const s of fg.B.get(id) || []) {
+    if (!inTree(s) || done.has(s + '~' + id) || fg.P.has(id) || fg.P.has(s)) continue;
+    done.add(id + '~' + s);
+    const t = Math.min(y.get(id), y.get(s));
+    lines += `<path class="f-sib" d="M${cx(id)},${t} Q${(cx(id) + cx(s)) / 2},${t - 40} ${cx(s)},${t}"/>`;
+  }
+  const yrs = e => {
+    const b = isNum(e.fields.born) ? fmtYear(e.fields.born) : '', d = isNum(e.fields.died) ? fmtYear(e.fields.died) : '';
+    return b || d ? `${b || '?'} – ${d}` : (e.fields.title || TYPES[e.type].singular);
+  };
+  const nodes = [...x.keys()].map(id => {
+    const e = byId(id), t = TYPES[e.type];
+    const name = e.title.length > 22 ? e.title.slice(0, 21) + '…' : e.title;
+    return `<g class="fnode ${id === root.id ? 'root' : ''}" data-id="${id}" style="--c:${t.color}" transform="translate(${PAD + x.get(id)},${y.get(id)})">
+      <rect width="${BW}" height="${BH}" rx="6"/><text class="nm" x="${BW / 2}" y="23" text-anchor="middle">${esc(name)}</text>
+      <text class="yrs" x="${BW / 2}" y="42" text-anchor="middle">${esc(yrs(e))}</text><title>${esc(e.title)}</title></g>`;
+  }).join('');
+  const W = Math.max(...[...x.values()]) + BW + PAD * 2, H = rows.length * (BH + VG) + PAD;
+  main.innerHTML = `<div class="page"><div class="entry-head"><div><span class="badge" style="--c:${TYPES[root.type].color}">🌳 Family tree</span>
+      <h1>House of ${esc(root.title)}</h1></div><div style="min-width:240px">${picker}</div></div>
+    <p class="hint">Click anyone to center the tree on them · drag to pan · scroll to zoom · <a href="#/entry/${root.id}">open ${esc(root.title)}'s entry</a></p>
+    <div class="tree-wrap"><svg id="tree">${lines}${nodes}</svg></div>
+    <div class="legend"><span><span style="color:var(--gold)">═</span> married</span><span>┃ parent &amp; child</span><span>┈ siblings</span></div>
+  </div>`;
+  const svg = $('#tree');
+  const view = panZoom(svg, Math.max(W, 600), Math.max(H, 400));
+  const r = svg.getBoundingClientRect(), aspect = r.width / r.height;
+  const fw = Math.max(W, H * aspect), fh = fw / aspect;
+  view.fit({ x: (W - fw) / 2, y: (H - fh) / 2, w: fw, h: fh });
+  view.onClick = id => go('#/tree/' + id);
+}
+
+// ---------- maps ----------
+function renderMaps() {
+  const maps = world.entries.filter(isMap).sort(byTitle);
+  main.innerHTML = `<div class="page"><h1>🗺 Atlas</h1>
+    <p class="lede">Maps of ${esc(world.name)}. Click one to explore its pins.</p>
+    ${maps.length ? `<div class="cards">${maps.map(m => card(m).replace(`href="#/entry/${m.id}"`, `href="#/map/${m.id}"`)).join('')}</div>`
+      : `<div class="empty">No maps yet. ${READONLY ? '' : 'Upload an image to a <strong>Place</strong> entry (a continent, city or dungeon) and it becomes an interactive map you can drop pins on.'}</div>`}
+  </div>`;
+}
+const mapView = { id: null, z: 1, tx: 0, ty: 0, fitted: false };
+function pinHTML(p) {
+  const x = byId(p.to), t = x && TYPES[x.type];
+  return `<button type="button" class="pin" data-pin="${p.id}" style="left:${p.x}%;top:${p.y}%;--c:${t ? t.color : '#7a1f1f'}">
+    <span class="pin-head"><span>${t ? t.icon : '✦'}</span></span><span class="pin-label">${esc(p.label || x?.title || 'Unnamed')}</span></button>`;
+}
+function renderMap(e) {
+  if (mapView.id !== e.id) Object.assign(mapView, { id: e.id, z: 1, tx: 0, ty: 0, fitted: false });
+  const t = TYPES[e.type];
+  const pins = [...e.pins].sort((a, b) => (a.label || byId(a.to)?.title || '').localeCompare(b.label || byId(b.to)?.title || ''));
+  main.innerHTML = `<div class="page"><div class="entry-head"><div><span class="badge" style="--c:${t.color}">🗺 Map</span><h1>${esc(e.title)}</h1></div>
+    <div class="btn-row" style="margin:0">
+      <button type="button" data-edit data-act="map-add" class="${ui.mapAdd ? 'primary' : ''}">📍 ${ui.mapAdd ? 'Click the map to place a pin…' : 'Add pin'}</button>
+      <button type="button" data-act="map-zoom" data-k="1.4" title="Zoom in">＋</button><button type="button" data-act="map-zoom" data-k="0.7" title="Zoom out">－</button>
+      <button type="button" data-act="map-fit">Fit</button><a class="btn" href="#/entry/${e.id}">Open entry</a></div></div>
+    <div class="map-view ${ui.mapAdd ? 'adding' : ''}" id="map-view"><div class="map-inner" id="map-inner"><img src="${e.image}" alt="" draggable="false">${e.pins.map(pinHTML).join('')}</div></div>
+    <p class="hint">Scroll to zoom · drag to pan · click a pin for details${READONLY ? '' : ' · drag pins to move them'}</p>
+    ${pins.length ? `<h3>Marked on this map</h3><ul class="rels">${pins.map(p => { const x = byId(p.to);
+      return `<li><a href="#" data-act="map-focus" data-pin="${p.id}">📍 ${esc(p.label || x?.title || 'Unnamed')}</a>${x ? ` <span class="rel-label">→</span> <a href="#/entry/${x.id}">${esc(x.title)}</a>` : ''}</li>`; }).join('')}</ul>` : ''}
+  </div>`;
+  setupMap(e);
+}
+function setupMap(e) {
+  const view = $('#map-view'), inner = $('#map-inner'), img = inner.querySelector('img');
+  const apply = () => { inner.style.transform = `translate(${mapView.tx}px,${mapView.ty}px) scale(${mapView.z})`; inner.style.setProperty('--z', mapView.z); };
+  const fit = () => {
+    const vw = view.clientWidth, vh = view.clientHeight, iw = img.naturalWidth || 1, ih = img.naturalHeight || 1;
+    mapView.z = Math.min(vw / iw, vh / ih); mapView.tx = (vw - iw * mapView.z) / 2; mapView.ty = (vh - ih * mapView.z) / 2;
+    mapView.fitted = true; apply();
+  };
+  mapView.fit = fit;
+  mapView.zoomBy = (k, cx = view.clientWidth / 2, cy = view.clientHeight / 2) => {
+    const z = Math.min(12, Math.max(0.05, mapView.z * k)), s = z / mapView.z;
+    mapView.tx = cx - (cx - mapView.tx) * s; mapView.ty = cy - (cy - mapView.ty) * s; mapView.z = z; apply(); closePinPop();
+  };
+  if (mapView.fitted) apply();
+  mapView.ready = (img.complete && img.naturalWidth ? Promise.resolve() : img.decode().catch(() => {})).then(() => { if (!mapView.fitted) fit(); });
+  const pct = ev => { const r = img.getBoundingClientRect(); return { x: Math.min(100, Math.max(0, (ev.clientX - r.left) / r.width * 100)), y: Math.min(100, Math.max(0, (ev.clientY - r.top) / r.height * 100)) }; };
+  let drag = null;
+  view.onpointerdown = ev => {
+    if (ev.target.closest('.pin-pop')) return;
+    const pinEl = ev.target.closest('.pin');
+    drag = { sx: ev.clientX, sy: ev.clientY, moved: false, pinEl, tx: mapView.tx, ty: mapView.ty };
+    view.setPointerCapture(ev.pointerId);
+  };
+  view.onpointermove = ev => {
+    if (!drag) return;
+    if (Math.abs(ev.clientX - drag.sx) + Math.abs(ev.clientY - drag.sy) > 4) { if (!drag.moved) closePinPop(); drag.moved = true; }
+    if (!drag.moved) return;
+    if (drag.pinEl && !READONLY) { const p = pct(ev); drag.pinEl.style.left = p.x + '%'; drag.pinEl.style.top = p.y + '%'; drag.pos = p; }
+    else if (!drag.pinEl) { mapView.tx = drag.tx + ev.clientX - drag.sx; mapView.ty = drag.ty + ev.clientY - drag.sy; apply(); }
+  };
+  view.onpointerup = ev => {
+    if (!drag) return;
+    const d = drag; drag = null;
+    if (d.pinEl) {
+      const p = e.pins.find(x => x.id === d.pinEl.dataset.pin);
+      if (d.moved && d.pos && p) { p.x = +d.pos.x.toFixed(2); p.y = +d.pos.y.toFixed(2); save(); }
+      else if (!d.moved && p) openPinPop(e, p);
+    } else if (!d.moved) {
+      if (ui.mapAdd && !READONLY && !ev.target.closest('.pin-pop')) {
+        const at = pct(ev), p = { id: uid(), x: +at.x.toFixed(2), y: +at.y.toFixed(2), to: '', label: '' };
+        e.pins.push(p); ui.mapAdd = false; save(); renderMap(e);
+        mapView.ready.then(() => openPinPop(e, p, true));
+      } else if (!ev.target.closest('.pin-pop')) closePinPop();
+    }
+  };
+  view.onwheel = ev => { ev.preventDefault(); const r = view.getBoundingClientRect(); mapView.zoomBy(ev.deltaY > 0 ? 1 / 1.15 : 1.15, ev.clientX - r.left, ev.clientY - r.top); };
+}
+function closePinPop() { $('#pin-pop')?.remove(); }
+function openPinPop(e, p, editing = false) {
+  closePinPop();
+  const view = $('#map-view'), pinEl = view.querySelector(`[data-pin="${p.id}"]`);
+  if (!pinEl) return;
+  const x = byId(p.to), t = x && TYPES[x.type];
+  const pop = document.createElement('div');
+  pop.className = 'pin-pop'; pop.id = 'pin-pop';
+  const opts = world.entries.filter(o => o.id !== e.id).sort(byTitle).map(o => `<option value="${o.id}" ${o.id === p.to ? 'selected' : ''}>${TYPES[o.type].icon} ${esc(o.title)}</option>`).join('');
+  pop.innerHTML = (editing && !READONLY) ? `<strong>📍 Pin</strong>
+      <label>Links to<select id="pp-to"><option value="">— no entry —</option>${opts}</select></label>
+      <label>Label<input id="pp-label" value="${esc(p.label)}" placeholder="${esc(x?.title || 'Name on the map')}"></label>
+      <div class="btn-row"><button type="button" class="primary" data-act="pin-save" data-pin="${p.id}">Save</button><button type="button" class="danger" data-act="pin-del" data-pin="${p.id}">Delete</button><button type="button" data-act="pin-close">✕</button></div>`
+    : `${x ? `<span class="badge" style="--c:${t.color}">${t.icon} ${esc(t.singular)}</span>` : ''}<h3 style="margin:4px 0">${esc(p.label || x?.title || 'Unnamed')}</h3>
+      ${x?.summary ? `<p class="small muted" style="margin:0 0 6px">${esc(x.summary)}</p>` : ''}
+      <div class="btn-row">${x ? `<a class="btn" href="#/entry/${x.id}">Open entry</a>` : ''}${x && isMap(x) ? `<a class="btn" href="#/map/${x.id}">🗺 Its map</a>` : ''}
+      <button type="button" data-edit data-act="pin-edit" data-pin="${p.id}">✎ Edit</button><button type="button" data-act="pin-close">✕</button></div>`;
+  view.appendChild(pop);
+  const vr = view.getBoundingClientRect(), pr = pinEl.getBoundingClientRect();
+  pop.style.left = Math.max(6, Math.min(pr.left - vr.left + pr.width / 2 - 135, vr.width - 276)) + 'px';
+  const below = pr.bottom - vr.top + 8;
+  pop.style.top = (below + pop.offsetHeight > vr.height ? Math.max(6, pr.top - vr.top - pop.offsetHeight - 8) : below) + 'px';
+  if (editing) $('#pp-to')?.focus();
+}
+
+// ---------- politics ----------
+function polState(a, b) {
+  const lbl = (x, y) => x.relations.filter(r => r.to === y.id).map(r => norm(r.label));
+  const ab = lbl(a, b), ba = lbl(b, a);
+  const vassal = POLITICS.find(s => s.k === 'vassal').match;
+  for (const s of POLITICS) {
+    if (s.k === 'vassal') { if (ab.some(l => vassal.includes(l))) return s; }
+    else if (s.k === 'overlord') { if (ba.some(l => vassal.includes(l))) return s; }
+    else if ([...ab, ...ba].some(l => s.match.includes(l))) return s;
+  }
+  return null;
+}
+function setPolState(a, b, k) {
+  a.relations = a.relations.filter(r => !(r.to === b.id && POL_LABELS.includes(norm(r.label))));
+  b.relations = b.relations.filter(r => !(r.to === a.id && POL_LABELS.includes(norm(r.label))));
+  const s = POLITICS.find(x => x.k === k);
+  if (k === 'overlord') b.relations.push({ to: a.id, label: s.rel });
+  else if (s) a.relations.push({ to: b.id, label: s.rel });
+  a.updated = b.updated = Date.now();
+  save();
+}
+function closePolMenu() { $('#pol-menu')?.remove(); }
+function renderPolitics() {
+  const present = Object.keys(TYPES).filter(k => world.entries.some(e => e.type === k));
+  const list = world.entries.filter(e => ui.polTypes.has(e.type)).sort(byTitle);
+  const pairs = [];
+  for (let i = 0; i < list.length; i++) for (let j = i + 1; j < list.length; j++) {
+    const s = polState(list[i], list[j]);
+    if (s) pairs.push(s.k === 'overlord' ? { s: POLITICS.find(p => p.k === 'vassal'), a: list[j], b: list[i] } : { s, a: list[i], b: list[j] });
+  }
+  const verb = { war: 'is at war with', rival: 'is a rival of', vassal: 'is a vassal of', ally: 'is allied with', trade: 'trades with' };
+  main.innerHTML = `<div class="page"><h1>⚖ The Political Board</h1>
+    <p class="lede">Who stands with whom. ${READONLY ? '' : 'Click a square to change the relationship between two powers.'}</p>
+    <div class="tl-filters">${present.map(k => `<label><input type="checkbox" data-pol="${k}" ${ui.polTypes.has(k) ? 'checked' : ''}><span class="dot" style="background:${TYPES[k].color}"></span>${esc(TYPES[k].label)}</label>`).join('')}</div>
+    ${list.length < 2 ? `<div class="empty">Choose at least two entries' worth of categories above${world.entries.some(e => e.type === 'organization') ? '' : ', or create some Organizations'}.</div>` : `
+    <div class="pol-wrap"><table class="pol"><thead><tr><th></th>${list.map(c => `<th class="vert"><a href="#/entry/${c.id}">${esc(c.title)}</a></th>`).join('')}</tr></thead>
+    <tbody>${list.map(r => `<tr><th class="rowh"><a href="#/entry/${r.id}">${esc(r.title)}</a></th>${list.map(c => {
+      if (r === c) return '<td class="self"></td>';
+      const s = polState(r, c);
+      return `<td class="cell" data-a="${r.id}" data-b="${c.id}" style="--c:${s ? s.color : 'transparent'}" title="${esc(r.title)} → ${esc(c.title)}: ${s ? s.label : 'Neutral'}">${s ? s.icon : ''}</td>`;
+    }).join('')}</tr>`).join('')}</tbody></table></div>
+    <div class="legend">${POLITICS.map(s => `<span><span class="dot" style="background:${s.color}"></span>${s.icon} ${s.label}</span>`).join('')}<span>· blank = neutral</span></div>
+    <p class="hint">Read across a row: “row → column”. Vassalage is one-way; everything else is shared.</p>
+    ${pairs.length ? `<h2 style="margin-top:22px">State of the World</h2><ul class="rels">${pairs.sort((x, y) => POLITICS.indexOf(x.s) - POLITICS.indexOf(y.s)).map(({ s, a, b }) =>
+      `<li><span class="dot" style="background:${s.color}"></span>${s.icon} <a href="#/entry/${a.id}">${esc(a.title)}</a> <span class="rel-label">${verb[s.k]}</span> <a href="#/entry/${b.id}">${esc(b.title)}</a></li>`).join('')}</ul>` : ''}`}
+  </div>`;
+}
+function openPolMenu(td) {
+  closePolMenu();
+  const a = byId(td.dataset.a), b = byId(td.dataset.b);
+  const m = document.createElement('div');
+  m.className = 'pol-menu'; m.id = 'pol-menu';
+  m.innerHTML = `<div class="hd">${esc(a.title)} → ${esc(b.title)}</div>` + POLITICS.map(s =>
+    `<button type="button" data-act="pol-set" data-k="${s.k}" data-a="${a.id}" data-b="${b.id}"><span class="dot" style="background:${s.color}"></span>${s.icon} ${s.label}</button>`).join('') +
+    `<button type="button" data-act="pol-set" data-k="neutral" data-a="${a.id}" data-b="${b.id}"><span class="dot" style="background:var(--line)"></span>○ Neutral</button>`;
+  document.body.appendChild(m);
+  const r = td.getBoundingClientRect();
+  m.style.left = Math.min(r.left + scrollX, scrollX + innerWidth - m.offsetWidth - 8) + 'px';
+  m.style.top = r.bottom + scrollY + 4 + 'px';
+}
+
+// ---------- book ----------
+function bookEntry(e, secrets) {
+  const t = TYPES[e.type];
+  const out = e.relations.map(r => ({ r, x: byId(r.to) })).filter(o => o.x);
+  return `<article class="book-entry" id="b-${e.id}" style="--c:${t.color}">
+    <h3>${esc(e.title)} <span class="badge">${t.icon} ${esc(t.singular)}</span></h3>
+    ${e.summary ? `<p class="lede" style="font-size:18px;margin:0 0 10px">${esc(e.summary)}</p>` : ''}
+    ${(e.image || infoRows(e)) ? infobox(e) : ''}
+    <div class="article">${md(e.body)}</div>
+    ${out.length ? `<p class="conn"><strong>Connections:</strong> ${out.map(({ r, x }) => `${esc(r.label || 'Related to')} <a href="#/entry/${x.id}">${esc(x.title)}</a>`).join(' · ')}</p>` : ''}
+    ${secrets && e.secret ? `<div class="secret"><h4>🔒 Secret notes</h4><div class="article">${md(e.secret)}</div></div>` : ''}
+  </article>`;
+}
+function renderBook() {
+  const secrets = !READONLY && ui.bookSecrets;
+  const vols = Object.entries(TYPES).map(([k, t]) => [k, t, world.entries.filter(e => e.type === k).sort(byTitle)]).filter(v => v[2].length);
+  const ev = timelineEvents();
+  main.innerHTML = `<div class="book-bar no-print"><button type="button" class="primary" data-act="print">🖨 Print / Save as PDF</button>
+      ${READONLY ? '' : `<label><input type="checkbox" id="book-secrets" ${ui.bookSecrets ? 'checked' : ''}> Include secret notes</label>`}
+      <a href="#/home">✕ Close the book</a></div>
+    <div class="book">
+      <section class="book-cover"><div class="orn">✦ ✦ ✦</div><h1>${esc(world.name)}</h1><p class="lede">${esc(world.tagline)}</p>
+        <p>An Encyclopedia in ${vols.length} Volume${vols.length === 1 ? '' : 's'}</p><p class="hint">${world.entries.length} entries · ${new Date().toLocaleDateString()}</p></section>
+      ${world.overview ? `<section class="book-sec"><h2>Introduction</h2><div class="article">${md(world.overview)}</div></section>` : ''}
+      <section class="book-sec book-toc"><h2>Contents</h2>${vols.map(([, t, list]) => `<h3>${t.icon} ${esc(t.label)}</h3><ol>${list.map(e =>
+        `<li><a href="#" data-act="scroll" data-id="b-${e.id}">${esc(e.title)}</a></li>`).join('')}</ol>`).join('')}${ev.length ? '<h3>⌛ Chronology</h3>' : ''}</section>
+      ${vols.map(([, t, list]) => `<section class="book-vol"><h2 class="vol-title">${t.icon} ${esc(t.label)}</h2>${list.map(e => bookEntry(e, secrets)).join('')}</section>`).join('')}
+      ${ev.length ? `<section class="book-vol"><h2 class="vol-title">⌛ Chronology</h2><table class="chron">${ev.map(x =>
+        `<tr><td>${esc(fmtDate(x.year, x.m, x.d))}</td><td>${TYPES[x.e.type].icon} <a href="#/entry/${x.e.id}">${esc(x.e.title)}</a> <span class="muted">${esc(x.what.toLowerCase())}</span></td></tr>`).join('')}</table></section>` : ''}
+    </div>`;
+}
+
+// ---------- stubs ----------
+function stubData() {
+  const missing = new Map();
+  const scan = (text, src) => {
+    for (const m of (text || '').matchAll(LINK_RE)) {
+      const t = m[1].trim();
+      if (findByTitle(t)) continue;
+      if (!missing.has(norm(t))) missing.set(norm(t), { title: t, from: new Map() });
+      if (src) missing.get(norm(t)).from.set(src.id, src);
+    }
+  };
+  world.entries.forEach(e => { scan(e.body, e); scan(e.secret, e); });
+  scan(world.overview, null);
+  const linked = new Set();
+  world.entries.forEach(e => {
+    e.relations.forEach(r => { linked.add(e.id); linked.add(r.to); });
+    linkTargets(e.body).forEach(id => { linked.add(id); linked.add(e.id); });
+  });
+  const es = [...world.entries].sort(byTitle);
+  return {
+    missing: [...missing.values()].sort((a, b) => b.from.size - a.from.size || a.title.localeCompare(b.title)),
+    noBody: es.filter(e => !e.body.trim()),
+    noSummary: es.filter(e => !e.summary.trim()),
+    orphans: es.filter(e => !linked.has(e.id)),
+    noImage: es.filter(e => !e.image && ['person', 'place', 'species', 'item'].includes(e.type)),
+  };
+}
+const stubCount = () => { const s = stubData(); return s.missing.length + s.noBody.length; };
+function renderStubs() {
+  const s = stubData();
+  const row = e => `<li><span class="grow">${TYPES[e.type].icon} <a href="#/entry/${e.id}">${esc(e.title)}</a></span><a class="btn small" href="#/edit/${e.id}">✎ Write</a></li>`;
+  const sec = (title, hint, items, fn) => `<div class="stub-sec"><h3>${title} <span class="muted small">(${items.length})</span></h3><p class="hint" style="margin:0 0 6px">${hint}</p>
+    ${items.length ? `<ul class="stub-list">${items.map(fn).join('')}</ul>` : '<p class="small muted">✓ Nothing here.</p>'}</div>`;
+  main.innerHTML = `<div class="page"><h1>📝 Still to Write</h1><p class="lede">Gaps in the codex, waiting for ink.</p>
+    ${sec('Linked but not written', 'Names mentioned with [[links]] that have no entry yet.', s.missing, m => `<li><span class="grow"><strong>${esc(m.title)}</strong>
+      <span class="muted small">${m.from.size ? 'mentioned in ' + [...m.from.values()].map(x => `<a href="#/entry/${x.id}">${esc(x.title)}</a>`).join(', ') : 'mentioned in the overview'}</span></span>
+      <select data-stub-type="${esc(m.title)}" style="width:auto">${Object.entries(TYPES).map(([k, t]) => `<option value="${k}">${t.icon} ${esc(t.singular)}</option>`).join('')}</select>
+      <button type="button" class="primary small" data-act="stub-create" data-title="${esc(m.title)}">Create</button></li>`)}
+    ${sec('Empty articles', 'Entries with no article text yet.', s.noBody, row)}
+    ${sec('Missing summaries', 'The one-liner shown on cards and previews.', s.noSummary, row)}
+    ${sec('Unconnected', 'No relationships or links to or from anything else.', s.orphans, row)}
+    ${sec('No picture', 'People, places, creatures and items without an image.', s.noImage, row)}
+  </div>`;
+}
+
+// ---------- history & trash ----------
+const SNAP_NAMES = { type: 'category', title: 'title', summary: 'summary', body: 'article', secret: 'secret notes', fields: 'details', tags: 'tags', relations: 'relationships' };
+function renderHistory(e) {
+  const versions = e.history;
+  const changes = (v, newer) => SNAP_KEYS.filter(k => JSON.stringify(v[k]) !== JSON.stringify(newer[k])).map(k => SNAP_NAMES[k]).concat('image' in v ? ['image'] : []);
+  main.innerHTML = `<div class="page"><h1>🕓 History of ${esc(e.title)}</h1>
+    <p class="lede">Earlier versions are kept each time you save (up to 25). Restoring keeps the current version in this list too.</p>
+    <p><a href="#/entry/${e.id}">← Back to the entry</a></p>
+    ${versions.length ? versions.map((v, i) => `<details class="version"><summary><span class="when">${esc(new Date(v.at).toLocaleString())}</span>
+        <span class="what">${esc(v.title)} · changed afterwards: ${esc(changes(v, i ? versions[i - 1] : e).join(', ') || 'nothing')}</span>
+        <button type="button" data-act="restore-version" data-id="${e.id}" data-i="${i}">↺ Restore</button></summary>
+        ${v.summary ? `<p class="lede" style="font-size:17px">${esc(v.summary)}</p>` : ''}<div class="article">${md(v.body) || '<p class="hint">(no article)</p>'}</div>
+        ${v.tags.length ? `<p class="small muted">Tags: ${esc(v.tags.join(', '))}</p>` : ''}</details>`).join('')
+      : '<div class="empty">No earlier versions yet.</div>'}
+  </div>`;
+}
+function restoreVersion(e, i) {
+  const v = e.history[i];
+  if (!v) return;
+  const nextImage = 'image' in v ? v.image : e.image;
+  e.history = [snapshot(e, nextImage), ...e.history.filter((_, j) => j !== i)].slice(0, 25);
+  SNAP_KEYS.forEach(k => e[k] = structuredClone(v[k]));
+  e.image = nextImage;
+  if (!TYPES[e.type]) e.type = 'lore';
+  e.updated = Date.now();
+  save(); toast('Version restored'); go('#/entry/' + e.id);
+}
+function trashEntry(e) {
+  const removed = [];
+  world.entries.forEach(x => { x.relations = x.relations.filter(r => { if (r.to === e.id) { removed.push({ from: x.id, rel: r }); return false; } return true; }); });
+  world.entries = world.entries.filter(x => x.id !== e.id);
+  world.trash = [{ entry: e, removed, at: Date.now() }, ...world.trash].slice(0, 30);
+  save();
+}
+function restoreTrash(i) {
+  const [t] = world.trash.splice(i, 1);
+  if (!t) return null;
+  world.entries.push(normEntry(t.entry));
+  t.removed.forEach(({ from, rel }) => { const x = byId(from); if (x && !x.relations.some(r => r.to === rel.to && r.label === rel.label)) x.relations.push(rel); });
+  save();
+  return t.entry;
+}
+function renderTrash() {
+  main.innerHTML = `<div class="page"><h1>🗑 Recently Deleted</h1><p class="lede">The last 30 deleted entries can be brought back, along with their connections.</p>
+    ${world.trash.length ? `<ul class="stub-list">${world.trash.map((t, i) => `<li><span class="grow">${TYPES[t.entry.type]?.icon || '◆'} <strong>${esc(t.entry.title)}</strong>
+      <span class="muted small">deleted ${esc(new Date(t.at).toLocaleString())}</span></span>
+      <button type="button" data-act="trash-restore" data-i="${i}">↺ Restore</button><button type="button" class="danger" data-act="trash-purge" data-i="${i}">Delete forever</button></li>`).join('')}</ul>
+      <p><button type="button" class="danger" data-act="trash-empty">Empty the bin</button></p>` : '<div class="empty">Nothing has been deleted.</div>'}
+  </div>`;
+}
+
+// ---------- library ----------
+async function renderLibrary() {
+  await flushSave();
+  const worlds = [...lib].sort((a, b) => (b.updated || 0) - (a.updated || 0));
+  main.innerHTML = `<div class="page"><h1>📚 Worlds Library</h1><p class="lede">Every world stored in this browser. Export one to keep a file in your builder folder.</p>
+    <div class="btn-row"><button type="button" class="primary" data-act="lib-new">+ New blank world</button><button type="button" data-act="import">⬆ Import world file…</button><button type="button" data-act="sample">Add the sample world</button></div>
+    <div class="cards">${worlds.map(m => `<div class="lib-card ${m.id === world.id ? 'current' : ''}">
+      <h3>${esc(m.name)}</h3><div class="muted small">${esc(m.tagline || '')}</div>
+      <div class="small" style="margin-top:6px">${m.count} entries · edited ${esc(new Date(m.updated || Date.now()).toLocaleDateString())}${m.id === world.id ? ' · <strong>open now</strong>' : ''}</div>
+      <div class="btn-row">${m.id === world.id ? '' : `<button type="button" class="primary" data-act="lib-open" data-id="${m.id}">Open</button>`}
+        <button type="button" data-act="lib-dup" data-id="${m.id}">Duplicate</button><button type="button" data-act="lib-export" data-id="${m.id}">⬇ .json</button>
+        <button type="button" class="danger" data-act="lib-del" data-id="${m.id}">Delete</button></div></div>`).join('')}</div>
+  </div>`;
+}
+async function switchWorld(id) {
+  await flushSave();
+  if (await openWorld(id)) { ui.search = ''; $('#search').value = ''; mapView.id = null; go('#/home'); toast(`Opened ${world.name}`); }
 }
 
 // ---------- settings ----------
@@ -1066,27 +1969,50 @@ function eraRow(er = {}) {
     <input name="era-color" type="color" value="${esc(er.color || '#6b5640')}">
     <button type="button" data-act="rm-row" title="Remove">✕</button></div>`;
 }
+function typeRow(c = {}) {
+  return `<div class="ctype"><input type="hidden" name="ct-key" value="${esc(c.key || '')}">
+    <div class="ctype-grid"><label>Icon<input name="ct-icon" value="${esc(c.icon || '◆')}" maxlength="4"></label>
+    <label>Name (one)<input name="ct-singular" value="${esc(c.singular || '')}" placeholder="e.g. Ship"></label>
+    <label>Name (many)<input name="ct-label" value="${esc(c.label || '')}" placeholder="e.g. Ships"></label>
+    <label>Color<input type="color" name="ct-color" value="${esc(c.color || '#5a6b8a')}"></label></div>
+    <label>Fields, one per line<textarea name="ct-fields" rows="4" placeholder="Captain&#10;Crew size: number&#10;Launched: year&#10;Hull: Wood, Iron, Steel">${esc(fieldsText(c.fields))}</textarea></label>
+    <button type="button" data-act="rm-block">Remove this type</button></div>`;
+}
 function renderSettings() {
+  const c = world.calendar, ms = c.months;
   main.innerHTML = `<form class="page edit" id="settings-form" autocomplete="off">
     <h1>⚙ World Settings</h1>
     <label>World name<input name="name" value="${esc(world.name)}"></label>
     <label>Tagline<input name="tagline" value="${esc(world.tagline)}" placeholder="A short subtitle for your encyclopedia"></label>
     <label>Overview (front page)<textarea name="overview" rows="8" placeholder="Introduce your world: its shape, its tone, its great conflicts… Type [[ to link entries.">${esc(world.overview)}</textarea></label>
     <fieldset><legend>Calendar</legend><div class="field-grid">
-      <label>Year suffix<input name="suffix" value="${esc(world.calendar.suffix)}" placeholder="e.g. AE, AC, Year of the Crown"></label>
-      <label>Before-year suffix (negative years)<input name="before" value="${esc(world.calendar.before)}" placeholder="e.g. BE"></label>
-    </div></fieldset>
+      <label>Year suffix<input name="suffix" value="${esc(c.suffix)}" placeholder="e.g. AE, AC, Year of the Crown"></label>
+      <label>Before-year suffix (negative years)<input name="before" value="${esc(c.before)}" placeholder="e.g. BE"></label>
+    </div>
+      <label>Months, one per line as <code>Name: days</code><textarea name="months" rows="6" placeholder="Frostmere: 30&#10;Thawing: 30&#10;Seedtide: 31">${esc(ms.map(m => `${m.name}: ${m.days}`).join('\n'))}</textarea></label>
+      <label>Days of the week, separated by commas<input name="weekdays" value="${esc(c.weekdays.join(', '))}" placeholder="Solday, Moonday, Ashday, Tideday, Flameday, Restday"></label>
+      <label>Holidays, one per line as <code>Name: Month Day - note</code><textarea name="holidays" rows="4" placeholder="Feast of Flames: Embermonth 1 - Oath-candles are relit">${esc(c.holidays.map(h => `${h.name}: ${ms[h.month - 1]?.name || h.month} ${h.day}${h.note ? ' - ' + h.note : ''}`).join('\n'))}</textarea></label>
+      <p class="hint">With months defined, dates can include a month and day, and the Calendar page comes alive. Leave empty to use years only.</p>
+    </fieldset>
     <fieldset><legend>Eras &amp; Ages</legend>
       <div id="eras">${world.eras.map(eraRow).join('')}</div>
       <button type="button" data-act="add-era">+ Add era</button>
       <p class="hint">Eras group the Timeline into named ages.</p>
     </fieldset>
+    <fieldset><legend>Custom entry types</legend>
+      <p class="hint">Add your own volumes, like Ships, Planets, Spells or Dragons. Field lines: <code>Name</code> for text, <code>Name: number</code>, <code>Name: year</code> for a Timeline date, or <code>Name: option, option, option</code> for a list.</p>
+      <div id="ctypes">${world.customTypes.map(typeRow).join('')}</div>
+      <button type="button" data-act="add-type">+ Add custom type</button>
+    </fieldset>
+    <fieldset><legend>Extra fields for built-in types</legend>
+      <p class="hint">Same format as above. These are added to every entry of that type.</p>
+      ${Object.entries(BASE_TYPES).map(([k, t]) => `<details class="extra" ${arr(world.extraFields[k]).length ? 'open' : ''}><summary>${t.icon} ${esc(t.label)}</summary>
+        <textarea name="xf-${k}" rows="3" placeholder="e.g. Eye color&#10;Height: number">${esc(fieldsText(world.extraFields[k]))}</textarea></details>`).join('')}
+    </fieldset>
     <div class="form-actions"><button type="submit" class="primary">Save settings</button></div>
     <fieldset><legend>Archive</legend>
-      <p>Your world autosaves in this browser. Use <strong>Export</strong> to keep a file in your <code>builder</code> folder.</p>
-      <p><button type="button" data-act="import">⬆ Import world file…</button>
-      <button type="button" data-act="sample">Load sample world</button>
-      <button type="button" class="danger" data-act="new-world">Start a new blank world</button></p>
+      <p>Your world autosaves in this browser. Use <strong>Export</strong> to keep a file in your <code>builder</code> folder, or the <a href="#/library">📚 Worlds library</a> to manage several worlds.</p>
+      <p><button type="button" data-act="import">⬆ Import world file…</button> <button type="button" data-act="sample">Add the sample world</button></p>
     </fieldset>
   </form>`;
 }
@@ -1095,11 +2021,36 @@ function submitSettings(form) {
   world.name = el.name.value.trim() || 'Untitled World';
   world.tagline = el.tagline.value.trim();
   world.overview = el.overview.value;
-  world.calendar = { suffix: el.suffix.value.trim(), before: el.before.value.trim() };
+  const lines = s => s.split('\n').map(l => l.trim()).filter(Boolean);
+  const monthList = lines(el.months.value).map(l => { const m = l.match(/^(.+?)\s*:\s*(\d+)$/); return m ? { name: m[1].trim(), days: Number(m[2]) } : { name: l, days: 30 }; });
+  const holidays = [];
+  for (const l of lines(el.holidays.value)) {
+    const m = l.match(/^(.+?):\s*(.+?)\s+(\d+)\s*(?:[-–—]\s*(.*))?$/);
+    const mi = m ? monthList.findIndex(x => norm(x.name) === norm(m[2])) : -1;
+    if (m && mi >= 0) holidays.push({ name: m[1].trim(), month: mi + 1, day: Number(m[3]), note: (m[4] || '').trim() });
+    else toast(`Skipped holiday line “${l}”: use Name: Month Day`);
+  }
+  world.calendar = { suffix: el.suffix.value.trim(), before: el.before.value.trim(), months: monthList, weekdays: el.weekdays.value.split(',').map(s => s.trim()).filter(Boolean), holidays };
   const g = n => $$(`[name=${n}]`, form).map(i => i.value);
   const names = g('era-name'), starts = g('era-start'), ends = g('era-end'), colors = g('era-color');
   world.eras = names.map((name, i) => ({ name: name.trim(), start: isNum(starts[i]) ? Number(starts[i]) : '', end: isNum(ends[i]) ? Number(ends[i]) : '', color: colors[i] }))
     .filter(er => er.name && isNum(er.start)).sort((a, b) => a.start - b.start);
+  // Custom types: keep each type's key stable so its entries stay attached.
+  const keys = g('ct-key'), icons = g('ct-icon'), sing = g('ct-singular'), labels = g('ct-label'), tcolors = g('ct-color'), tfields = g('ct-fields');
+  const next = sing.map((s, i) => {
+    if (!s.trim()) return null;
+    const prev = world.customTypes.find(c => c.key === keys[i]);
+    return { key: keys[i] || 'x_' + slug(s).replace(/-/g, '_') + '_' + Math.random().toString(36).slice(2, 6), singular: s.trim(), label: labels[i].trim() || s.trim() + 's',
+      icon: icons[i].trim() || '◆', color: tcolors[i], fields: parseFields(tfields[i], prev?.fields) };
+  }).filter(Boolean);
+  for (const c of world.customTypes) {
+    if (!next.some(n => n.key === c.key) && world.entries.some(e => e.type === c.key)) { next.push(c); alert(`“${c.label}” still has entries, so it was kept. Move or delete its entries first.`); }
+  }
+  world.customTypes = next;
+  const extra = {};
+  for (const k of Object.keys(BASE_TYPES)) { const f = parseFields(el['xf-' + k].value, world.extraFields[k]); if (f.length) extra[k] = f; }
+  world.extraFields = extra;
+  setWorld(world);
   save(); toast('World settings saved'); go('#/home');
 }
 
@@ -1110,10 +2061,11 @@ function download(name, text, type) {
   a.download = name; document.body.appendChild(a); a.click();
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
 }
-function worldJSON() { return JSON.stringify({ ...world, exported: Date.now() }, null, 2); }
+const worldJSON = (w = world) => JSON.stringify({ ...w, exported: Date.now() }, null, 2);
 function encyclopediaHTML(includeSecrets) {
   const w = structuredClone(world);
-  if (!includeSecrets) w.entries.forEach(e => { e.secret = ''; });
+  w.trash = [];
+  w.entries.forEach(e => { e.history = []; if (!includeSecrets) e.secret = ''; });
   const data = JSON.stringify(w).replace(/</g, '\\u003c');
   const fonts = $('link[data-fonts]').outerHTML;
   return `<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>${esc(w.name)} — Encyclopedia</title>\n${fonts}\n<script id="theme-boot">${$('#theme-boot').textContent}<\/script>\n<style id="style">${$('#style').textContent}</style>\n</head>\n<body class="readonly">\n${SHELL}\n<script>window.__WORLD__ = ${data};<\/script>\n<script id="app-script">${$('#app-script').textContent}<\/script>\n</body>\n</html>\n`;
@@ -1150,32 +2102,91 @@ async function importFile(file) {
   try {
     const w = normalize(JSON.parse(await file.text()));
     if (!w) throw new Error('This does not look like a world file.');
-    if (world.entries.length && !confirm(`Replace "${world.name}" with "${w.name}" (${w.entries.length} entries)?\n\nExport your current world first if you want to keep it.`)) return;
-    world = w; save(); toast(`Imported ${w.name}`); go('#/home');
+    if (lib.some(m => m.id === w.id) && !confirm(`"${w.name}" is already in your library.\n\nOK = replace that copy with this file\nCancel = add this file as a separate copy`)) w.id = uid();
+    await flushSave();
+    await addWorld(w);
+    toast(`Imported ${w.name} (${w.entries.length} entries)`); go('#/home');
   } catch (err) { alert('Import failed: ' + err.message); }
 }
 
 // ---------- sample world ----------
+function sampleMap() {
+  const c = document.createElement('canvas'); c.width = 1200; c.height = 800;
+  const g = c.getContext('2d');
+  g.fillStyle = '#d8cfae'; g.fillRect(0, 0, 1200, 800);
+  g.strokeStyle = 'rgba(80,90,90,.25)'; g.lineWidth = 1.5;
+  for (let y = 30; y < 800; y += 34) for (let x = (y % 68) ? 20 : 50; x < 1200; x += 80) { g.beginPath(); g.arc(x, y, 9, Math.PI * 1.1, Math.PI * 1.9); g.stroke(); }
+  const blob = (cx, cy, r, seed) => {
+    g.beginPath();
+    for (let i = 0; i <= 120; i++) {
+      const a = i / 120 * Math.PI * 2, k = 1 + 0.17 * Math.sin(a * 3 + seed) + 0.08 * Math.sin(a * 7 + seed * 2) + 0.05 * Math.sin(a * 13 + seed * 3);
+      const x = cx + Math.cos(a) * r * k * 1.4, y = cy + Math.sin(a) * r * k;
+      i ? g.lineTo(x, y) : g.moveTo(x, y);
+    }
+    g.closePath();
+    g.fillStyle = '#efe4c4'; g.fill(); g.lineWidth = 3; g.strokeStyle = '#5b4630'; g.stroke();
+  };
+  blob(560, 400, 270, 1.3); blob(1030, 640, 64, 4.1); blob(150, 150, 46, 2.2);
+  g.strokeStyle = '#5b4630'; g.lineWidth = 2;
+  for (let i = 0; i < 15; i++) { const x = 360 + i * 22 + (i % 2) * 8, y = 250 + Math.sin(i) * 22; g.beginPath(); g.moveTo(x - 11, y + 11); g.lineTo(x, y - 9); g.lineTo(x + 11, y + 11); g.stroke(); }
+  g.fillStyle = '#6f7d4c';
+  for (let i = 0; i < 40; i++) { const x = 560 + Math.cos(i * 2.4) * (60 + i * 3), y = 450 + Math.sin(i * 2.4) * (30 + i * 1.5); g.beginPath(); g.arc(x, y, 6, 0, Math.PI * 2); g.fill(); }
+  g.strokeStyle = '#4b6a8a'; g.lineWidth = 3; g.beginPath(); g.moveTo(470, 300); g.bezierCurveTo(520, 380, 600, 420, 640, 520); g.stroke();
+  g.fillStyle = '#5b4630'; g.font = 'bold 44px Georgia'; g.textAlign = 'center'; g.fillText('V A L D R E N', 600, 120);
+  g.font = 'italic 26px Georgia'; g.fillText('The Sundering Sea', 1000, 300); g.fillText('Salt Teeth', 600, 760);
+  g.translate(1080, 120); g.beginPath();
+  for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4, r = i % 2 ? 18 : 50; g.lineTo(Math.cos(a - Math.PI / 2) * r, Math.sin(a - Math.PI / 2) * r); }
+  g.closePath(); g.fillStyle = '#7a1f1f'; g.fill(); g.fillStyle = '#5b4630'; g.font = 'bold 20px Georgia'; g.fillText('N', 0, -58);
+  return c.toDataURL('image/jpeg', 0.85);
+}
 function sampleWorld() {
-  const E = (id, type, title, summary, fields, body, tags, relations = []) => ({ id, type, title, summary, fields, body, tags, relations, image: '', secret: '', created: Date.now(), updated: Date.now() });
+  const E = (id, type, title, summary, fields, body, tags, relations = [], extra = {}) => ({ id, type, title, summary, fields, body, tags, relations, image: '', secret: '', created: Date.now(), updated: Date.now(), ...extra });
   return normalize({
     ...blankWorld(),
     name: 'Aerthos', tagline: 'Chronicles of the Shattered Crown',
     overview: 'Aerthos is a world of drowned kingdoms and restless gods. Four centuries ago the [[Crown of Embers]] was broken in [[The Shattering]], and its shards scattered across the continent of [[Valdren]].\n\nNow the old houses scheme to reforge it, while [[The Ashen Order]] works to keep it broken forever.',
-    calendar: { suffix: 'AC', before: 'BC' },
+    calendar: {
+      suffix: 'AC', before: 'BC',
+      months: [['Frostmere', 30], ['Thawing', 30], ['Seedtide', 30], ['Greenfall', 30], ['Highsun', 31], ['Embermonth', 31], ['Goldreap', 30], ['Fallowmere', 30], ['Duskwane', 30], ['Deepwinter', 30]].map(([name, days]) => ({ name, days })),
+      weekdays: ['Solday', 'Moonday', 'Ashday', 'Tideday', 'Flameday', 'Restday'],
+      holidays: [
+        { name: 'First Thaw', month: 2, day: 1, note: 'Bells rung to wake the rivers' },
+        { name: 'Night of Shards', month: 5, day: 21, note: 'Mourning for the Shattering' },
+        { name: 'Feast of the Undying Flame', month: 6, day: 1, note: 'Oath-candles are relit' },
+      ],
+    },
     eras: [
       { name: 'The Age of Dawn', start: -900, end: -1, color: '#3f7a3a' },
       { name: 'The Crowned Age', start: 0, end: 611, color: '#9a6b1f' },
       { name: 'The Age of Shards', start: 612, end: '', color: '#7a1f1f' },
     ],
     entries: [
-      E('s_valdren', 'place', 'Valdren', 'The great continent of the west.', { kind: 'Continent', climate: 'Temperate to frozen north', population: 'About nine million' }, 'Valdren stretches from the Salt Teeth in the south to the glaciers of Hrun.\n\n# Regions\n- The Emberlands\n- The Drowned Coast\n- Hrun', ['continent']),
+      E('s_valdren', 'place', 'Valdren', 'The great continent of the west.', { kind: 'Continent', climate: 'Temperate to frozen north', population: 'About nine million' }, 'Valdren stretches from the Salt Teeth in the south to the glaciers of Hrun.\n\n# Regions\n- The Emberlands\n- The [[Drowned Coast]]\n- Hrun', ['continent'], [],
+        { image: sampleMap(), pins: [
+          { id: 'p1', x: 52, y: 60, to: 's_caer', label: '' },
+          { id: 'p2', x: 36, y: 31, to: 's_drake', label: 'Ash drake nests' },
+          { id: 'p3', x: 72, y: 38, to: 's_order', label: 'The Grey Spire' },
+          { id: 'p4', x: 24, y: 66, to: '', label: 'Drowned Coast' },
+        ] }),
       E('s_caer', 'place', 'Caer Ilun', 'Old capital of the Ember Kings, now half sunk.', { kind: 'City', region: 'Valdren', population: '40,000', founded: 2 }, 'Built on seven hills, three of which are now underwater.', ['city', 'ruin'], [{ to: 's_valdren', label: 'Located in' }]),
-      E('s_crown', 'item', 'Crown of Embers', 'The broken crown of the first king.', { kind: 'Relic', rarity: 'Unique', powers: 'Command over fire and oath', location: 'Scattered (seven shards)', created: 0 }, '> Whoever wears the whole crown shall be obeyed by flame and man alike.\n\nForged by Aldric with the help of the Flamekeepers.', ['relic', 'shards']),
-      E('s_aldric', 'person', 'Aldric the Founder', 'First of the Ember Kings.', { title: 'King of Valdren', species: 'Human', born: -31, died: 58, status: 'Dead', home: 'Caer Ilun' }, 'Aldric united the warring clans with the [[Crown of Embers]] and ruled from [[Caer Ilun]]. His faith in [[The Undying Flame]] shaped the kingdom for six centuries.', ['royalty'], [{ to: 's_crown', label: 'Created' }, { to: 's_caer', label: 'Rules' }, { to: 's_flame', label: 'Worships' }]),
-      E('s_mira', 'person', 'Mira Vael', 'Shard-hunter and last heir of Aldric\'s line.', { title: 'Heir in exile', species: 'Human', born: 1001, status: 'Alive', home: 'The Drowned Coast' }, 'Mira carries one shard of the [[Crown of Embers|crown]] sewn into her glove. She does not yet know what it is.\n\nShe grew up among smugglers on the [[Drowned Coast]].', ['royalty', 'protagonist'], [{ to: 's_aldric', label: 'Descendant of' }, { to: 's_order', label: 'Enemy of' }]),
-      E('s_order', 'organization', 'The Ashen Order', 'Monks sworn to keep the Crown broken.', { kind: 'Order', leader: 'Abbot Senn', hq: 'The Grey Spire', founded: 615, motto: 'What is broken stays broken.' }, 'Founded three years after the Shattering by survivors of the Ember Court.', ['faction'], [{ to: 's_shatter', label: 'Founded after' }]),
-      E('s_shatter', 'history', 'The Shattering', 'The night the Crown of Embers broke.', { start: 612, location: 'Caer Ilun', outcome: 'Fall of the Ember Kings; the sea took the lower city' }, 'During the coronation of the ninth king, the [[Crown of Embers|crown]] split into seven shards and the sea rose over [[Caer Ilun]].\n\nSurvivors of the court went on to found [[The Ashen Order]].', ['catastrophe'], [{ to: 's_crown', label: 'Destroyed' }, { to: 's_caer', label: 'Took place in' }]),
+      E('s_crown', 'item', 'Crown of Embers', 'The broken crown of the first king.', { kind: 'Relic', rarity: 'Unique', powers: 'Command over fire and oath', location: 'Scattered (seven shards)', created: 0, createdM: 6, createdD: 1 }, '> Whoever wears the whole crown shall be obeyed by flame and man alike.\n\nForged by Aldric with the help of the Flamekeepers.', ['relic', 'shards'], [], { pinned: true }),
+      E('s_aldric', 'person', 'Aldric the Founder', 'First of the Ember Kings.', { title: 'King of Valdren', species: 'Human', born: -31, bornM: 1, bornD: 3, died: 58, status: 'Dead', home: 'Caer Ilun' }, 'Aldric united the warring clans with the [[Crown of Embers]] and ruled from [[Caer Ilun]]. His faith in [[The Undying Flame]] shaped the kingdom for six centuries.', ['royalty'],
+        [{ to: 's_crown', label: 'Created' }, { to: 's_caer', label: 'Rules' }, { to: 's_flame', label: 'Worships' }, { to: 's_isolde', label: 'Spouse of' }, { to: 's_corvan', label: 'Parent of' }, { to: 's_elira', label: 'Parent of' }, { to: 's_throne', label: 'Leader of' }]),
+      E('s_isolde', 'person', 'Queen Isolde', 'Aldric\'s queen, a Flamekeeper by birth.', { title: 'Queen of Valdren', species: 'Human', born: -25, died: 70, status: 'Dead' }, 'Isolde kept the oath-candles of the royal chapel and taught [[Oathfire]] to her children.', ['royalty'],
+        [{ to: 's_corvan', label: 'Parent of' }, { to: 's_elira', label: 'Parent of' }]),
+      E('s_corvan', 'person', 'King Corvan I', 'Second Ember King.', { title: 'King of Valdren', species: 'Human', born: 4, died: 91, status: 'Dead' }, 'Corvan built the sea walls of [[Caer Ilun]].', ['royalty'], [{ to: 's_maren', label: 'Spouse of' }]),
+      E('s_elira', 'person', 'Princess Elira', 'Aldric\'s daughter, founder of House Vael.', { title: 'Lady of the Coast', species: 'Human', born: 7, died: 88, status: 'Dead' }, 'Elira left court to rule the coast, founding [[House Vael]].', ['royalty'], [{ to: 's_vael', label: 'Founder of' }]),
+      E('s_maren', 'person', 'Maren of Hrun', 'Corvan\'s northern queen.', { title: 'Queen of Valdren', species: 'Human', born: 9, status: 'Dead' }, '', ['royalty'], [{ to: 's_ardan', label: 'Parent of' }]),
+      E('s_ardan', 'person', 'King Ardan', 'Third Ember King.', { title: 'King of Valdren', species: 'Human', born: 31, died: 102, status: 'Dead' }, '', ['royalty'], [{ to: 's_corvan', label: 'Child of' }]),
+      E('s_mira', 'person', 'Mira Vael', 'Shard-hunter and last heir of Aldric\'s line.', { title: 'Heir in exile', species: 'Human', born: 1001, bornM: 6, bornD: 12, status: 'Alive', home: 'The Drowned Coast' }, 'Mira carries one shard of the [[Crown of Embers|crown]] sewn into her glove. She does not yet know what it is.\n\nShe grew up among smugglers on the [[Drowned Coast]].', ['royalty', 'protagonist'],
+        [{ to: 's_aldric', label: 'Descendant of' }, { to: 's_vael', label: 'Member of' }], { pinned: true, secret: 'Her shard is the **seventh** shard from [[The Seventh Shard]].' }),
+      E('s_order', 'organization', 'The Ashen Order', 'Monks sworn to keep the Crown broken.', { kind: 'Order', leader: 'Abbot Senn', hq: 'The Grey Spire', founded: 615, foundedM: 3, foundedD: 9, motto: 'What is broken stays broken.' }, 'Founded three years after [[The Shattering]] by survivors of the Ember Court.', ['faction'],
+        [{ to: 's_vael', label: 'At war with' }]),
+      E('s_vael', 'organization', 'House Vael', 'Coastal house descended from Princess Elira.', { kind: 'Noble house', leader: 'Mira Vael', hq: 'The Drowned Coast', founded: 40, motto: 'The tide remembers.' }, 'Once great, now a house of smugglers and secret-keepers.', ['faction'], [{ to: 's_throne', label: 'Vassal of' }]),
+      E('s_salt', 'organization', 'The Salt League', 'Merchant guild of the southern ports.', { kind: 'Guild', hq: 'Salt Teeth', founded: 540 }, 'The League buys silence as easily as salt.', ['faction'], [{ to: 's_vael', label: 'Trades with' }, { to: 's_order', label: 'Ally of' }]),
+      E('s_drowned', 'organization', 'The Drowned Court', 'A cult that worships the sea that swallowed the capital.', { kind: 'Cult', hq: 'Beneath Caer Ilun' }, 'They believe the sea will one day give back the hill.', ['faction'], [{ to: 's_order', label: 'Rival of' }]),
+      E('s_throne', 'organization', 'The Ember Throne', 'The kingdom of the Ember Kings.', { kind: 'Kingdom', hq: 'Caer Ilun', founded: 0, dissolved: 612 }, 'Fell during [[The Shattering]].', ['faction']),
+      E('s_shatter', 'history', 'The Shattering', 'The night the Crown of Embers broke.', { start: 612, startM: 5, startD: 21, location: 'Caer Ilun', outcome: 'Fall of the Ember Kings; the sea took the lower city' }, 'During the coronation of the ninth king, the [[Crown of Embers|crown]] split into seven shards and the sea rose over [[Caer Ilun]].\n\nSurvivors of the court went on to found [[The Ashen Order]].', ['catastrophe'], [{ to: 's_crown', label: 'Destroyed' }, { to: 's_caer', label: 'Took place in' }]),
       E('s_flame', 'religion', 'The Undying Flame', 'Old faith of the Ember Kings.', { kind: 'Monotheistic faith', domain: 'Fire, oaths, kingship', symbol: 'A circle of flame', holySite: 'Caer Ilun', founded: -400 }, 'Its priests, the Flamekeepers, helped forge the [[Crown of Embers|crown]] and practise [[Oathfire]].', ['faith']),
       E('s_drake', 'species', 'Ash Drake', 'Wingless dragons that nest in cooling lava.', { classification: 'Beast', habitat: 'Volcanic Emberlands', lifespan: '300 years', size: 'Size of a warhorse', danger: 'High' }, 'Said to be drawn to the shards of the [[Crown of Embers|Crown]].', ['dragon'], [{ to: 's_valdren', label: 'Native to' }]),
       E('s_prophecy', 'lore', 'The Seventh Shard', 'A prophecy of the crown\'s return.', { category: 'Prophecy', origin: 'The Ashen Order\'s sealed archives' }, '> When seven are one and the sea gives back the hill, the Ember King returns.', ['prophecy'], [{ to: 's_crown', label: 'Concerns' }]),
@@ -1186,35 +2197,96 @@ function sampleWorld() {
 }
 
 // ---------- events ----------
-document.addEventListener('click', async ev => {
-  const el = ev.target.closest('[data-act]');
-  if (!el) return;
-  const act = el.dataset.act;
-  if (act === 'new') { go('#/new/' + el.dataset.type); }
+async function onAction(el) {
+  const act = el.dataset.act, id = el.dataset.id;
+  if (act === 'new') go('#/new/' + el.dataset.type);
   else if (act === 'delete') {
-    const e = byId(el.dataset.id);
-    if (e && confirm(`Delete "${e.title}" forever?`)) {
-      world.entries = world.entries.filter(x => x.id !== e.id);
-      world.entries.forEach(x => { x.relations = x.relations.filter(r => r.to !== e.id); });
-      save(); toast('Entry deleted'); go('#/home');
+    const e = byId(id);
+    if (e && confirm(`Delete "${e.title}"? You can restore it from Recently deleted.`)) {
+      trashEntry(e); go('#/home');
+      toast(`Deleted "${e.title}"`, { label: 'Undo', fn: () => { const r = restoreTrash(world.trash.findIndex(t => t.entry.id === e.id)); if (r) go('#/entry/' + r.id); } });
     }
   }
-  else if (act === 'add-row') { $('#rels').insertAdjacentHTML('beforeend', relRow()); }
-  else if (act === 'add-era') { $('#eras').insertAdjacentHTML('beforeend', eraRow()); }
-  else if (act === 'rm-row') { el.parentElement.remove(); }
+  else if (act === 'pin') { const e = byId(id); e.pinned = !e.pinned; save(); renderSidebar(); renderEntry(e); }
+  else if (act === 'random') {
+    const pool = world.entries.filter(e => !(ui.view === 'entry' && e.id === ui.arg));
+    if (pool.length) go('#/entry/' + pool[Math.floor(Math.random() * pool.length)].id); else toast('No entries yet');
+  }
+  else if (act === 'add-row') $('#rels').insertAdjacentHTML('beforeend', relRow());
+  else if (act === 'add-era') $('#eras').insertAdjacentHTML('beforeend', eraRow());
+  else if (act === 'add-type') $('#ctypes').insertAdjacentHTML('beforeend', typeRow());
+  else if (act === 'rm-row') el.parentElement.remove();
+  else if (act === 'rm-block') el.closest('.ctype').remove();
   else if (act === 'rm-img') { draft.image = ''; renderImgPreview(); }
   else if (act === 'zoom') { $('#lightbox img').src = el.src; $('#lightbox').classList.add('open'); }
-  else if (act === 'g-reset') { drawGraph(); }
+  else if (act === 'g-reset') drawGraph();
+  else if (act === 'print') window.print();
+  else if (act === 'scroll') document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  // maps
+  else if (act === 'map-add') { ui.mapAdd = !ui.mapAdd; closePinPop(); el.classList.toggle('primary', ui.mapAdd); el.textContent = ui.mapAdd ? '📍 Click the map to place a pin…' : '📍 Add pin'; $('#map-view').classList.toggle('adding', ui.mapAdd); }
+  else if (act === 'map-zoom') mapView.zoomBy(Number(el.dataset.k));
+  else if (act === 'map-fit') { closePinPop(); mapView.fit(); }
+  else if (act === 'map-focus' || act === 'pin-edit') { const e = byId(ui.arg), p = e?.pins.find(x => x.id === el.dataset.pin); if (p) openPinPop(e, p, act === 'pin-edit'); }
+  else if (act === 'pin-close') closePinPop();
+  else if (act === 'pin-save' || act === 'pin-del') {
+    const e = byId(ui.arg), p = e?.pins.find(x => x.id === el.dataset.pin);
+    if (!p) return;
+    if (act === 'pin-del') e.pins = e.pins.filter(x => x !== p);
+    else { p.to = $('#pp-to').value; p.label = $('#pp-label').value.trim(); }
+    save(); renderMap(e);
+  }
+  // politics
+  else if (act === 'pol-set') { setPolState(byId(el.dataset.a), byId(el.dataset.b), el.dataset.k); closePolMenu(); renderPolitics(); }
+  // stubs
+  else if (act === 'stub-create') { const sel = $$('[data-stub-type]').find(s => s.dataset.stubType === el.dataset.title); go(`#/new/${sel?.value || 'lore'}/${encodeURIComponent(el.dataset.title)}`); }
+  // history & trash
+  else if (act === 'restore-version') { if (confirm('Restore this version? The current one stays in the history.')) restoreVersion(byId(id), Number(el.dataset.i)); }
+  else if (act === 'trash-restore') { const e = restoreTrash(Number(el.dataset.i)); if (e) { toast(`Restored "${e.title}"`); go('#/entry/' + e.id); } }
+  else if (act === 'trash-purge') { world.trash.splice(Number(el.dataset.i), 1); save(); renderTrash(); }
+  else if (act === 'trash-empty') { if (confirm('Permanently delete everything in the bin?')) { world.trash = []; save(); renderTrash(); } }
+  // library
+  else if (act === 'lib-open') switchWorld(id);
+  else if (act === 'lib-new') { await flushSave(); const w = normalize(blankWorld()); await addWorld(w); go('#/settings'); toast('New world created. Give it a name.'); }
+  else if (act === 'lib-dup' || act === 'lib-export') {
+    await flushSave();
+    const w = normalize(await store.get('world:' + id));
+    if (!w) return;
+    if (act === 'lib-export') { download(slug(w.name) + '.world.json', worldJSON(w), 'application/json'); return; }
+    w.id = uid(); w.name += ' (copy)';
+    await addWorld(w, false); renderLibrary(); toast('World duplicated');
+  }
+  else if (act === 'lib-del') {
+    const m = lib.find(x => x.id === id);
+    if (!m || !confirm(`Delete the world "${m.name}" from this browser? This cannot be undone. Export it first if you want to keep it.`)) return;
+    clearTimeout(saveTimer); saveTimer = null;
+    await removeWorld(id);
+    if (id === world.id) { if (lib.length) await openWorld(lib[0].id); else await addWorld(normalize(blankWorld())); }
+    route(); renderLibrary(); toast('World deleted');
+  }
+  // archive
   else if (act === 'export-json') { download(slug(world.name) + '.world.json', worldJSON(), 'application/json'); toast('World file downloaded. Move it into builder/exports.'); }
   else if (act === 'export-html') { download(slug(world.name) + '.html', encyclopediaHTML(askSecrets()), 'text/html'); toast('Encyclopedia downloaded. Move it into builder/exports.'); }
-  else if (act === 'save-folder') { saveToFolder(); }
-  else if (act === 'import') { $('#import-file').click(); }
+  else if (act === 'save-folder') saveToFolder();
+  else if (act === 'import') $('#import-file').click();
   else if (act === 'sample') {
-    if (!world.entries.length || confirm('Replace your current world with the sample world? Export first if you want to keep it.')) { world = sampleWorld(); save(); go('#/home'); }
+    await flushSave();
+    if (!world.entries.length && world.name === 'Untitled World') await removeWorld(world.id);
+    await addWorld(sampleWorld());
+    toast('Sample world added to your library'); go('#/home');
   }
-  else if (act === 'new-world') {
-    if (confirm('Start a new blank world? Your current world will be erased from this browser. Export it first if you want to keep it.')) { world = blankWorld(); save(); go('#/settings'); }
-  }
+}
+document.addEventListener('click', ev => {
+  // Inside the book, entry links jump to that entry's page of the book.
+  const bookLink = ui.view === 'book' && ev.target.closest('.book a[href^="#/entry/"]');
+  if (bookLink) { ev.preventDefault(); document.getElementById('b-' + bookLink.getAttribute('href').slice(8))?.scrollIntoView({ behavior: 'smooth' }); return; }
+  const cell = !READONLY && ev.target.closest('table.pol td.cell');
+  if (cell) { openPolMenu(cell); return; }
+  if (!ev.target.closest('#pol-menu')) closePolMenu();
+  $$('details.menu[open]').forEach(d => { if (!d.contains(ev.target)) d.removeAttribute('open'); });
+  const el = ev.target.closest('[data-act]');
+  if (!el) return;
+  if (el.tagName === 'A') ev.preventDefault();
+  onAction(el);
   if (el.closest('details.menu')) el.closest('details.menu').removeAttribute('open');
 });
 document.addEventListener('submit', ev => {
@@ -1237,11 +2309,44 @@ document.addEventListener('change', async ev => {
   } else if (t.dataset.tl) {
     t.checked ? ui.tlHidden.delete(t.dataset.tl) : ui.tlHidden.add(t.dataset.tl);
     renderTimeline();
-  } else if (t.id === 'g-all') {
-    ui.graphAll = t.checked; drawGraph();
-  } else if (t.id === 'g-mentions') {
-    ui.graphMentions = t.checked; drawGraph();
-  }
+  } else if (t.dataset.pol) {
+    t.checked ? ui.polTypes.add(t.dataset.pol) : ui.polTypes.delete(t.dataset.pol);
+    renderPolitics();
+  } else if (t.id === 'g-all') { ui.graphAll = t.checked; drawGraph(); }
+  else if (t.id === 'g-mentions') { ui.graphMentions = t.checked; drawGraph(); }
+  else if (t.id === 'tree-pick' && t.value) go('#/tree/' + t.value);
+  else if (t.id === 'cal-year' && isNum(t.value)) go('#/calendar/' + Number(t.value));
+  else if (t.id === 'book-secrets') { ui.bookSecrets = t.checked; renderBook(); }
+});
+document.addEventListener('input', ev => { if (ev.target.matches('textarea')) { linkPop.idx = 0; updateLinkPop(ev.target); } });
+document.addEventListener('keydown', ev => {
+  if (ev.key === 'Escape') { closePolMenu(); closePinPop(); hidePreview(); }
+  if (!linkPop.el || ev.target !== linkPop.ta) return;
+  if (ev.key === 'ArrowDown' || ev.key === 'ArrowUp') {
+    ev.preventDefault();
+    linkPop.idx = (linkPop.idx + (ev.key === 'ArrowDown' ? 1 : -1) + linkPop.items.length) % linkPop.items.length;
+    updateLinkPop(ev.target);
+  } else if (ev.key === 'Enter' || ev.key === 'Tab') { ev.preventDefault(); pickLink(linkPop.idx); }
+  else if (ev.key === 'Escape') closeLinkPop();
+});
+document.addEventListener('mousedown', ev => {
+  const item = ev.target.closest('.link-pop [data-i]');
+  if (item) { ev.preventDefault(); pickLink(Number(item.dataset.i)); }
+  else if (linkPop.el && !linkPop.el.contains(ev.target)) closeLinkPop();
+});
+const canHover = matchMedia('(hover: hover)').matches;
+document.addEventListener('mouseover', ev => {
+  if (!canHover) return;
+  const a = ev.target.closest('a[href^="#/entry/"]');
+  if (!a || a.closest('.card, .preview') || a.contains(ev.relatedTarget)) return;
+  const e = byId(a.getAttribute('href').slice(8));
+  if (!e) return;
+  clearTimeout(pvTimer);
+  pvTimer = setTimeout(() => showPreview(a, e), 300);
+});
+document.addEventListener('mouseout', ev => {
+  const a = ev.target.closest('a[href^="#/entry/"]');
+  if (a && !a.contains(ev.relatedTarget)) hidePreview();
 });
 $('#search').addEventListener('input', ev => { ui.search = ev.target.value; renderSidebar(); });
 $('#search').addEventListener('keydown', ev => {
@@ -1254,18 +2359,18 @@ $('#theme-toggle').addEventListener('click', () => {
 });
 $('#menu-toggle').addEventListener('click', () => $('#app').classList.toggle('side-open'));
 $('#lightbox').addEventListener('click', () => $('#lightbox').classList.remove('open'));
-document.addEventListener('click', ev => {
-  $$('details.menu[open]').forEach(d => { if (!d.contains(ev.target)) d.removeAttribute('open'); });
-});
 window.addEventListener('hashchange', route);
+window.addEventListener('beforeunload', () => { if (saveTimer) writeNow(); });
 
 (async function init() {
   applyTheme(document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
   if (READONLY) {
     document.body.classList.add('readonly');
-    world = normalize(window.__WORLD__) || blankWorld();
+    setWorld(normalize(window.__WORLD__) || blankWorld());
   } else {
-    world = normalize(await store.get('world')) || blankWorld();
+    await loadLibrary();
+    const cur = await store.get('current');
+    if (!(cur && await openWorld(cur)) && !(lib[0] && await openWorld(lib[0].id))) await addWorld(normalize(blankWorld()));
   }
   route();
 })();
