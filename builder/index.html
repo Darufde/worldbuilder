@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Worldbuilder Encyclopedia</title>
 <link data-fonts rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap">
+<script id="theme-boot">
+try { const t = localStorage.getItem('wb:theme'); document.documentElement.dataset.theme = t || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); } catch { document.documentElement.dataset.theme = 'light'; }
+</script>
 <style id="style">
 :root {
   --parch: #f3e8cf;
@@ -17,8 +20,52 @@
   --line: #c9b184;
   --card: #f8f0dc;
   --shadow: 0 2px 10px rgba(60, 40, 15, .18);
+  --bg: #e4d3ab;
+  --bg-glow: rgba(255,250,235,.7);
+  --bg-shade: rgba(120,80,30,.25);
+  --side: rgba(234, 219, 184, .75);
+  --input: #fffaf0;
+  --on-color: #fbefd9;
+  --primary: #7a1f1f;
+  --primary-hover: #8f2727;
+  --bar: #3a2a1a;
+  --bar-ink: #f3e8cf;
+  --bar-soft: #cdb88d;
+  --bar-line: #6b5640;
+  --bar-hover: #5a4228;
+  --graph-bg: #fbf4e2;
+  --edge: #9c8559;
+  --missing: #b0503a;
+  color-scheme: light;
   --head: 'Cinzel', 'Trajan Pro', Georgia, serif;
   --body: 'EB Garamond', Garamond, Georgia, serif;
+}
+/* Dark: a candlelit, leather-bound tome */
+:root[data-theme="dark"] {
+  --parch: #2b2119;
+  --parch-2: #362a1f;
+  --parch-3: #47372a;
+  --ink: #ecdfc4;
+  --ink-soft: #b4a07e;
+  --blood: #e0806f;
+  --gold: #c9a050;
+  --line: #5a4632;
+  --card: #231a13;
+  --shadow: 0 4px 18px rgba(0, 0, 0, .55);
+  --bg: #15100b;
+  --bg-glow: rgba(201,160,80,.10);
+  --bg-shade: rgba(0,0,0,.5);
+  --side: rgba(30, 23, 16, .92);
+  --input: #1a140e;
+  --primary: #8f2a24;
+  --primary-hover: #a5352d;
+  --bar: #0e0a07;
+  --bar-line: #4a3a29;
+  --bar-hover: #2e2318;
+  --graph-bg: #1c1510;
+  --edge: #7d6844;
+  --missing: #e09a5a;
+  color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
@@ -26,10 +73,10 @@ body {
   font-family: var(--body);
   font-size: 18px;
   color: var(--ink);
-  background: #e4d3ab;
+  background: var(--bg);
   background-image:
-    radial-gradient(ellipse at top left, rgba(255,250,235,.7), transparent 60%),
-    radial-gradient(ellipse at bottom right, rgba(120,80,30,.25), transparent 70%);
+    radial-gradient(ellipse at top left, var(--bg-glow), transparent 60%),
+    radial-gradient(ellipse at bottom right, var(--bg-shade), transparent 70%);
   background-attachment: fixed;
   min-height: 100vh;
 }
@@ -42,12 +89,12 @@ button, .btn {
   border-radius: 4px; padding: 6px 12px; cursor: pointer; display: inline-block; line-height: 1.2;
 }
 button:hover, .btn:hover { background: var(--parch-3); text-decoration: none; }
-button.primary, .btn.primary { background: var(--blood); color: #fbefd9; border-color: #5a1515; }
-button.primary:hover { background: #8f2727; }
+button.primary, .btn.primary { background: var(--primary); color: var(--on-color); border-color: #5a1515; }
+button.primary:hover { background: var(--primary-hover); }
 button.danger { color: var(--blood); border-color: var(--blood); background: transparent; }
 input, select, textarea {
   width: 100%; padding: 7px 9px; border: 1px solid var(--line); border-radius: 4px;
-  background: #fffaf0; color: var(--ink);
+  background: var(--input); color: var(--ink);
 }
 textarea { resize: vertical; line-height: 1.45; }
 input:focus, select:focus, textarea:focus { outline: 2px solid var(--gold); outline-offset: 0; }
@@ -56,17 +103,17 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--gold); outl
 #app { display: grid; grid-template-columns: 290px 1fr; grid-template-rows: auto 1fr; min-height: 100vh; }
 header.top {
   grid-column: 1 / -1; display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
-  padding: 10px 20px; background: #3a2a1a; color: #f3e8cf;
+  padding: 10px 20px; background: var(--bar); color: var(--bar-ink);
   border-bottom: 4px double var(--gold);
 }
-header.top .brand { font-family: var(--head); font-size: 22px; color: #f3e8cf; flex: 1; min-width: 180px; }
-header.top .brand small { display: block; font-family: var(--body); font-style: italic; font-size: 14px; color: #cdb88d; letter-spacing: 0; }
+header.top .brand { font-family: var(--head); font-size: 22px; color: var(--bar-ink); flex: 1; min-width: 180px; }
+header.top .brand small { display: block; font-family: var(--body); font-style: italic; font-size: 14px; color: var(--bar-soft); letter-spacing: 0; }
 header.top nav { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
 header.top nav a, header.top nav summary, header.top nav button {
-  color: #f3e8cf; background: transparent; border: 1px solid #6b5640; padding: 5px 11px; border-radius: 4px;
+  color: var(--bar-ink); background: transparent; border: 1px solid var(--bar-line); padding: 5px 11px; border-radius: 4px;
   font-family: var(--head); font-size: 14px; cursor: pointer; list-style: none;
 }
-header.top nav a:hover, header.top nav summary:hover, header.top nav button:hover { background: #5a4228; text-decoration: none; }
+header.top nav a:hover, header.top nav summary:hover, header.top nav button:hover { background: var(--bar-hover); text-decoration: none; }
 header.top nav a.active { background: var(--gold); color: #2b1d0e; border-color: var(--gold); }
 details.menu { position: relative; }
 details.menu summary::-webkit-details-marker { display: none; }
@@ -76,11 +123,11 @@ details.menu .menu-pop {
 }
 details.menu .menu-pop button { display: block; width: 100%; text-align: left; margin: 2px 0; color: var(--ink); font-family: var(--body); font-size: 16px; border: none; background: transparent; }
 details.menu .menu-pop button:hover { background: var(--parch-2); }
-.save-state { font-size: 13px; color: #cdb88d; font-style: italic; min-width: 60px; }
+.save-state { font-size: 13px; color: var(--bar-soft); font-style: italic; min-width: 60px; }
 #menu-toggle { display: none; }
 
 aside.side {
-  background: rgba(234, 219, 184, .75); border-right: 1px solid var(--line);
+  background: var(--side); border-right: 1px solid var(--line);
   padding: 14px; overflow-y: auto; max-height: calc(100vh - 60px); position: sticky; top: 0;
 }
 aside.side .search { margin-bottom: 10px; }
@@ -97,7 +144,7 @@ aside.side h4 { font-size: 13px; margin: 16px 0 6px; color: var(--ink-soft); tex
   display: inline-block; font-size: 14px; padding: 1px 9px; border-radius: 12px;
   background: var(--parch); border: 1px solid var(--line); color: var(--ink-soft);
 }
-a.tag:hover, a.tag.active { background: var(--blood); color: #fbefd9; border-color: var(--blood); text-decoration: none; }
+a.tag:hover, a.tag.active { background: var(--primary); color: var(--on-color); border-color: var(--primary); text-decoration: none; }
 .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
 
 main#main { padding: 26px 34px 80px; min-width: 0; }
@@ -142,11 +189,11 @@ main#main { padding: 26px 34px 80px; min-width: 0; }
 .entry-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .badge {
   display: inline-block; font-family: var(--head); font-size: 12px; letter-spacing: .1em; text-transform: uppercase;
-  padding: 2px 9px; border-radius: 3px; color: #fbefd9; background: var(--c, var(--gold));
+  padding: 2px 9px; border-radius: 3px; color: var(--on-color); background: var(--c, var(--gold));
 }
 .entry-grid { display: grid; grid-template-columns: 1fr 290px; gap: 28px; margin-top: 14px; }
 .infobox { border: 1px solid var(--line); background: var(--parch); border-radius: 3px; align-self: start; font-size: 16px; }
-.infobox .ib-title { font-family: var(--head); text-align: center; padding: 8px; background: var(--c, var(--gold)); color: #fbefd9; }
+.infobox .ib-title { font-family: var(--head); text-align: center; padding: 8px; background: var(--c, var(--gold)); color: var(--on-color); }
 .infobox img { width: 100%; display: block; border-bottom: 1px solid var(--line); cursor: zoom-in; }
 .infobox table { width: 100%; border-collapse: collapse; }
 .infobox th, .infobox td { padding: 6px 10px; border-top: 1px solid var(--line); vertical-align: top; text-align: left; }
@@ -185,7 +232,7 @@ form.edit legend { font-family: var(--head); padding: 0 8px; color: var(--ink-so
 .timeline { position: relative; padding-left: 110px; }
 .timeline::before { content: ""; position: absolute; left: 92px; top: 0; bottom: 0; width: 3px; background: var(--line); }
 .tl-era {
-  margin: 22px 0 12px -110px; padding: 8px 14px; font-family: var(--head); font-size: 18px; color: #fbefd9;
+  margin: 22px 0 12px -110px; padding: 8px 14px; font-family: var(--head); font-size: 18px; color: var(--on-color);
   background: var(--c, var(--ink-soft)); border-radius: 3px; position: relative; z-index: 1;
 }
 .tl-era small { font-family: var(--body); font-style: italic; opacity: .85; margin-left: 8px; font-size: 15px; }
@@ -199,12 +246,13 @@ form.edit legend { font-family: var(--head); padding: 0 8px; color: var(--ink-so
 .tl-ev .box .what { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-soft); }
 
 /* Graph */
-.graph-wrap { border: 1px solid var(--line); border-radius: 4px; background: #fbf4e2; overflow: hidden; }
+.graph-wrap { border: 1px solid var(--line); border-radius: 4px; background: var(--graph-bg); overflow: hidden; }
 svg#graph { width: 100%; height: 620px; display: block; cursor: grab; touch-action: none; }
-svg#graph .edge { stroke: #9c8559; stroke-width: 1.4; }
+svg#graph .edge { stroke: var(--edge); stroke-width: 1.4; }
+svg#graph .edge.mention { stroke-dasharray: 4 4; opacity: .75; }
 svg#graph .elabel { font-size: 11px; fill: var(--ink-soft); font-style: italic; pointer-events: none; }
-svg#graph .node circle { stroke: #fbf4e2; stroke-width: 2.5; cursor: pointer; }
-svg#graph .node text { font-family: var(--head); font-size: 12px; fill: var(--ink); pointer-events: none; paint-order: stroke; stroke: #fbf4e2; stroke-width: 3px; }
+svg#graph .node circle { stroke: var(--graph-bg); stroke-width: 2.5; cursor: pointer; }
+svg#graph .node text { font-family: var(--head); font-size: 12px; fill: var(--ink); pointer-events: none; paint-order: stroke; stroke: var(--graph-bg); stroke-width: 3px; }
 svg#graph .node:hover circle { stroke: var(--blood); }
 .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; font-size: 15px; }
 .toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 12px; }
@@ -216,6 +264,18 @@ svg#graph .node:hover circle { stroke: var(--blood); }
 #lightbox.open { display: flex; }
 #lightbox img { max-width: 94vw; max-height: 94vh; border: 6px solid var(--parch); }
 
+a.wikilink { border-bottom: 1px dotted currentColor; }
+a.wikilink:hover { text-decoration: none; border-bottom-style: solid; }
+.wikilink.missing { color: var(--missing); border-bottom: 1px dashed currentColor; }
+span.wikilink.missing { cursor: default; }
+.link-pop {
+  position: absolute; z-index: 60; min-width: 240px; max-width: 360px; max-height: 260px; overflow-y: auto;
+  background: var(--card); border: 1px solid var(--line); border-radius: 4px; box-shadow: var(--shadow); padding: 4px; font-weight: 400;
+}
+.link-pop div { padding: 4px 10px; border-radius: 3px; cursor: pointer; }
+.link-pop div.on, .link-pop div:hover { background: var(--parch-3); }
+.link-pop .new { font-style: italic; color: var(--ink-soft); }
+#theme-toggle { min-width: 38px; }
 #toast {
   position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--parch);
   padding: 10px 18px; border-radius: 4px; box-shadow: var(--shadow); opacity: 0; transition: opacity .25s; pointer-events: none; z-index: 120;
@@ -269,6 +329,7 @@ body.readonly [data-edit] { display: none !important; }
         </div>
       </details>
       <a href="#/settings" data-nav="settings" data-edit>⚙ World</a>
+      <button type="button" id="theme-toggle" title="Switch light / dark">☾</button>
       <span class="save-state" id="save-state" data-edit></span>
     </nav>
   </header>
@@ -355,7 +416,7 @@ const TYPES = {
 const REL_LABELS = ['Member of', 'Leader of', 'Founder of', 'Ally of', 'Enemy of', 'Rival of', 'Parent of', 'Child of', 'Sibling of', 'Spouse of', 'Mentor of', 'Serves', 'Worships', 'Rules', 'Lives in', 'Located in', 'Born in', 'Owns', 'Created', 'Took part in', 'Caused', 'Practices', 'Native to', 'Part of'];
 
 let world = null;
-let ui = { view: 'home', arg: '', search: '', tlHidden: new Set(), graphAll: false };
+let ui = { view: 'home', arg: '', search: '', tlHidden: new Set(), graphAll: false, graphMentions: true };
 let draft = null;
 let graphRAF = 0;
 const $ = (s, r = document) => r.querySelector(s);
@@ -379,14 +440,42 @@ function fmtYear(y) {
 function eraFor(y) {
   return (world.eras || []).find(er => isNum(er.start) && y >= Number(er.start) && (!isNum(er.end) || y <= Number(er.end)));
 }
+function applyTheme(t) {
+  document.documentElement.dataset.theme = t;
+  const b = $('#theme-toggle');
+  b.textContent = t === 'dark' ? '☀' : '☾';
+  b.title = t === 'dark' ? 'Switch to light parchment' : 'Switch to dark tome';
+}
 function toast(msg) {
   const t = $('#toast'); t.textContent = msg; t.classList.add('show');
   clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show'), 2400);
 }
 
+// [[Title]] or [[Title|shown text]] links between entries.
+const LINK_RE = /\[\[([^\[\]|\n]+?)(?:\|([^\[\]\n]+?))?\]\]/g;
+const unesc = s => s.replace(/&(amp|lt|gt|quot|#39);/g, (m, c) => ({ amp: '&', lt: '<', gt: '>', quot: '"', '#39': "'" }[c]));
+const norm = s => s.trim().toLowerCase();
+function findByTitle(title) {
+  const t = norm(title);
+  return world.entries.find(e => norm(e.title) === t);
+}
+function linkTargets(text) {
+  const ids = new Set();
+  for (const m of (text || '').matchAll(LINK_RE)) { const x = findByTitle(m[1]); if (x) ids.add(x.id); }
+  return ids;
+}
+function renderLink(m, target, shown) {
+  const title = unesc(target).trim();
+  const x = findByTitle(title);
+  const label = shown || target;
+  if (x) return `<a class="wikilink" href="#/entry/${x.id}" title="${esc(TYPES[x.type].singular)}: ${esc(x.title)}">${label}</a>`;
+  if (READONLY) return `<span class="wikilink missing" title="Not yet written">${label}</span>`;
+  return `<a class="wikilink missing" href="#/new/lore/${encodeURIComponent(title)}" title="No entry yet. Click to create it">${label}</a>`;
+}
 function md(src) {
   if (!src) return '';
   const inline = s => s
+    .replace(LINK_RE, renderLink)
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.+?)\*/g, '<em>$1</em>');
   const out = []; let para = [], list = [], quote = [];
@@ -473,6 +562,7 @@ function route() {
   ui.arg = decodeURIComponent(rest.join('/'));
   if (READONLY && ['edit', 'new', 'settings'].includes(ui.view)) ui.view = 'home';
   cancelAnimationFrame(graphRAF);
+  closeLinkPop();
   $('#app').classList.remove('side-open');
   $$('details.menu[open]').forEach(d => d.removeAttribute('open'));
   renderHeader(); renderSidebar(); renderMain();
@@ -528,7 +618,13 @@ function renderMain() {
   const v = ui.view;
   if (v === 'entry') { const e = byId(ui.arg); return e ? renderEntry(e) : renderMissing(); }
   if (v === 'edit') { const e = byId(ui.arg); return e ? renderEdit(e, false) : renderMissing(); }
-  if (v === 'new') return renderEdit(newEntry(TYPES[ui.arg] ? ui.arg : 'lore'), true);
+  if (v === 'new') {
+    const cut = ui.arg.indexOf('/');
+    const type = cut < 0 ? ui.arg : ui.arg.slice(0, cut);
+    const e = newEntry(TYPES[type] ? type : 'lore');
+    if (cut >= 0) e.title = ui.arg.slice(cut + 1);
+    return renderEdit(e, true);
+  }
   if (v === 'type' && TYPES[ui.arg]) return renderType(ui.arg);
   if (v === 'tag') return renderTag(ui.arg);
   if (v === 'timeline') return renderTimeline();
@@ -587,6 +683,10 @@ function renderEntry(e) {
       ${out.map(({ r, x }) => `<li><span class="rel-label">${esc(r.label || 'Related to')}</span> <span class="dot" style="background:${TYPES[x.type].color}"></span><a href="#/entry/${x.id}">${esc(x.title)}</a></li>`).join('')}
       ${inc.map(({ r, x }) => `<li><span class="dot" style="background:${TYPES[x.type].color}"></span><a href="#/entry/${x.id}">${esc(x.title)}</a> <span class="rel-label">— ${esc((r.label || 'related to').toLowerCase())} ${esc(e.title)}</span></li>`).join('')}
     </ul>` : '';
+  const mentions = world.entries.filter(o => o.id !== e.id && linkTargets(o.body + '\n' + (READONLY ? '' : o.secret)).has(e.id))
+    .sort((a, b) => a.title.localeCompare(b.title));
+  const mentionHTML = mentions.length ? `<h3>Mentioned in</h3><ul class="rels">${mentions.map(o =>
+    `<li><span class="dot" style="background:${TYPES[o.type].color}"></span><a href="#/entry/${o.id}">${esc(o.title)}</a> <span class="rel-label">${esc(o.summary)}</span></li>`).join('')}</ul>` : '';
   main.innerHTML = `<article class="page" style="--c:${t.color}">
     <div class="entry-head">
       <div><span class="badge">${t.icon} ${esc(t.singular)}</span><h1>${esc(e.title)}</h1>${e.summary ? `<p class="lede">${esc(e.summary)}</p>` : ''}</div>
@@ -596,6 +696,7 @@ function renderEntry(e) {
       <div>
         <div class="article">${md(e.body) || '<p class="hint">No article written yet.</p>'}</div>
         ${relHTML}
+        ${mentionHTML}
         ${e.tags.length ? `<h3>Tags</h3><div class="tag-cloud">${e.tags.map(tg => `<a class="tag" href="#/tag/${encodeURIComponent(tg)}">${esc(tg)}</a>`).join('')}</div>` : ''}
         ${e.secret && !READONLY ? `<div class="secret"><h4>🔒 Secret notes (only you see these)</h4><div class="article">${md(e.secret)}</div></div>` : ''}
         ${e.secret && READONLY ? `<div class="secret"><h4>🔒 Secrets</h4><div class="article">${md(e.secret)}</div></div>` : ''}
@@ -651,7 +752,8 @@ function renderEdit(e, isNew) {
     </fieldset>
     <fieldset><legend>Details</legend><div id="type-fields">${fieldInputs(draft.type, draft.fields)}</div>
       <p class="hint">Years appear on the Timeline. Use negative numbers for years before your calendar's start.</p></fieldset>
-    <label>Article<textarea name="body" rows="14" placeholder="Write the history, description, legends…&#10;&#10;# Heading   **bold**   *italic*   - list item   > quotation">${esc(draft.body)}</textarea></label>
+    <label>Article<textarea name="body" rows="14" placeholder="Write the history, description, legends…&#10;&#10;# Heading   **bold**   *italic*   - list item   > quotation   [[Entry name]] link">${esc(draft.body)}</textarea></label>
+    <p class="hint">Type <strong>[[</strong> to link another entry. Use <code>[[Name|other words]]</code> to show different text. Links to entries that don't exist yet appear in orange; click one to create it.</p>
     <fieldset><legend>Relationships</legend>
       <div id="rels">${draft.relations.map(relRow).join('')}</div>
       <button type="button" data-act="add-row">+ Add relationship</button>
@@ -687,11 +789,80 @@ function submitEdit(form) {
     fields, relations, updated: Date.now(),
   };
   const i = world.entries.findIndex(x => x.id === entry.id);
+  const oldTitle = i >= 0 ? world.entries[i].title : '';
   if (i >= 0) world.entries[i] = entry; else world.entries.push(entry);
+  if (oldTitle && norm(oldTitle) !== norm(entry.title)) renameLinks(oldTitle, entry.title);
   save();
   toast('Entry saved');
   go('#/entry/' + entry.id);
 }
+function renameLinks(from, to) {
+  const fix = text => (text || '').replace(LINK_RE, (m, target, shown) =>
+    norm(target) === norm(from) ? `[[${to}${shown ? '|' + shown : ''}]]` : m);
+  world.entries.forEach(x => { x.body = fix(x.body); x.secret = fix(x.secret); });
+  world.overview = fix(world.overview);
+}
+
+// Suggestion popup when typing [[ in any article textarea.
+const linkPop = { el: null, ta: null, items: [], idx: 0, start: 0 };
+function closeLinkPop() { linkPop.el?.remove(); linkPop.el = null; linkPop.ta = null; }
+function updateLinkPop(ta) {
+  const before = ta.value.slice(0, ta.selectionStart);
+  const m = before.match(/\[\[([^\[\]|\n]{0,60})$/);
+  if (!m) return closeLinkPop();
+  const q = norm(m[1]);
+  const self = draft && ta.form?.id === 'edit-form' ? draft.id : null;
+  linkPop.items = world.entries.filter(e => e.id !== self && norm(e.title).includes(q))
+    .sort((a, b) => norm(a.title).startsWith(q) === norm(b.title).startsWith(q) ? a.title.localeCompare(b.title) : norm(a.title).startsWith(q) ? -1 : 1)
+    .slice(0, 8).map(e => ({ title: e.title, html: `${TYPES[e.type].icon} ${esc(e.title)}` }));
+  if (m[1].trim() && !findByTitle(m[1])) linkPop.items.push({ title: m[1].trim(), html: `<span class="new">+ link to new “${esc(m[1].trim())}”</span>` });
+  if (!linkPop.items.length) return closeLinkPop();
+  linkPop.ta = ta; linkPop.start = before.length - m[1].length; linkPop.idx = Math.min(linkPop.idx, linkPop.items.length - 1);
+  if (!linkPop.el) { linkPop.el = document.createElement('div'); linkPop.el.className = 'link-pop'; document.body.appendChild(linkPop.el); }
+  linkPop.el.innerHTML = linkPop.items.map((it, i) => `<div data-i="${i}" class="${i === linkPop.idx ? 'on' : ''}">${it.html}</div>`).join('');
+  const r = ta.getBoundingClientRect(), c = caretOffset(ta);
+  linkPop.el.style.left = (r.left + window.scrollX + Math.min(c.left, ta.clientWidth - 250)) + 'px';
+  linkPop.el.style.top = (r.top + window.scrollY + Math.min(c.top, ta.clientHeight) + 4) + 'px';
+}
+// Measure where the caret sits inside a textarea using an offscreen mirror element.
+function caretOffset(ta) {
+  const cs = getComputedStyle(ta), m = document.createElement('div');
+  for (const k of ['fontFamily', 'fontSize', 'fontWeight', 'lineHeight', 'letterSpacing', 'paddingTop', 'paddingLeft', 'paddingRight', 'borderTopWidth', 'borderLeftWidth', 'boxSizing'])
+    m.style[k] = cs[k];
+  Object.assign(m.style, { position: 'absolute', visibility: 'hidden', whiteSpace: 'pre-wrap', overflowWrap: 'break-word', width: ta.offsetWidth + 'px', top: '0', left: '-9999px' });
+  m.textContent = ta.value.slice(0, ta.selectionStart);
+  const mark = document.createElement('span'); mark.textContent = '\u200b'; m.appendChild(mark);
+  document.body.appendChild(m);
+  const pos = { left: mark.offsetLeft, top: mark.offsetTop + mark.offsetHeight - ta.scrollTop };
+  m.remove();
+  return pos;
+}
+function pickLink(i) {
+  const ta = linkPop.ta, it = linkPop.items[i];
+  if (!ta || !it) return;
+  let end = ta.selectionStart;
+  if (ta.value.slice(end, end + 2) === ']]') end += 2;
+  ta.value = ta.value.slice(0, linkPop.start) + it.title + ']]' + ta.value.slice(end);
+  const pos = linkPop.start + it.title.length + 2;
+  ta.setSelectionRange(pos, pos); ta.focus();
+  closeLinkPop();
+}
+document.addEventListener('input', ev => { if (ev.target.matches('textarea')) { linkPop.idx = 0; updateLinkPop(ev.target); } });
+document.addEventListener('keydown', ev => {
+  if (!linkPop.el || ev.target !== linkPop.ta) return;
+  if (ev.key === 'ArrowDown' || ev.key === 'ArrowUp') {
+    ev.preventDefault();
+    linkPop.idx = (linkPop.idx + (ev.key === 'ArrowDown' ? 1 : -1) + linkPop.items.length) % linkPop.items.length;
+    updateLinkPop(ev.target);
+  } else if (ev.key === 'Enter' || ev.key === 'Tab') { ev.preventDefault(); pickLink(linkPop.idx); }
+  else if (ev.key === 'Escape') closeLinkPop();
+});
+document.addEventListener('mousedown', ev => {
+  const item = ev.target.closest('.link-pop [data-i]');
+  if (item) { ev.preventDefault(); pickLink(Number(item.dataset.i)); }
+  else if (linkPop.el && !linkPop.el.contains(ev.target)) closeLinkPop();
+});
+
 function readImage(file, max) {
   return new Promise((res, rej) => {
     const fr = new FileReader();
@@ -752,6 +923,7 @@ function renderTimeline() {
 function renderGraph() {
   main.innerHTML = `<div class="page"><h1>The Web of Relations</h1>
     <div class="toolbar"><label><input type="checkbox" id="g-all" ${ui.graphAll ? 'checked' : ''}> Show unconnected entries</label>
+    <label><input type="checkbox" id="g-mentions" ${ui.graphMentions ? 'checked' : ''}> Include article links (dashed)</label>
     <button type="button" data-act="g-reset">Re-arrange</button>
     <span class="hint">Drag nodes · drag background to pan · scroll to zoom · click a node to open it</span></div>
     <div class="graph-wrap"><svg id="graph"></svg></div>
@@ -772,9 +944,14 @@ function drawGraph() {
     seen.add(key); linked.add(e.id); linked.add(r.to);
     edges.push({ s: e.id, t: r.to, label: r.label || '' });
   }
+  if (ui.graphMentions) for (const e of world.entries) for (const to of linkTargets(e.body)) {
+    if (to === e.id || seen.has(e.id + '>' + to) || seen.has(to + '>' + e.id)) continue;
+    seen.add(e.id + '>' + to); linked.add(e.id); linked.add(to);
+    edges.push({ s: e.id, t: to, label: '', mention: true });
+  }
   const list = world.entries.filter(e => ui.graphAll || linked.has(e.id));
   if (!list.length) {
-    svg.outerHTML = `<div class="empty">No relationships yet. Edit an entry and add a relationship to start weaving the web.</div>`;
+    svg.outerHTML = `<div class="empty">No relationships yet. Add a relationship or a [[link]] to an entry to start weaving the web.</div>`;
     return;
   }
   const nodes = list.map((e, i) => {
@@ -792,7 +969,7 @@ function drawGraph() {
   const gEdges = document.createElementNS(NS, 'g'); vp.appendChild(gEdges);
   const gNodes = document.createElementNS(NS, 'g'); vp.appendChild(gNodes);
   edges.forEach(ed => {
-    ed.line = document.createElementNS(NS, 'line'); ed.line.setAttribute('class', 'edge'); gEdges.appendChild(ed.line);
+    ed.line = document.createElementNS(NS, 'line'); ed.line.setAttribute('class', ed.mention ? 'edge mention' : 'edge'); gEdges.appendChild(ed.line);
     ed.text = document.createElementNS(NS, 'text'); ed.text.setAttribute('class', 'elabel'); ed.text.setAttribute('text-anchor', 'middle'); ed.text.textContent = ed.label; gEdges.appendChild(ed.text);
   });
   nodes.forEach(n => {
@@ -894,7 +1071,7 @@ function renderSettings() {
     <h1>⚙ World Settings</h1>
     <label>World name<input name="name" value="${esc(world.name)}"></label>
     <label>Tagline<input name="tagline" value="${esc(world.tagline)}" placeholder="A short subtitle for your encyclopedia"></label>
-    <label>Overview (front page)<textarea name="overview" rows="8" placeholder="Introduce your world: its shape, its tone, its great conflicts…">${esc(world.overview)}</textarea></label>
+    <label>Overview (front page)<textarea name="overview" rows="8" placeholder="Introduce your world: its shape, its tone, its great conflicts… Type [[ to link entries.">${esc(world.overview)}</textarea></label>
     <fieldset><legend>Calendar</legend><div class="field-grid">
       <label>Year suffix<input name="suffix" value="${esc(world.calendar.suffix)}" placeholder="e.g. AE, AC, Year of the Crown"></label>
       <label>Before-year suffix (negative years)<input name="before" value="${esc(world.calendar.before)}" placeholder="e.g. BE"></label>
@@ -939,7 +1116,7 @@ function encyclopediaHTML(includeSecrets) {
   if (!includeSecrets) w.entries.forEach(e => { e.secret = ''; });
   const data = JSON.stringify(w).replace(/</g, '\\u003c');
   const fonts = $('link[data-fonts]').outerHTML;
-  return `<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>${esc(w.name)} — Encyclopedia</title>\n${fonts}\n<style id="style">${$('#style').textContent}</style>\n</head>\n<body class="readonly">\n${SHELL}\n<script>window.__WORLD__ = ${data};<\/script>\n<script id="app-script">${$('#app-script').textContent}<\/script>\n</body>\n</html>\n`;
+  return `<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>${esc(w.name)} — Encyclopedia</title>\n${fonts}\n<script id="theme-boot">${$('#theme-boot').textContent}<\/script>\n<style id="style">${$('#style').textContent}</style>\n</head>\n<body class="readonly">\n${SHELL}\n<script>window.__WORLD__ = ${data};<\/script>\n<script id="app-script">${$('#app-script').textContent}<\/script>\n</body>\n</html>\n`;
 }
 function askSecrets() {
   return world.entries.some(e => e.secret) ? confirm('Include your 🔒 secret notes in the HTML encyclopedia?\n\nOK = include them, Cancel = leave them out (recommended if you will share it).') : false;
@@ -984,7 +1161,7 @@ function sampleWorld() {
   return normalize({
     ...blankWorld(),
     name: 'Aerthos', tagline: 'Chronicles of the Shattered Crown',
-    overview: 'Aerthos is a world of drowned kingdoms and restless gods. Four centuries ago the **Crown of Embers** was broken, and its shards scattered across the continent of Valdren.\n\nNow the old houses scheme to reforge it, while the Ashen Order works to keep it broken forever.',
+    overview: 'Aerthos is a world of drowned kingdoms and restless gods. Four centuries ago the [[Crown of Embers]] was broken in [[The Shattering]], and its shards scattered across the continent of [[Valdren]].\n\nNow the old houses scheme to reforge it, while [[The Ashen Order]] works to keep it broken forever.',
     calendar: { suffix: 'AC', before: 'BC' },
     eras: [
       { name: 'The Age of Dawn', start: -900, end: -1, color: '#3f7a3a' },
@@ -995,12 +1172,12 @@ function sampleWorld() {
       E('s_valdren', 'place', 'Valdren', 'The great continent of the west.', { kind: 'Continent', climate: 'Temperate to frozen north', population: 'About nine million' }, 'Valdren stretches from the Salt Teeth in the south to the glaciers of Hrun.\n\n# Regions\n- The Emberlands\n- The Drowned Coast\n- Hrun', ['continent']),
       E('s_caer', 'place', 'Caer Ilun', 'Old capital of the Ember Kings, now half sunk.', { kind: 'City', region: 'Valdren', population: '40,000', founded: 2 }, 'Built on seven hills, three of which are now underwater.', ['city', 'ruin'], [{ to: 's_valdren', label: 'Located in' }]),
       E('s_crown', 'item', 'Crown of Embers', 'The broken crown of the first king.', { kind: 'Relic', rarity: 'Unique', powers: 'Command over fire and oath', location: 'Scattered (seven shards)', created: 0 }, '> Whoever wears the whole crown shall be obeyed by flame and man alike.\n\nForged by Aldric with the help of the Flamekeepers.', ['relic', 'shards']),
-      E('s_aldric', 'person', 'Aldric the Founder', 'First of the Ember Kings.', { title: 'King of Valdren', species: 'Human', born: -31, died: 58, status: 'Dead', home: 'Caer Ilun' }, 'Aldric united the warring clans with the Crown of Embers and founded the Crowned Age.', ['royalty'], [{ to: 's_crown', label: 'Created' }, { to: 's_caer', label: 'Rules' }, { to: 's_flame', label: 'Worships' }]),
-      E('s_mira', 'person', 'Mira Vael', 'Shard-hunter and last heir of Aldric\'s line.', { title: 'Heir in exile', species: 'Human', born: 1001, status: 'Alive', home: 'The Drowned Coast' }, 'Mira carries one shard of the crown sewn into her glove. She does not yet know what it is.', ['royalty', 'protagonist'], [{ to: 's_aldric', label: 'Descendant of' }, { to: 's_order', label: 'Enemy of' }]),
+      E('s_aldric', 'person', 'Aldric the Founder', 'First of the Ember Kings.', { title: 'King of Valdren', species: 'Human', born: -31, died: 58, status: 'Dead', home: 'Caer Ilun' }, 'Aldric united the warring clans with the [[Crown of Embers]] and ruled from [[Caer Ilun]]. His faith in [[The Undying Flame]] shaped the kingdom for six centuries.', ['royalty'], [{ to: 's_crown', label: 'Created' }, { to: 's_caer', label: 'Rules' }, { to: 's_flame', label: 'Worships' }]),
+      E('s_mira', 'person', 'Mira Vael', 'Shard-hunter and last heir of Aldric\'s line.', { title: 'Heir in exile', species: 'Human', born: 1001, status: 'Alive', home: 'The Drowned Coast' }, 'Mira carries one shard of the [[Crown of Embers|crown]] sewn into her glove. She does not yet know what it is.\n\nShe grew up among smugglers on the [[Drowned Coast]].', ['royalty', 'protagonist'], [{ to: 's_aldric', label: 'Descendant of' }, { to: 's_order', label: 'Enemy of' }]),
       E('s_order', 'organization', 'The Ashen Order', 'Monks sworn to keep the Crown broken.', { kind: 'Order', leader: 'Abbot Senn', hq: 'The Grey Spire', founded: 615, motto: 'What is broken stays broken.' }, 'Founded three years after the Shattering by survivors of the Ember Court.', ['faction'], [{ to: 's_shatter', label: 'Founded after' }]),
-      E('s_shatter', 'history', 'The Shattering', 'The night the Crown of Embers broke.', { start: 612, location: 'Caer Ilun', outcome: 'Fall of the Ember Kings; the sea took the lower city' }, 'During the coronation of the ninth king, the crown split into seven shards and the sea rose over Caer Ilun.', ['catastrophe'], [{ to: 's_crown', label: 'Destroyed' }, { to: 's_caer', label: 'Took place in' }]),
-      E('s_flame', 'religion', 'The Undying Flame', 'Old faith of the Ember Kings.', { kind: 'Monotheistic faith', domain: 'Fire, oaths, kingship', symbol: 'A circle of flame', holySite: 'Caer Ilun', founded: -400 }, 'Its priests, the Flamekeepers, helped forge the crown.', ['faith']),
-      E('s_drake', 'species', 'Ash Drake', 'Wingless dragons that nest in cooling lava.', { classification: 'Beast', habitat: 'Volcanic Emberlands', lifespan: '300 years', size: 'Size of a warhorse', danger: 'High' }, 'Said to be drawn to the shards of the Crown.', ['dragon'], [{ to: 's_valdren', label: 'Native to' }]),
+      E('s_shatter', 'history', 'The Shattering', 'The night the Crown of Embers broke.', { start: 612, location: 'Caer Ilun', outcome: 'Fall of the Ember Kings; the sea took the lower city' }, 'During the coronation of the ninth king, the [[Crown of Embers|crown]] split into seven shards and the sea rose over [[Caer Ilun]].\n\nSurvivors of the court went on to found [[The Ashen Order]].', ['catastrophe'], [{ to: 's_crown', label: 'Destroyed' }, { to: 's_caer', label: 'Took place in' }]),
+      E('s_flame', 'religion', 'The Undying Flame', 'Old faith of the Ember Kings.', { kind: 'Monotheistic faith', domain: 'Fire, oaths, kingship', symbol: 'A circle of flame', holySite: 'Caer Ilun', founded: -400 }, 'Its priests, the Flamekeepers, helped forge the [[Crown of Embers|crown]] and practise [[Oathfire]].', ['faith']),
+      E('s_drake', 'species', 'Ash Drake', 'Wingless dragons that nest in cooling lava.', { classification: 'Beast', habitat: 'Volcanic Emberlands', lifespan: '300 years', size: 'Size of a warhorse', danger: 'High' }, 'Said to be drawn to the shards of the [[Crown of Embers|Crown]].', ['dragon'], [{ to: 's_valdren', label: 'Native to' }]),
       E('s_prophecy', 'lore', 'The Seventh Shard', 'A prophecy of the crown\'s return.', { category: 'Prophecy', origin: 'The Ashen Order\'s sealed archives' }, '> When seven are one and the sea gives back the hill, the Ember King returns.', ['prophecy'], [{ to: 's_crown', label: 'Concerns' }]),
       E('s_emberfolk', 'culture', 'The Emberfolk', 'Descendants of the old court.', { language: 'High Ilunic', region: 'Emberlands', values: 'Oaths, lineage, fire', customs: 'Oath-candles kept burning for the dead' }, 'Proud and scattered, they still light a candle for every ancestor.', ['culture'], [{ to: 's_flame', label: 'Practices' }]),
       E('s_oathfire', 'magic', 'Oathfire', 'Magic bound to sworn promises.', { kind: 'Magic system', source: 'Spoken oaths', cost: 'Breaking the oath burns the caster', users: 'Flamekeepers', discovered: -380 }, 'Oathfire grows stronger with the weight of the promise behind it.', ['magic'], [{ to: 's_flame', label: 'Granted by' }]),
@@ -1062,11 +1239,18 @@ document.addEventListener('change', async ev => {
     renderTimeline();
   } else if (t.id === 'g-all') {
     ui.graphAll = t.checked; drawGraph();
+  } else if (t.id === 'g-mentions') {
+    ui.graphMentions = t.checked; drawGraph();
   }
 });
 $('#search').addEventListener('input', ev => { ui.search = ev.target.value; renderSidebar(); });
 $('#search').addEventListener('keydown', ev => {
   if (ev.key === 'Enter') { const first = $('.entry-list a'); if (first) location.hash = first.getAttribute('href'); }
+});
+$('#theme-toggle').addEventListener('click', () => {
+  const t = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  applyTheme(t);
+  try { localStorage.setItem('wb:theme', t); } catch { /* storage unavailable: theme lasts for this visit */ }
 });
 $('#menu-toggle').addEventListener('click', () => $('#app').classList.toggle('side-open'));
 $('#lightbox').addEventListener('click', () => $('#lightbox').classList.remove('open'));
@@ -1076,6 +1260,7 @@ document.addEventListener('click', ev => {
 window.addEventListener('hashchange', route);
 
 (async function init() {
+  applyTheme(document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
   if (READONLY) {
     document.body.classList.add('readonly');
     world = normalize(window.__WORLD__) || blankWorld();

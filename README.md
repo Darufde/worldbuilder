@@ -23,6 +23,19 @@ Open `builder/index.html` in your browser (double-click it). Click **Load a samp
 
 Every entry has a summary, an article (supports `# heading`, `**bold**`, `*italic*`, `- lists`, `> quotes`), an image, tags, relationships to other entries, and 🔒 secret notes.
 
+### Links
+
+Type `[[` in any article to get a list of entries to link to. Write `[[Name|other words]]` to show different text.
+
+- Links to entries that don't exist yet show in orange. Click one to create that entry with its title already filled in.
+- Each entry has a **Mentioned in** list of the articles that link to it.
+- Renaming an entry updates every link to it.
+- Links also show as dashed lines in the **Web**.
+
+### Light and dark
+
+The ☾ / ☀ button in the header switches between the parchment and dark-tome themes. Your choice is remembered, and it works in exported encyclopedias too.
+
 ## Views
 
 - **Codex**: the front page, the volumes, and search and tags in the sidebar.
