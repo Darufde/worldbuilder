@@ -22,12 +22,26 @@ Open `builder/index.html` in your browser (double-click it). Click **Load a samp
 | 🎭 Cultures | languages, customs, values |
 | ◆ Your own types | add Ships, Planets, Spells… with their own fields on the **⚙ World** page |
 
+### Structured details
+
+Many details are now real data rather than plain text:
+
+- **🔗 Link fields** (Located in, Ruled by, Leader, Species, Homeland, Allegiance, Holy site…) suggest entries as you type and show as links. A name with no entry yet shows in orange and appears on **Still to write**. These links also count as connections in **Mentioned in** and the Web, and renaming an entry updates them.
+- **Number fields** (Population, Area, Members, Followers, Lifespan, Casualties) accept `40,000`, `2.5 million` or `5k` and display neatly formatted.
+- **List fields** (Languages, Exports, Imports, Trade goods, Involved) take comma-separated values; any that name an entry become links.
+- Places, organizations and cultures also have Currency, and items have Value and a *Lost* date.
+- Every volume page has a **▦ Table** view: all entries side by side, sortable by any column, with totals for number columns (such as total population).
+- Custom fields support the same kinds: `Captain: link to Person`, `Crew: number`, `Length: number in feet`, `Ports: list`.
+
+Older worlds are upgraded automatically: text like `40,000` or `300 years` becomes a number, and anything that can't be read is kept exactly as written.
+
 Every entry has a summary, an article (supports `# heading`, `**bold**`, `*italic*`, `- lists`, `> quotes`), an image, tags, relationships to other entries, and 🔒 secret notes. You can also add extra fields to any built-in type.
 
 ## Views
 
 - **Codex**: the front page with "On this day", a 🎲 random-entry button, the volumes, recent entries, and search, tags and ★ pinned entries in the sidebar.
 - **Timeline**: every dated entry in order, grouped into the eras you define.
+- **As of…**: pick any year with a slider to see the world as it was then: who was alive and how old, which kingdoms, places and relics existed, what happened that year, and what had not yet come or was already gone. People with no death year are presumed gone after their species' lifespan (100 years if unknown) unless their status is *Alive*. Click any year on the Timeline to jump here.
 - **Calendar**: your world's own months, weekdays and holidays, with events marked on their days. "On this day" maps today's real date onto your calendar.
 - **Web**: an interactive graph of relationships and article links.
 - **Maps**: any Place with an image becomes a zoomable map. Drop pins that link to entries, and drag them to move them.

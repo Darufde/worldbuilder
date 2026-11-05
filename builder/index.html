@@ -303,6 +303,38 @@ details.menu .menu-pop a:hover { background: var(--parch-2); }
 .preview p { margin: 4px 0 0; color: var(--ink-soft); line-height: 1.35; }
 
 /* On this day */
+a.yr:hover { color: var(--blood); }
+.type-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin: 0 0 16px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+.seg button { border: none; border-radius: 0; background: var(--parch); }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button.on { background: var(--primary); color: var(--on-color); }
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 3px; background: var(--parch); }
+.data-table { width: 100%; border-collapse: collapse; font-size: 16px; }
+.data-table th, .data-table td { padding: 6px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.data-table thead th { background: var(--parch-2); white-space: nowrap; }
+.data-table thead button { background: none; border: none; padding: 0; font: inherit; font-weight: 600; color: var(--ink-soft); cursor: pointer; }
+.data-table thead button:hover { color: var(--ink); }
+.data-table .num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.data-table tbody th { font-weight: 600; }
+.data-table tbody tr:hover { background: var(--parch-2); }
+.data-table tfoot th, .data-table tfoot td { font-weight: 600; border-bottom: none; border-top: 2px solid var(--line); }
+.asof-ctl { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0 18px; }
+.asof-ctl input[type=range] { flex: 1; min-width: 160px; accent-color: var(--primary); }
+.asof-year { display: inline-flex; gap: 6px; align-items: center; }
+.asof-year input { width: 110px; }
+.asof-head { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; border-bottom: 2px solid var(--c); padding-bottom: 6px; }
+.asof-big { font-family: var(--head); font-size: 34px; }
+.asof-counts { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0; }
+.asof-counts span { border: 1px solid var(--line); border-left: 4px solid var(--c); border-radius: 3px; background: var(--parch); padding: 2px 10px; font-size: 15px; }
+.asof-counts strong { font-family: var(--head); font-size: 17px; }
+.asof-group { margin: 16px 0; }
+.asof-group h3 { margin: 0 0 6px; border-left: 4px solid var(--c); padding-left: 8px; }
+.asof-list { list-style: none; padding: 0; margin: 0; columns: 2 260px; column-gap: 24px; }
+.asof-list li { padding: 3px 0; break-inside: avoid; }
+.asof-more { margin: 12px 0; }
+.asof-more summary { cursor: pointer; font-family: var(--head); }
+.asof-more .asof-list { margin-top: 8px; }
 .otd { border: 1px solid var(--line); border-left: 4px solid var(--gold); background: var(--parch); border-radius: 3px; padding: 12px 16px; margin: 18px 0; }
 .otd h3 { margin: 0 0 6px; font-size: 18px; }
 .otd ul { margin: 6px 0 0; padding-left: 20px; }
@@ -482,6 +514,7 @@ body.readonly [data-edit] { display: none !important; }
     <nav>
       <a href="#/home" data-nav="home">Codex</a>
       <a href="#/timeline" data-nav="timeline">Timeline</a>
+      <a href="#/asof" data-nav="asof" title="See the world as it was in any year">As of…</a>
       <a href="#/calendar" data-nav="calendar">Calendar</a>
       <a href="#/graph" data-nav="graph">Web</a>
       <a href="#/maps" data-nav="maps">Maps</a>
@@ -530,12 +563,16 @@ body.readonly [data-edit] { display: none !important; }
 const SHELL = document.getElementById('app').outerHTML;
 const READONLY = !!window.__WORLD__;
 
-// Field kinds: text, select (o = options), number, year (a date shown on the Timeline as `tl`).
+// Field kinds: text, select (o = options), number (u = unit), year (a date shown on the Timeline as `tl`),
+// link (the title of another entry; `to` = allowed types), list (comma-separated values, linked when they match an entry).
+// `life` marks a year as when the entry begins ('start') or ends ('end') for the "As of" view.
 const BASE_TYPES = {
   history: { label: 'History', singular: 'Event', icon: '⚔', color: '#8b2e2e', fields: [
-    { k: 'start', l: 'Began', t: 'year', tl: 'Began' },
-    { k: 'end', l: 'Ended', t: 'year', tl: 'Ended' },
-    { k: 'location', l: 'Location', t: 'text' },
+    { k: 'start', l: 'Began', t: 'year', tl: 'Began', life: 'start' },
+    { k: 'end', l: 'Ended', t: 'year', tl: 'Ended', life: 'end' },
+    { k: 'location', l: 'Location', t: 'link', to: ['place'] },
+    { k: 'involved', l: 'Involved', t: 'list' },
+    { k: 'casualties', l: 'Casualties', t: 'number' },
     { k: 'outcome', l: 'Outcome', t: 'text' }] },
   lore: { label: 'Lore', singular: 'Lore', icon: '📜', color: '#6b4c9a', fields: [
     { k: 'category', l: 'Form', t: 'select', o: ['Myth', 'Legend', 'Prophecy', 'Folklore', 'Saying', 'Song', 'Secret'] },
@@ -543,29 +580,40 @@ const BASE_TYPES = {
     { k: 'toldBy', l: 'Told by', t: 'text' }] },
   person: { label: 'People', singular: 'Person', icon: '👤', color: '#2e5e8b', fields: [
     { k: 'title', l: 'Title / Role', t: 'text' },
-    { k: 'species', l: 'Species', t: 'text' },
-    { k: 'born', l: 'Born', t: 'year', tl: 'Born' },
-    { k: 'died', l: 'Died', t: 'year', tl: 'Died' },
+    { k: 'species', l: 'Species', t: 'link', to: ['species'] },
+    { k: 'born', l: 'Born', t: 'year', tl: 'Born', life: 'start' },
+    { k: 'died', l: 'Died', t: 'year', tl: 'Died', life: 'end' },
     { k: 'status', l: 'Status', t: 'select', o: ['Alive', 'Dead', 'Unknown', 'Missing', 'Undead', 'Ascended'] },
-    { k: 'home', l: 'Homeland', t: 'text' }] },
+    { k: 'home', l: 'Homeland', t: 'link', to: ['place'] },
+    { k: 'allegiance', l: 'Allegiance', t: 'link', to: ['organization'] },
+    { k: 'culture', l: 'Culture', t: 'link', to: ['culture'] }] },
   organization: { label: 'Organizations', singular: 'Organization', icon: '🛡', color: '#9a6b1f', fields: [
     { k: 'kind', l: 'Type', t: 'select', o: ['Kingdom', 'Empire', 'Republic', 'Noble house', 'Guild', 'Order', 'Cult', 'Company', 'Council', 'Tribe', 'Army', 'Gang', 'Other'] },
-    { k: 'leader', l: 'Leader', t: 'text' },
-    { k: 'hq', l: 'Headquarters', t: 'text' },
-    { k: 'founded', l: 'Founded', t: 'year', tl: 'Founded' },
-    { k: 'dissolved', l: 'Dissolved', t: 'year', tl: 'Dissolved' },
+    { k: 'leader', l: 'Leader', t: 'link', to: ['person'] },
+    { k: 'hq', l: 'Headquarters', t: 'link', to: ['place'] },
+    { k: 'founded', l: 'Founded', t: 'year', tl: 'Founded', life: 'start' },
+    { k: 'dissolved', l: 'Dissolved', t: 'year', tl: 'Dissolved', life: 'end' },
+    { k: 'members', l: 'Members', t: 'number' },
+    { k: 'currency', l: 'Currency', t: 'text' },
+    { k: 'goods', l: 'Trade goods', t: 'list' },
     { k: 'motto', l: 'Motto', t: 'text' }] },
   place: { label: 'Places', singular: 'Place', icon: '🏰', color: '#3f7a3a', fields: [
     { k: 'kind', l: 'Type', t: 'select', o: ['World', 'Continent', 'Region', 'Nation', 'City', 'Town', 'Village', 'Fortress', 'Landmark', 'Ruin', 'Dungeon', 'Plane', 'Other'] },
-    { k: 'region', l: 'Located in', t: 'text' },
-    { k: 'population', l: 'Population', t: 'text' },
+    { k: 'region', l: 'Located in', t: 'link', to: ['place'] },
+    { k: 'population', l: 'Population', t: 'number' },
+    { k: 'area', l: 'Area', t: 'number', u: 'sq. miles' },
     { k: 'climate', l: 'Climate', t: 'text' },
-    { k: 'ruler', l: 'Ruled by', t: 'text' },
-    { k: 'founded', l: 'Founded', t: 'year', tl: 'Founded' }] },
+    { k: 'ruler', l: 'Ruled by', t: 'link', to: ['person', 'organization'] },
+    { k: 'currency', l: 'Currency', t: 'text' },
+    { k: 'languages', l: 'Languages', t: 'list' },
+    { k: 'exports', l: 'Exports', t: 'list' },
+    { k: 'imports', l: 'Imports', t: 'list' },
+    { k: 'founded', l: 'Founded', t: 'year', tl: 'Founded', life: 'start' },
+    { k: 'destroyed', l: 'Destroyed / abandoned', t: 'year', tl: 'Destroyed', life: 'end' }] },
   species: { label: 'Species & Creatures', singular: 'Species', icon: '🐉', color: '#2f7a72', fields: [
     { k: 'classification', l: 'Classification', t: 'select', o: ['Sapient', 'Beast', 'Monster', 'Spirit', 'Undead', 'Construct', 'Plant', 'Divine', 'Other'] },
     { k: 'habitat', l: 'Habitat', t: 'text' },
-    { k: 'lifespan', l: 'Lifespan', t: 'text' },
+    { k: 'lifespan', l: 'Lifespan', t: 'number', u: 'years' },
     { k: 'size', l: 'Size', t: 'text' },
     { k: 'diet', l: 'Diet', t: 'text' },
     { k: 'danger', l: 'Danger', t: 'select', o: ['Harmless', 'Low', 'Moderate', 'High', 'Deadly', 'Catastrophic'] }] },
@@ -574,24 +622,28 @@ const BASE_TYPES = {
     { k: 'source', l: 'Source / Power', t: 'text' },
     { k: 'cost', l: 'Cost / Limits', t: 'text' },
     { k: 'users', l: 'Practitioners', t: 'text' },
-    { k: 'discovered', l: 'Discovered', t: 'year', tl: 'Discovered' }] },
+    { k: 'discovered', l: 'Discovered', t: 'year', tl: 'Discovered', life: 'start' }] },
   item: { label: 'Items & Artifacts', singular: 'Item', icon: '🗡', color: '#8a5a2b', fields: [
     { k: 'kind', l: 'Type', t: 'select', o: ['Weapon', 'Armor', 'Relic', 'Jewelry', 'Tool', 'Book', 'Treasure', 'Vehicle', 'Device', 'Other'] },
-    { k: 'owner', l: 'Current owner', t: 'text' },
-    { k: 'location', l: 'Location', t: 'text' },
+    { k: 'owner', l: 'Current owner', t: 'link', to: ['person', 'organization'] },
+    { k: 'location', l: 'Location', t: 'link', to: ['place'] },
     { k: 'powers', l: 'Powers', t: 'text' },
     { k: 'rarity', l: 'Rarity', t: 'select', o: ['Common', 'Uncommon', 'Rare', 'Legendary', 'Unique'] },
-    { k: 'created', l: 'Created', t: 'year', tl: 'Forged / made' }] },
+    { k: 'value', l: 'Value', t: 'text' },
+    { k: 'created', l: 'Created', t: 'year', tl: 'Forged / made', life: 'start' },
+    { k: 'lost', l: 'Lost / destroyed', t: 'year', tl: 'Lost', life: 'end' }] },
   religion: { label: 'Religions & Gods', singular: 'Religion / Deity', icon: '☀', color: '#b08a1a', fields: [
     { k: 'kind', l: 'Type', t: 'select', o: ['Deity', 'Pantheon', 'Monotheistic faith', 'Polytheistic faith', 'Philosophy', 'Cult', 'Animism', 'Other'] },
     { k: 'domain', l: 'Domains', t: 'text' },
     { k: 'symbol', l: 'Holy symbol', t: 'text' },
-    { k: 'holySite', l: 'Holy site', t: 'text' },
-    { k: 'followers', l: 'Followers', t: 'text' },
-    { k: 'founded', l: 'Founded', t: 'year', tl: 'Founded' }] },
+    { k: 'holySite', l: 'Holy site', t: 'link', to: ['place'] },
+    { k: 'followers', l: 'Followers', t: 'number' },
+    { k: 'founded', l: 'Founded', t: 'year', tl: 'Founded', life: 'start' }] },
   culture: { label: 'Cultures', singular: 'Culture', icon: '🎭', color: '#a0446e', fields: [
     { k: 'language', l: 'Language', t: 'text' },
-    { k: 'region', l: 'Region', t: 'text' },
+    { k: 'region', l: 'Region', t: 'link', to: ['place'] },
+    { k: 'religion', l: 'Religion', t: 'link', to: ['religion'] },
+    { k: 'population', l: 'Population', t: 'number' },
     { k: 'values', l: 'Core values', t: 'text' },
     { k: 'customs', l: 'Customs', t: 'text' },
     { k: 'government', l: 'Government', t: 'text' }] },
@@ -619,7 +671,7 @@ const POL_LABELS = POLITICS.flatMap(s => s.match);
 
 let world = null;
 let lib = [];
-let ui = { view: 'home', arg: '', search: '', tlHidden: new Set(), graphAll: false, graphMentions: true, polTypes: new Set(['organization']), mapAdd: false, bookSecrets: false };
+let ui = { view: 'home', arg: '', search: '', tlHidden: new Set(), graphAll: false, graphMentions: true, polTypes: new Set(['organization']), mapAdd: false, bookSecrets: false, typeTable: false, sort: { k: 'title', dir: 1 }, asof: null };
 let draft = null;
 let graphRAF = 0;
 const $ = (s, r = document) => r.querySelector(s);
@@ -663,12 +715,56 @@ const dateKey = (y, m, d) => Number(y) * 100000 + dayOfYear(m, d);
 function eraFor(y) {
   return (world.eras || []).find(er => isNum(er.start) && y >= Number(er.start) && (!isNum(er.end) || y <= Number(er.end)));
 }
+const fmtNum = (n, u) => (Number.isInteger(n) ? n.toLocaleString('en-US') : n.toLocaleString('en-US', { maximumFractionDigits: 2 })) + (u ? ' ' + u : '');
+// Reads "40,000", "about 9 million", "~5k" or "300 years" as a number. Returns null for anything else.
+function parseQty(v, unit) {
+  if (typeof v === 'number') return v;
+  const m = String(v ?? '').trim().match(/^(?:about|around|roughly|approx\.?|approximately|nearly|over|c\.|ca\.|~)?\s*(-?\d[\d,]*(?:\.\d+)?)\s*(k|thousand|m|mn|million|b|bn|billion)?\b\.?\s*(.*)$/i);
+  if (!m) return null;
+  const rest = norm(m[3]);
+  if (rest && !(unit && norm(unit).replace(/s$/, '').startsWith(rest.replace(/s$/, '')))) return null;
+  const mult = { k: 1e3, thousand: 1e3, m: 1e6, mn: 1e6, million: 1e6, b: 1e9, bn: 1e9, billion: 1e9 }[(m[2] || '').toLowerCase()] || 1;
+  const n = Number(m[1].replace(/,/g, '')) * mult;
+  return isFinite(n) ? n : null;
+}
+const listOf = v => (Array.isArray(v) ? v : String(v ?? '').split(',')).map(x => String(x).trim()).filter(Boolean);
+// Field `to` lists type keys, or (for custom fields) type names; resolved against the current types.
+function linkTypes(f) {
+  return arr(f.to).map(n => TYPES[n] ? n : Object.keys(TYPES).find(k => norm(TYPES[k].singular) === norm(n) || norm(TYPES[k].label) === norm(n))).filter(Boolean);
+}
 function fieldValue(e, f) {
   const v = e.fields[f.k];
-  if (v === '' || v == null) return '';
+  if (v === '' || v == null || (Array.isArray(v) && !v.length)) return '';
   if (f.t === 'year') return fmtDate(v, e.fields[f.k + 'M'], e.fields[f.k + 'D']);
+  if (f.t === 'number') return typeof v === 'number' ? fmtNum(v, f.u) : String(v);
+  if (f.t === 'list') return listOf(v).join(', ');
   return String(v);
 }
+// A value naming another entry: a link if it exists, an orange "create it" link if it doesn't (link fields only).
+function titleLink(title, newType) {
+  const x = findByTitle(title);
+  if (x) return `<a class="wikilink" href="#/entry/${x.id}">${esc(x.title)}</a>`;
+  if (!newType || READONLY) return esc(title);
+  return `<a class="wikilink missing" href="#/new/${newType}/${encodeURIComponent(title)}" title="No entry yet. Click to create it">${esc(title)}</a>`;
+}
+function fieldHTML(e, f) {
+  const v = e.fields[f.k];
+  if (!fieldValue(e, f)) return '';
+  if (f.t === 'link') return titleLink(String(v).trim(), linkTypes(f)[0] || 'lore');
+  if (f.t === 'list') return listOf(v).map(x => titleLink(x)).join(', ');
+  return esc(fieldValue(e, f));
+}
+// Entries named in an entry's link and list fields.
+function fieldTargets(e) {
+  const ids = new Set();
+  for (const f of TYPES[e.type].fields) {
+    if (f.t === 'link' || f.t === 'list') for (const t of listOf(e.fields[f.k])) { const x = findByTitle(t); if (x && x.id !== e.id) ids.add(x.id); }
+  }
+  return ids;
+}
+const LIFE_START = /\b(born|birth|began|begun|start|started|founded|formed|established|built|created|made|forged|discovered|invented|crowned|launched|hatched|awakened|first)\b/i;
+const LIFE_END = /\b(died|death|ended|end|dissolved|destroyed|fell|fallen|abandoned|lost|sunk|sank|disbanded|collapsed|extinct|razed|last)\b/i;
+const lifeRole = f => f.t !== 'year' ? '' : f.life || (LIFE_END.test(f.l) ? 'end' : LIFE_START.test(f.l) ? 'start' : '');
 function toast(msg, action) {
   const t = $('#toast');
   t.innerHTML = esc(msg) + (action ? ` <button type="button" id="toast-act">${esc(action.label)}</button>` : '');
@@ -748,11 +844,23 @@ function typesFor(w) {
   return t;
 }
 function normEntry(e, types = TYPES) {
+  const type = types[e.type] ? e.type : 'lore';
   return {
     title: 'Untitled', summary: '', body: '', image: '', secret: '', pinned: false, ...e,
-    type: types[e.type] ? e.type : 'lore', fields: e.fields || {},
+    type, fields: upgradeFields(e.fields || {}, types[type].fields),
     tags: arr(e.tags), relations: arr(e.relations), pins: arr(e.pins), history: arr(e.history),
   };
+}
+// Older worlds stored populations, lifespans and lists as free text. Convert what can be read; keep the rest as written.
+function upgradeFields(fields, defs) {
+  const out = { ...fields };
+  for (const f of defs) {
+    const v = out[f.k];
+    if (v === '' || v == null) continue;
+    if (f.t === 'number' && typeof v === 'string') { const n = parseQty(v, f.u); if (n != null) out[f.k] = n; }
+    else if (f.t === 'list' && !Array.isArray(v)) out[f.k] = listOf(v);
+  }
+  return out;
 }
 function normalize(w) {
   if (!w || typeof w !== 'object' || !Array.isArray(w.entries)) return null;
@@ -768,7 +876,8 @@ function normalize(w) {
 }
 function setWorld(w) { world = w; TYPES = typesFor(w); }
 
-// Field definitions written one per line: "Name", "Name: number", "Name: year", "Name: a, b, c".
+// Field definitions written one per line: "Name", "Name: number", "Name: number in km", "Name: year", "Name: list",
+// "Name: link", "Name: link to Person, Place", "Name: a, b, c".
 function parseFields(text, prev = []) {
   const used = new Set();
   return text.split('\n').map(l => l.trim()).filter(Boolean).map(line => {
@@ -780,13 +889,18 @@ function parseFields(text, prev = []) {
     while (used.has(k)) k += '_';
     used.add(k);
     if (/^(year|date)$/i.test(spec)) return { k, l: name, t: 'year', tl: name };
-    if (/^number$/i.test(spec)) return { k, l: name, t: 'number' };
+    let m;
+    if ((m = spec.match(/^number(?:\s+(?:in\s+)?(.+))?$/i))) return m[1] ? { k, l: name, t: 'number', u: m[1].trim() } : { k, l: name, t: 'number' };
+    if (/^list$/i.test(spec)) return { k, l: name, t: 'list' };
+    if ((m = spec.match(/^(?:link|entry)(?:\s+(?:to\s+)?(.+))?$/i))) return { k, l: name, t: 'link', to: (m[1] || '').split(/,|\bor\b/).map(x => x.trim()).filter(Boolean) };
     const opts = spec.split(',').map(s => s.trim()).filter(Boolean);
     if (opts.length > 1) return { k, l: name, t: 'select', o: opts };
     return { k, l: name, t: 'text' };
   }).filter(Boolean);
 }
-const fieldsText = fields => arr(fields).map(f => f.t === 'year' ? `${f.l}: year` : f.t === 'number' ? `${f.l}: number` : f.t === 'select' ? `${f.l}: ${f.o.join(', ')}` : f.l).join('\n');
+const fieldsText = fields => arr(fields).map(f => f.t === 'year' ? `${f.l}: year` : f.t === 'number' ? `${f.l}: number${f.u ? ' in ' + f.u : ''}`
+  : f.t === 'list' ? `${f.l}: list` : f.t === 'link' ? `${f.l}: link${arr(f.to).length ? ' to ' + f.to.map(n => BASE_TYPES[n]?.singular || n).join(', ') : ''}`
+  : f.t === 'select' ? `${f.l}: ${f.o.join(', ')}` : f.l).join('\n');
 
 // ---------- storage (IndexedDB with localStorage fallback) ----------
 const store = {
@@ -955,7 +1069,7 @@ function renderMain() {
   }
   if (v === 'type' && TYPES[ui.arg]) return renderType(ui.arg);
   const views = { tag: renderTag, timeline: renderTimeline, calendar: renderCalendar, graph: renderGraph, maps: renderMaps, tree: renderTree,
-    politics: renderPolitics, book: renderBook, stubs: renderStubs, trash: renderTrash, library: renderLibrary, settings: renderSettings };
+    politics: renderPolitics, asof: renderAsof, book: renderBook, stubs: renderStubs, trash: renderTrash, library: renderLibrary, settings: renderSettings };
   (views[v] || renderHome)(ui.arg);
 }
 function renderMissing() { main.innerHTML = `<div class="page"><h2>Page not found</h2><p class="hint">This entry may have been deleted.</p><a href="#/home">Return to the codex</a></div>`; }
@@ -1020,11 +1134,45 @@ function renderHome() {
 function renderType(type) {
   const t = TYPES[type];
   const list = world.entries.filter(e => e.type === type).sort(byTitle);
+  const toggle = list.length ? `<div class="seg" role="group" aria-label="Layout">
+    <button type="button" data-act="type-view" data-v="cards" class="${ui.typeTable ? '' : 'on'}" aria-pressed="${!ui.typeTable}">▤ Cards</button>
+    <button type="button" data-act="type-view" data-v="table" class="${ui.typeTable ? 'on' : ''}" aria-pressed="${ui.typeTable}">▦ Table</button></div>` : '';
   main.innerHTML = `<div class="page">
     <div class="entry-head"><h1>${t.icon} ${esc(t.label)}</h1><button type="button" class="primary" data-edit data-act="new" data-type="${type}">+ New ${esc(t.singular)}</button></div>
-    <p class="lede">${list.length} ${list.length === 1 ? 'entry' : 'entries'}</p>
-    ${list.length ? `<div class="cards">${list.map(card).join('')}</div>` : `<div class="empty">No ${esc(t.label.toLowerCase())} recorded yet.</div>`}
+    <div class="type-bar"><p class="lede" style="margin:0">${list.length} ${list.length === 1 ? 'entry' : 'entries'}</p>${toggle}</div>
+    ${!list.length ? `<div class="empty">No ${esc(t.label.toLowerCase())} recorded yet.</div>` : ui.typeTable ? typeTable(type, list) : `<div class="cards">${list.map(card).join('')}</div>`}
   </div>`;
+}
+// Every entry of a type side by side; click a heading to sort. Number columns get a total.
+function typeTable(type, list) {
+  const cols = TYPES[type].fields.filter(f => list.some(e => fieldValue(e, f)));
+  const { k, dir } = ui.sort;
+  const col = cols.find(f => f.k === k);
+  const sortVal = e => {
+    if (!col) return e.title.toLowerCase();
+    const v = e.fields[col.k];
+    if (col.t === 'year') return isNum(v) ? dateKey(v, e.fields[col.k + 'M'], e.fields[col.k + 'D']) : null;
+    if (col.t === 'number') return typeof v === 'number' ? v : null;
+    return fieldValue(e, col).toLowerCase() || null;
+  };
+  const rows = [...list].sort((a, b) => {
+    const x = sortVal(a), y = sortVal(b);
+    if (x === y) return byTitle(a, b);
+    if (x == null) return 1; if (y == null) return -1; // blanks last either way
+    return (x < y ? -1 : 1) * dir;
+  });
+  const head = (key, label, num) => `<th class="${num ? 'num' : ''}" aria-sort="${k === key ? (dir > 0 ? 'ascending' : 'descending') : 'none'}"><button type="button" data-act="sort" data-k="${key}">${esc(label)}${k === key ? (dir > 0 ? ' ▲' : ' ▼') : ''}</button></th>`;
+  const totals = cols.map(f => {
+    if (f.t !== 'number') return '<td></td>';
+    const nums = list.map(e => e.fields[f.k]).filter(v => typeof v === 'number');
+    return `<td class="num">${nums.length > 1 ? fmtNum(nums.reduce((a, b) => a + b, 0), f.u) : ''}</td>`;
+  });
+  const anyTotal = cols.some(f => f.t === 'number' && list.filter(e => typeof e.fields[f.k] === 'number').length > 1);
+  return `<div class="table-wrap"><table class="data-table">
+    <thead><tr>${head('title', 'Name')}${cols.map(f => head(f.k, f.l, f.t === 'number' || f.t === 'year')).join('')}</tr></thead>
+    <tbody>${rows.map(e => `<tr><th scope="row"><a href="#/entry/${e.id}">${esc(e.title)}</a></th>${cols.map(f => `<td class="${f.t === 'number' || f.t === 'year' ? 'num' : ''}">${fieldHTML(e, f)}</td>`).join('')}</tr>`).join('')}</tbody>
+    ${anyTotal ? `<tfoot><tr><th scope="row">Total</th>${totals.join('')}</tr></tfoot>` : ''}
+  </table></div>${cols.length ? '' : '<p class="hint">Fill in the details of these entries to compare them here.</p>'}`;
 }
 function renderTag(tag) {
   const list = world.entries.filter(e => e.tags.includes(tag)).sort(byTitle);
@@ -1033,8 +1181,8 @@ function renderTag(tag) {
 }
 
 function infoRows(e) {
-  return TYPES[e.type].fields.map(f => [f, fieldValue(e, f)]).filter(([, v]) => v)
-    .map(([f, v]) => `<tr><th>${esc(f.l)}</th><td>${esc(v)}</td></tr>`).join('');
+  return TYPES[e.type].fields.map(f => [f, fieldHTML(e, f)]).filter(([, v]) => v)
+    .map(([f, v]) => `<tr><th>${esc(f.l)}</th><td>${v}</td></tr>`).join('');
 }
 function infobox(e) {
   const t = TYPES[e.type];
@@ -1059,7 +1207,7 @@ function renderEntry(e) {
       ${out.map(({ r, x }) => `<li><span class="rel-label">${esc(r.label || 'Related to')}</span> ${dot(x)}<a href="#/entry/${x.id}">${esc(x.title)}</a></li>`).join('')}
       ${inc.map(({ r, x }) => `<li>${dot(x)}<a href="#/entry/${x.id}">${esc(x.title)}</a> <span class="rel-label">— ${esc((r.label || 'related to').toLowerCase())} ${esc(e.title)}</span></li>`).join('')}
     </ul>` : '';
-  const mentions = world.entries.filter(o => o.id !== e.id && linkTargets(o.body + '\n' + (READONLY ? '' : o.secret)).has(e.id)).sort(byTitle);
+  const mentions = world.entries.filter(o => o.id !== e.id && (linkTargets(o.body + '\n' + (READONLY ? '' : o.secret)).has(e.id) || fieldTargets(o).has(e.id))).sort(byTitle);
   const mentionHTML = mentions.length ? `<h3>Mentioned in</h3><ul class="rels">${mentions.map(o =>
     `<li>${dot(o)}<a href="#/entry/${o.id}">${esc(o.title)}</a> <span class="rel-label">${esc(o.summary)}</span></li>`).join('')}</ul>` : '';
   const onMaps = world.entries.filter(m => m.id !== e.id && m.pins.some(p => p.to === e.id));
@@ -1107,9 +1255,16 @@ function fieldInputs(type, fields) {
       <select name="f_${f.k}M"><option value="">Month</option>${ms.map((m, i) => `<option value="${i + 1}" ${Number(fields[f.k + 'M']) === i + 1 ? 'selected' : ''}>${esc(m.name)}</option>`).join('')}</select>
       <input name="f_${f.k}D" type="number" min="1" step="1" value="${esc(fields[f.k + 'D'] ?? '')}" placeholder="Day"></div>`;
     else if (f.t === 'year') input = `<input name="f_${f.k}" type="number" step="1" value="${esc(v)}" placeholder="Year, e.g. 412 (or -50 for ${esc(world.calendar.before || 'BE')})">`;
-    else if (f.t === 'number') input = `<input name="f_${f.k}" type="number" value="${esc(v)}">`;
+    else if (f.t === 'number') input = `<input name="f_${f.k}" inputmode="decimal" value="${esc(v)}" placeholder="${f.u ? 'In ' + esc(f.u) + ', e.g. 300' : 'e.g. 40000 or 2.5 million'}">`;
+    else if (f.t === 'list') input = `<input name="f_${f.k}" value="${esc(listOf(v).join(', '))}" placeholder="Separated by commas. Names of entries become links">`;
+    else if (f.t === 'link') {
+      const types = linkTypes(f);
+      const opts = world.entries.filter(x => x.id !== draft?.id && (!types.length || types.includes(x.type))).sort(byTitle);
+      input = `<input name="f_${f.k}" value="${esc(v)}" list="dl-${f.k}" placeholder="${types.length ? 'Choose or type a ' + esc(types.map(k => TYPES[k].singular.toLowerCase()).join(' or ')) : 'Choose or type an entry'}">
+        <datalist id="dl-${f.k}">${opts.map(x => `<option value="${esc(x.title)}">`).join('')}</datalist>`;
+    }
     else input = `<input name="f_${f.k}" value="${esc(v)}">`;
-    return `<label>${esc(f.l)}${input}</label>`;
+    return `<label>${esc(f.l)}${f.t === 'link' ? ' <span class="muted small">🔗</span>' : f.t === 'list' ? ' <span class="muted small">(list)</span>' : ''}${input}</label>`;
   }).join('') + `</div>`;
 }
 function relRow(r = {}) {
@@ -1172,13 +1327,16 @@ function submitEdit(form) {
   readTypeFields(form);
   const fields = {};
   TYPES[draft.type].fields.forEach(f => {
-    const v = (draft.fields[f.k] ?? '').toString().trim();
+    const raw = draft.fields[f.k];
+    const v = (Array.isArray(raw) ? raw.join(', ') : raw ?? '').toString().trim();
     if (v === '') return;
-    if (f.t === 'year' || f.t === 'number') {
+    if (f.t === 'year') {
       if (!isNum(v)) return;
       fields[f.k] = Number(v);
-      if (f.t === 'year') for (const s of ['M', 'D']) if (isNum(draft.fields[f.k + s])) fields[f.k + s] = Number(draft.fields[f.k + s]);
-    } else fields[f.k] = v;
+      for (const s of ['M', 'D']) if (isNum(draft.fields[f.k + s])) fields[f.k + s] = Number(draft.fields[f.k + s]);
+    } else if (f.t === 'number') fields[f.k] = parseQty(v, f.u) ?? v; // unreadable text is kept rather than lost
+    else if (f.t === 'list') { const l = listOf(v); if (l.length) fields[f.k] = l; }
+    else fields[f.k] = v;
   });
   const labels = $$('[name=rel-label]', form).map(i => i.value.trim());
   const relations = $$('[name=rel-to]', form).map((s, i) => ({ to: s.value, label: labels[i] })).filter(r => r.to);
@@ -1203,7 +1361,14 @@ function submitEdit(form) {
 function renameLinks(from, to) {
   const fix = text => (text || '').replace(LINK_RE, (m, target, shown) =>
     norm(target) === norm(from) ? `[[${to}${shown ? '|' + shown : ''}]]` : m);
-  world.entries.forEach(x => { x.body = fix(x.body); x.secret = fix(x.secret); });
+  world.entries.forEach(x => {
+    x.body = fix(x.body); x.secret = fix(x.secret);
+    for (const f of TYPES[x.type].fields) {
+      const v = x.fields[f.k];
+      if (f.t === 'link' && typeof v === 'string' && norm(v) === norm(from)) x.fields[f.k] = to;
+      if (f.t === 'list' && Array.isArray(v)) x.fields[f.k] = v.map(t => norm(t) === norm(from) ? to : t);
+    }
+  });
   world.overview = fix(world.overview);
 }
 
@@ -1321,15 +1486,120 @@ function renderTimeline() {
     }
     const t = TYPES[x.e.type];
     const exact = x.m ? `<span class="muted small"> · ${esc(fmtDate(x.year, x.m, x.d))}</span>` : '';
-    html += `<div class="tl-ev" style="--c:${t.color}"><span class="yr">${esc(fmtYear(x.year))}</span>
+    html += `<div class="tl-ev" style="--c:${t.color}"><a class="yr" href="#/asof/${x.year}" title="See the world in this year">${esc(fmtYear(x.year))}</a>
       <div class="box"><div class="what">${t.icon} ${esc(x.what)}${exact}</div><a href="#/entry/${x.e.id}"><strong>${esc(x.e.title)}</strong></a>${x.e.summary ? ` — <span>${esc(x.e.summary)}</span>` : ''}</div></div>`;
   }
   const present = [...new Set(all.map(x => x.e.type))];
   main.innerHTML = `<div class="page"><h1>Timeline of ${esc(world.name)}</h1>
-    <p class="lede">Every dated event, birth, founding and discovery, in order.</p>
+    <p class="lede">Every dated event, birth, founding and discovery, in order. Click a year to see the world <a href="#/asof">as of</a> then.</p>
     ${present.length ? `<div class="tl-filters">${present.map(k => `<label><input type="checkbox" data-tl="${k}" ${ui.tlHidden.has(k) ? '' : 'checked'}><span class="dot" style="background:${TYPES[k].color}"></span>${esc(TYPES[k].label)}</label>`).join('')}</div>` : ''}
     ${ev.length ? `<div class="timeline">${html}</div>` : `<div class="empty">No dated entries yet. Add a date to an Event, Person, Organization or other entry and it will appear here.${READONLY ? '' : ' Name your eras on the <a href="#/settings">World</a> page.'}</div>`}
   </div>`;
+}
+
+// ---------- as of a year ----------
+// When an entry exists: from its first 'start' date to its first 'end' date. People with no death date are presumed
+// gone after their species' lifespan (100 years if unknown), unless marked Alive, Undead or Ascended.
+function lifespanOf(e) {
+  const sp = typeof e.fields.species === 'string' && findByTitle(e.fields.species);
+  const ls = sp && sp.fields.lifespan;
+  return typeof ls === 'number' && ls > 0 ? ls : null;
+}
+function spanOf(e) {
+  let start = null, end = null, sf = null, ef = null;
+  for (const f of TYPES[e.type].fields) {
+    const v = e.fields[f.k], role = lifeRole(f);
+    if (!isNum(v) || !role) continue;
+    if (role === 'start' && (start == null || Number(v) < start)) { start = Number(v); sf = f; }
+    if (role === 'end' && (end == null || Number(v) < end)) { end = Number(v); ef = f; }
+  }
+  let presumed = false;
+  if (e.type === 'history' && start != null && end == null) end = start;
+  if (e.type === 'person' && start != null && end == null && !['Alive', 'Undead', 'Ascended'].includes(e.fields.status)) {
+    end = start + (lifespanOf(e) || 100); presumed = true;
+  }
+  return { start, end, sf, ef, presumed };
+}
+function stateAt(sp, y) {
+  if (sp.start == null && sp.end == null) return 'undated';
+  if (sp.start != null && y < sp.start) return 'future';
+  if (sp.end != null && y > sp.end) return 'past';
+  return 'present';
+}
+function asofYears() {
+  const ys = new Set();
+  for (const e of world.entries) for (const f of TYPES[e.type].fields) if (f.t === 'year' && isNum(e.fields[f.k])) ys.add(Number(e.fields[f.k]));
+  return [...ys].sort((a, b) => a - b);
+}
+function asofStep(dir) {
+  const ys = asofYears(), y = ui.asof;
+  return dir > 0 ? ys.find(v => v > y) ?? null : [...ys].reverse().find(v => v < y) ?? null;
+}
+const yearsWord = n => n === 1 ? '1 year' : `${n.toLocaleString('en-US')} years`;
+function renderAsof(arg) {
+  const ys = asofYears();
+  if (!ys.length) {
+    main.innerHTML = `<div class="page"><h1>⏳ The World As Of…</h1><div class="empty">Nothing is dated yet. Give people birth and death years, and organizations and places founding dates, then pick any year to see who was alive and what stood.</div></div>`;
+    return;
+  }
+  if (isNum(arg)) ui.asof = Number(arg);
+  if (ui.asof == null) ui.asof = ys[ys.length - 1];
+  const lo = Math.min(ys[0], ui.asof), hi = Math.max(ys[ys.length - 1], ui.asof);
+  main.innerHTML = `<div class="page"><h1>⏳ The World As Of…</h1>
+    <p class="lede">Pick a year to see who was alive, what stood and what was happening.</p>
+    <div class="asof-ctl">
+      <button type="button" data-act="asof-step" data-dir="-1" title="Previous dated year">◀</button>
+      <input type="range" id="asof-range" min="${lo}" max="${hi === lo ? lo + 10 : hi}" step="1" value="${ui.asof}" aria-label="Year">
+      <button type="button" data-act="asof-step" data-dir="1" title="Next dated year">▶</button>
+      <label class="asof-year">Year <input type="number" id="asof-year" step="1" value="${ui.asof}"></label>
+    </div>
+    <div id="asof-out">${asofOut(ui.asof)}</div></div>`;
+}
+function setAsof(y) {
+  ui.asof = y;
+  const r = $('#asof-range'), n = $('#asof-year');
+  if (!r) return;
+  if (y < Number(r.min)) r.min = y;
+  if (y > Number(r.max)) r.max = y;
+  r.value = y;
+  if (document.activeElement !== n) n.value = y;
+  $('#asof-out').innerHTML = asofOut(y);
+  history.replaceState(null, '', '#/asof/' + y);
+}
+function asofOut(y) {
+  const era = eraFor(y);
+  const items = world.entries.map(e => ({ e, sp: spanOf(e) })).map(o => ({ ...o, st: stateAt(o.sp, y) }));
+  const by = st => items.filter(o => o.st === st);
+  const present = by('present'), future = by('future'), past = by('past'), undated = by('undated');
+  const link = e => `${TYPES[e.type].icon} <a href="#/entry/${e.id}">${esc(e.title)}</a>`;
+  const since = (o, verb) => {
+    const n = y - o.sp.start;
+    return n === 0 ? `${verb} this year` : n > 0 ? `${verb} ${yearsWord(n)} ago` : '';
+  };
+  const detail = o => {
+    const { e, sp } = o;
+    if (sp.start == null) return sp.end != null ? `until ${fmtYear(sp.end)}` : '';
+    if (e.type === 'person') return y === sp.start ? 'born this year' : `age ${y - sp.start}`;
+    if (e.type === 'history') return sp.end > sp.start ? `year ${y - sp.start + 1} of ${sp.end - sp.start + 1}` : '';
+    return since(o, (sp.sf.tl || sp.sf.l).toLowerCase());
+  };
+  const happening = timelineEvents().filter(x => x.year === y);
+  const ongoing = present.filter(o => o.e.type === 'history' && o.sp.end > o.sp.start && !happening.some(x => x.e.id === o.e.id));
+  const standing = present.filter(o => o.e.type !== 'history');
+  const counts = Object.entries(TYPES).map(([k, t]) => [k, t, standing.filter(o => o.e.type === k).length]).filter(([, , n]) => n);
+  const groups = counts.map(([k, t]) => `<div class="asof-group" style="--c:${t.color}"><h3>${t.icon} ${esc(t.label)}</h3><ul class="asof-list">${standing.filter(o => o.e.type === k)
+    .sort((a, b) => a.sp.start - b.sp.start || byTitle(a.e, b.e)).map(o => `<li><a href="#/entry/${o.e.id}">${esc(o.e.title)}</a> <span class="muted small">${esc(detail(o))}</span></li>`).join('')}</ul></div>`).join('');
+  const others = (title, list, fn) => list.length ? `<details class="asof-more"><summary>${title} <span class="muted small">(${list.length})</span></summary><ul class="asof-list">${list
+    .sort((a, b) => byTitle(a.e, b.e)).map(o => `<li>${link(o.e)} <span class="muted small">${esc(fn(o))}</span></li>`).join('')}</ul></details>` : '';
+  return `<div class="asof-head" style="--c:${esc(era?.color || '#6b5640')}"><span class="asof-big">${esc(fmtYear(y))}</span>${era ? `<span class="badge">${esc(era.name)}</span>` : ''}</div>
+    ${counts.length ? `<div class="asof-counts">${counts.map(([k, t, n]) => `<span style="--c:${t.color}"><strong>${n}</strong> ${t.icon} ${esc(t.label)}</span>`).join('')}</div>` : ''}
+    ${happening.length || ongoing.length ? `<div class="otd"><h3>This year</h3><ul>
+      ${happening.map(x => `<li>${x.m ? `<strong>${esc(fmtDate(x.year, x.m, x.d))}</strong> · ` : ''}${link(x.e)} <span class="muted">${esc(x.what.toLowerCase())}</span></li>`).join('')}
+      ${ongoing.map(o => `<li>${link(o.e)} <span class="muted">ongoing, ${esc(detail(o))}</span></li>`).join('')}</ul></div>` : ''}
+    ${groups || '<div class="empty">Nothing dated stands in this year.</div>'}
+    ${others('Not yet come to be', future, o => `from ${fmtYear(o.sp.start)}`)}
+    ${others('Already gone', past, o => o.sp.presumed ? `presumed gone by ${fmtYear(o.sp.end)}` : `${(o.sp.ef?.tl || 'ended').toLowerCase()} ${fmtYear(o.sp.end)}`)}
+    ${undated.length ? `<p class="hint">${undated.length} undated ${undated.length === 1 ? 'entry is' : 'entries are'} not shown. Add birth, founding or creation years to place them in time.</p>` : ''}`;
 }
 
 // ---------- calendar ----------
@@ -1383,7 +1653,7 @@ function renderCalendar(arg) {
 function renderGraph() {
   main.innerHTML = `<div class="page"><h1>The Web of Relations</h1>
     <div class="toolbar"><label><input type="checkbox" id="g-all" ${ui.graphAll ? 'checked' : ''}> Show unconnected entries</label>
-    <label><input type="checkbox" id="g-mentions" ${ui.graphMentions ? 'checked' : ''}> Include article links (dashed)</label>
+    <label><input type="checkbox" id="g-mentions" ${ui.graphMentions ? 'checked' : ''}> Include article and detail links (dashed)</label>
     <button type="button" data-act="g-reset">Re-arrange</button></div>
     <p class="hint" style="margin-top:-6px">Drag nodes · drag background to pan · scroll to zoom · click a node to open it</p>
     <div class="graph-wrap"><svg id="graph"></svg></div>
@@ -1404,7 +1674,7 @@ function drawGraph() {
     seen.add(key); linked.add(e.id); linked.add(r.to);
     edges.push({ s: e.id, t: r.to, label: r.label || '' });
   }
-  if (ui.graphMentions) for (const e of world.entries) for (const to of linkTargets(e.body)) {
+  if (ui.graphMentions) for (const e of world.entries) for (const to of new Set([...linkTargets(e.body), ...fieldTargets(e)])) {
     if (to === e.id || seen.has(e.id + '>' + to) || seen.has(to + '>' + e.id)) continue;
     seen.add(e.id + '>' + to); linked.add(e.id); linked.add(to);
     edges.push({ s: e.id, t: to, label: '', mention: true });
@@ -1857,12 +2127,16 @@ function stubData() {
       if (src) missing.get(norm(t)).from.set(src.id, src);
     }
   };
-  world.entries.forEach(e => { scan(e.body, e); scan(e.secret, e); });
+  world.entries.forEach(e => {
+    scan(e.body, e); scan(e.secret, e);
+    // Link fields name entries too; an unknown name there is also an unwritten entry.
+    for (const f of TYPES[e.type].fields) if (f.t === 'link' && e.fields[f.k]) scan(`[[${String(e.fields[f.k]).replace(/[\[\]|]/g, '')}]]`, e);
+  });
   scan(world.overview, null);
   const linked = new Set();
   world.entries.forEach(e => {
     e.relations.forEach(r => { linked.add(e.id); linked.add(r.to); });
-    linkTargets(e.body).forEach(id => { linked.add(id); linked.add(e.id); });
+    [...linkTargets(e.body), ...fieldTargets(e)].forEach(id => { linked.add(id); linked.add(e.id); });
   });
   const es = [...world.entries].sort(byTitle);
   return {
@@ -1880,7 +2154,7 @@ function renderStubs() {
   const sec = (title, hint, items, fn) => `<div class="stub-sec"><h3>${title} <span class="muted small">(${items.length})</span></h3><p class="hint" style="margin:0 0 6px">${hint}</p>
     ${items.length ? `<ul class="stub-list">${items.map(fn).join('')}</ul>` : '<p class="small muted">✓ Nothing here.</p>'}</div>`;
   main.innerHTML = `<div class="page"><h1>📝 Still to Write</h1><p class="lede">Gaps in the codex, waiting for ink.</p>
-    ${sec('Linked but not written', 'Names mentioned with [[links]] that have no entry yet.', s.missing, m => `<li><span class="grow"><strong>${esc(m.title)}</strong>
+    ${sec('Linked but not written', 'Names mentioned with [[links]] or in 🔗 detail fields that have no entry yet.', s.missing, m => `<li><span class="grow"><strong>${esc(m.title)}</strong>
       <span class="muted small">${m.from.size ? 'mentioned in ' + [...m.from.values()].map(x => `<a href="#/entry/${x.id}">${esc(x.title)}</a>`).join(', ') : 'mentioned in the overview'}</span></span>
       <select data-stub-type="${esc(m.title)}" style="width:auto">${Object.entries(TYPES).map(([k, t]) => `<option value="${k}">${t.icon} ${esc(t.singular)}</option>`).join('')}</select>
       <button type="button" class="primary small" data-act="stub-create" data-title="${esc(m.title)}">Create</button></li>`)}
@@ -2161,15 +2435,15 @@ function sampleWorld() {
       { name: 'The Age of Shards', start: 612, end: '', color: '#7a1f1f' },
     ],
     entries: [
-      E('s_valdren', 'place', 'Valdren', 'The great continent of the west.', { kind: 'Continent', climate: 'Temperate to frozen north', population: 'About nine million' }, 'Valdren stretches from the Salt Teeth in the south to the glaciers of Hrun.\n\n# Regions\n- The Emberlands\n- The [[Drowned Coast]]\n- Hrun', ['continent'], [],
+      E('s_valdren', 'place', 'Valdren', 'The great continent of the west.', { kind: 'Continent', climate: 'Temperate to frozen north', population: 9000000, area: 1400000, currency: 'Ember crowns', languages: ['High Ilunic', 'Hrunnic'], exports: ['Salt', 'Iron', 'Ash drake scales'] }, 'Valdren stretches from the Salt Teeth in the south to the glaciers of Hrun.\n\n# Regions\n- The Emberlands\n- The [[Drowned Coast]]\n- Hrun', ['continent'], [],
         { image: sampleMap(), pins: [
           { id: 'p1', x: 52, y: 60, to: 's_caer', label: '' },
           { id: 'p2', x: 36, y: 31, to: 's_drake', label: 'Ash drake nests' },
           { id: 'p3', x: 72, y: 38, to: 's_order', label: 'The Grey Spire' },
           { id: 'p4', x: 24, y: 66, to: '', label: 'Drowned Coast' },
         ] }),
-      E('s_caer', 'place', 'Caer Ilun', 'Old capital of the Ember Kings, now half sunk.', { kind: 'City', region: 'Valdren', population: '40,000', founded: 2 }, 'Built on seven hills, three of which are now underwater.', ['city', 'ruin'], [{ to: 's_valdren', label: 'Located in' }]),
-      E('s_crown', 'item', 'Crown of Embers', 'The broken crown of the first king.', { kind: 'Relic', rarity: 'Unique', powers: 'Command over fire and oath', location: 'Scattered (seven shards)', created: 0, createdM: 6, createdD: 1 }, '> Whoever wears the whole crown shall be obeyed by flame and man alike.\n\nForged by Aldric with the help of the Flamekeepers.', ['relic', 'shards'], [], { pinned: true }),
+      E('s_caer', 'place', 'Caer Ilun', 'Old capital of the Ember Kings, now half sunk.', { kind: 'City', region: 'Valdren', population: '40,000', ruler: 'The Drowned Court', exports: ['Salt', 'Sea glass'], founded: 2 }, 'Built on seven hills, three of which are now underwater.', ['city', 'ruin'], [{ to: 's_valdren', label: 'Located in' }]),
+      E('s_crown', 'item', 'Crown of Embers', 'The broken crown of the first king.', { kind: 'Relic', rarity: 'Unique', powers: 'Command over fire and oath', owner: 'The Ember Throne', created: 0, createdM: 6, createdD: 1, lost: 612 }, '> Whoever wears the whole crown shall be obeyed by flame and man alike.\n\nForged by Aldric with the help of the Flamekeepers.', ['relic', 'shards'], [], { pinned: true }),
       E('s_aldric', 'person', 'Aldric the Founder', 'First of the Ember Kings.', { title: 'King of Valdren', species: 'Human', born: -31, bornM: 1, bornD: 3, died: 58, status: 'Dead', home: 'Caer Ilun' }, 'Aldric united the warring clans with the [[Crown of Embers]] and ruled from [[Caer Ilun]]. His faith in [[The Undying Flame]] shaped the kingdom for six centuries.', ['royalty'],
         [{ to: 's_crown', label: 'Created' }, { to: 's_caer', label: 'Rules' }, { to: 's_flame', label: 'Worships' }, { to: 's_isolde', label: 'Spouse of' }, { to: 's_corvan', label: 'Parent of' }, { to: 's_elira', label: 'Parent of' }, { to: 's_throne', label: 'Leader of' }]),
       E('s_isolde', 'person', 'Queen Isolde', 'Aldric\'s queen, a Flamekeeper by birth.', { title: 'Queen of Valdren', species: 'Human', born: -25, died: 70, status: 'Dead' }, 'Isolde kept the oath-candles of the royal chapel and taught [[Oathfire]] to her children.', ['royalty'],
@@ -2178,19 +2452,22 @@ function sampleWorld() {
       E('s_elira', 'person', 'Princess Elira', 'Aldric\'s daughter, founder of House Vael.', { title: 'Lady of the Coast', species: 'Human', born: 7, died: 88, status: 'Dead' }, 'Elira left court to rule the coast, founding [[House Vael]].', ['royalty'], [{ to: 's_vael', label: 'Founder of' }]),
       E('s_maren', 'person', 'Maren of Hrun', 'Corvan\'s northern queen.', { title: 'Queen of Valdren', species: 'Human', born: 9, status: 'Dead' }, '', ['royalty'], [{ to: 's_ardan', label: 'Parent of' }]),
       E('s_ardan', 'person', 'King Ardan', 'Third Ember King.', { title: 'King of Valdren', species: 'Human', born: 31, died: 102, status: 'Dead' }, '', ['royalty'], [{ to: 's_corvan', label: 'Child of' }]),
-      E('s_mira', 'person', 'Mira Vael', 'Shard-hunter and last heir of Aldric\'s line.', { title: 'Heir in exile', species: 'Human', born: 1001, bornM: 6, bornD: 12, status: 'Alive', home: 'The Drowned Coast' }, 'Mira carries one shard of the [[Crown of Embers|crown]] sewn into her glove. She does not yet know what it is.\n\nShe grew up among smugglers on the [[Drowned Coast]].', ['royalty', 'protagonist'],
+      E('s_mira', 'person', 'Mira Vael', 'Shard-hunter and last heir of Aldric\'s line.', { title: 'Heir in exile', species: 'Human', born: 1001, bornM: 6, bornD: 12, status: 'Alive', home: 'The Drowned Coast', allegiance: 'House Vael', culture: 'The Emberfolk' }, 'Mira carries one shard of the [[Crown of Embers|crown]] sewn into her glove. She does not yet know what it is.\n\nShe grew up among smugglers on the [[Drowned Coast]].', ['royalty', 'protagonist'],
         [{ to: 's_aldric', label: 'Descendant of' }, { to: 's_vael', label: 'Member of' }], { pinned: true, secret: 'Her shard is the **seventh** shard from [[The Seventh Shard]].' }),
-      E('s_order', 'organization', 'The Ashen Order', 'Monks sworn to keep the Crown broken.', { kind: 'Order', leader: 'Abbot Senn', hq: 'The Grey Spire', founded: 615, foundedM: 3, foundedD: 9, motto: 'What is broken stays broken.' }, 'Founded three years after [[The Shattering]] by survivors of the Ember Court.', ['faction'],
+      E('s_oren', 'person', 'King Oren IX', 'The last Ember King, crowned on the night of the Shattering.', { title: 'King of Valdren', species: 'Human', born: 581, died: 612, diedM: 5, diedD: 21, status: 'Dead', home: 'Caer Ilun', allegiance: 'The Ember Throne' }, 'Oren wore the whole [[Crown of Embers]] for less than an hour.', ['royalty'], [{ to: 's_throne', label: 'Leader of' }, { to: 's_shatter', label: 'Took part in' }]),
+      E('s_senn', 'person', 'Abbot Senn', 'Present head of the Ashen Order.', { title: 'Abbot of the Grey Spire', species: 'Human', born: 958, status: 'Alive', allegiance: 'The Ashen Order' }, 'Senn has read the sealed archives, and fears what he found in [[The Seventh Shard]].', ['faction'], [{ to: 's_order', label: 'Leader of' }]),
+      E('s_human', 'species', 'Human', 'The short-lived, numerous folk of Valdren.', { classification: 'Sapient', habitat: 'Everywhere', lifespan: 80, danger: 'Moderate' }, '', ['people']),
+      E('s_order', 'organization', 'The Ashen Order', 'Monks sworn to keep the Crown broken.', { kind: 'Order', leader: 'Abbot Senn', hq: 'The Grey Spire', members: 340, founded: 615, foundedM: 3, foundedD: 9, motto: 'What is broken stays broken.' }, 'Founded three years after [[The Shattering]] by survivors of the Ember Court.', ['faction'],
         [{ to: 's_vael', label: 'At war with' }]),
       E('s_vael', 'organization', 'House Vael', 'Coastal house descended from Princess Elira.', { kind: 'Noble house', leader: 'Mira Vael', hq: 'The Drowned Coast', founded: 40, motto: 'The tide remembers.' }, 'Once great, now a house of smugglers and secret-keepers.', ['faction'], [{ to: 's_throne', label: 'Vassal of' }]),
-      E('s_salt', 'organization', 'The Salt League', 'Merchant guild of the southern ports.', { kind: 'Guild', hq: 'Salt Teeth', founded: 540 }, 'The League buys silence as easily as salt.', ['faction'], [{ to: 's_vael', label: 'Trades with' }, { to: 's_order', label: 'Ally of' }]),
-      E('s_drowned', 'organization', 'The Drowned Court', 'A cult that worships the sea that swallowed the capital.', { kind: 'Cult', hq: 'Beneath Caer Ilun' }, 'They believe the sea will one day give back the hill.', ['faction'], [{ to: 's_order', label: 'Rival of' }]),
-      E('s_throne', 'organization', 'The Ember Throne', 'The kingdom of the Ember Kings.', { kind: 'Kingdom', hq: 'Caer Ilun', founded: 0, dissolved: 612 }, 'Fell during [[The Shattering]].', ['faction']),
-      E('s_shatter', 'history', 'The Shattering', 'The night the Crown of Embers broke.', { start: 612, startM: 5, startD: 21, location: 'Caer Ilun', outcome: 'Fall of the Ember Kings; the sea took the lower city' }, 'During the coronation of the ninth king, the [[Crown of Embers|crown]] split into seven shards and the sea rose over [[Caer Ilun]].\n\nSurvivors of the court went on to found [[The Ashen Order]].', ['catastrophe'], [{ to: 's_crown', label: 'Destroyed' }, { to: 's_caer', label: 'Took place in' }]),
-      E('s_flame', 'religion', 'The Undying Flame', 'Old faith of the Ember Kings.', { kind: 'Monotheistic faith', domain: 'Fire, oaths, kingship', symbol: 'A circle of flame', holySite: 'Caer Ilun', founded: -400 }, 'Its priests, the Flamekeepers, helped forge the [[Crown of Embers|crown]] and practise [[Oathfire]].', ['faith']),
-      E('s_drake', 'species', 'Ash Drake', 'Wingless dragons that nest in cooling lava.', { classification: 'Beast', habitat: 'Volcanic Emberlands', lifespan: '300 years', size: 'Size of a warhorse', danger: 'High' }, 'Said to be drawn to the shards of the [[Crown of Embers|Crown]].', ['dragon'], [{ to: 's_valdren', label: 'Native to' }]),
+      E('s_salt', 'organization', 'The Salt League', 'Merchant guild of the southern ports.', { kind: 'Guild', hq: 'Salt Teeth', founded: 540, members: 1200, currency: 'Salt marks', goods: ['Salt', 'Silk', 'Silence'] }, 'The League buys silence as easily as salt.', ['faction'], [{ to: 's_vael', label: 'Trades with' }, { to: 's_order', label: 'Ally of' }]),
+      E('s_drowned', 'organization', 'The Drowned Court', 'A cult that worships the sea that swallowed the capital.', { kind: 'Cult', hq: 'Caer Ilun', founded: 640 }, 'They believe the sea will one day give back the hill.', ['faction'], [{ to: 's_order', label: 'Rival of' }]),
+      E('s_throne', 'organization', 'The Ember Throne', 'The kingdom of the Ember Kings.', { kind: 'Kingdom', leader: 'King Oren IX', hq: 'Caer Ilun', founded: 0, dissolved: 612, currency: 'Ember crowns', goods: ['Iron', 'Oath-candles'] }, 'Fell during [[The Shattering]].', ['faction']),
+      E('s_shatter', 'history', 'The Shattering', 'The night the Crown of Embers broke.', { start: 612, startM: 5, startD: 21, location: 'Caer Ilun', involved: ['King Oren IX', 'Crown of Embers', 'The Ember Throne'], casualties: 12000, outcome: 'Fall of the Ember Kings; the sea took the lower city' }, 'During the coronation of the ninth king, the [[Crown of Embers|crown]] split into seven shards and the sea rose over [[Caer Ilun]].\n\nSurvivors of the court went on to found [[The Ashen Order]].', ['catastrophe'], [{ to: 's_crown', label: 'Destroyed' }, { to: 's_caer', label: 'Took place in' }]),
+      E('s_flame', 'religion', 'The Undying Flame', 'Old faith of the Ember Kings.', { kind: 'Monotheistic faith', domain: 'Fire, oaths, kingship', symbol: 'A circle of flame', holySite: 'Caer Ilun', followers: 2500000, founded: -400 }, 'Its priests, the Flamekeepers, helped forge the [[Crown of Embers|crown]] and practise [[Oathfire]].', ['faith']),
+      E('s_drake', 'species', 'Ash Drake', 'Wingless dragons that nest in cooling lava.', { classification: 'Beast', habitat: 'Volcanic Emberlands', lifespan: 300, size: 'Size of a warhorse', danger: 'High' }, 'Said to be drawn to the shards of the [[Crown of Embers|Crown]].', ['dragon'], [{ to: 's_valdren', label: 'Native to' }]),
       E('s_prophecy', 'lore', 'The Seventh Shard', 'A prophecy of the crown\'s return.', { category: 'Prophecy', origin: 'The Ashen Order\'s sealed archives' }, '> When seven are one and the sea gives back the hill, the Ember King returns.', ['prophecy'], [{ to: 's_crown', label: 'Concerns' }]),
-      E('s_emberfolk', 'culture', 'The Emberfolk', 'Descendants of the old court.', { language: 'High Ilunic', region: 'Emberlands', values: 'Oaths, lineage, fire', customs: 'Oath-candles kept burning for the dead' }, 'Proud and scattered, they still light a candle for every ancestor.', ['culture'], [{ to: 's_flame', label: 'Practices' }]),
+      E('s_emberfolk', 'culture', 'The Emberfolk', 'Descendants of the old court.', { language: 'High Ilunic', region: 'Valdren', religion: 'The Undying Flame', population: 1800000, values: 'Oaths, lineage, fire', customs: 'Oath-candles kept burning for the dead' }, 'Proud and scattered, they still light a candle for every ancestor.', ['culture'], [{ to: 's_flame', label: 'Practices' }]),
       E('s_oathfire', 'magic', 'Oathfire', 'Magic bound to sworn promises.', { kind: 'Magic system', source: 'Spoken oaths', cost: 'Breaking the oath burns the caster', users: 'Flamekeepers', discovered: -380 }, 'Oathfire grows stronger with the weight of the promise behind it.', ['magic'], [{ to: 's_flame', label: 'Granted by' }]),
     ],
   });
@@ -2212,6 +2489,9 @@ async function onAction(el) {
     const pool = world.entries.filter(e => !(ui.view === 'entry' && e.id === ui.arg));
     if (pool.length) go('#/entry/' + pool[Math.floor(Math.random() * pool.length)].id); else toast('No entries yet');
   }
+  else if (act === 'type-view') { ui.typeTable = el.dataset.v === 'table'; renderType(ui.arg); }
+  else if (act === 'sort') { const k = el.dataset.k; ui.sort = { k, dir: ui.sort.k === k ? -ui.sort.dir : 1 }; renderType(ui.arg); }
+  else if (act === 'asof-step') { const y = asofStep(Number(el.dataset.dir)); if (y != null) setAsof(y); }
   else if (act === 'add-row') $('#rels').insertAdjacentHTML('beforeend', relRow());
   else if (act === 'add-era') $('#eras').insertAdjacentHTML('beforeend', eraRow());
   else if (act === 'add-type') $('#ctypes').insertAdjacentHTML('beforeend', typeRow());
@@ -2318,7 +2598,11 @@ document.addEventListener('change', async ev => {
   else if (t.id === 'cal-year' && isNum(t.value)) go('#/calendar/' + Number(t.value));
   else if (t.id === 'book-secrets') { ui.bookSecrets = t.checked; renderBook(); }
 });
-document.addEventListener('input', ev => { if (ev.target.matches('textarea')) { linkPop.idx = 0; updateLinkPop(ev.target); } });
+document.addEventListener('input', ev => {
+  if (ev.target.matches('textarea')) { linkPop.idx = 0; updateLinkPop(ev.target); }
+  else if (ev.target.id === 'asof-range') setAsof(Number(ev.target.value));
+  else if (ev.target.id === 'asof-year' && isNum(ev.target.value)) setAsof(Math.trunc(Number(ev.target.value)));
+});
 document.addEventListener('keydown', ev => {
   if (ev.key === 'Escape') { closePolMenu(); closePinPop(); hidePreview(); }
   if (!linkPop.el || ev.target !== linkPop.ta) return;
